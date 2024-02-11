@@ -1,0 +1,44 @@
+Homepage: Multie tole showcase
+light mode 
+good layout 
+good footer
+cards
+navbar
+
+Convertion:
+pdf to word
+powerpoint 
+jpeg to png
+pdf to jpeg
+jpeg to pdf 
+youtube video to mp3
+
+Translation:
+post pdf, url, word
+chatgbt 
+
+Summary:
+post pdf or powerpoint or url 
+
+Password Generator:
+
+Image Editing Tool:
+Crop, resize, and rotate images.
+Apply filters and effects to images.
+
+QRcode maker:
+python library
+
+Maybe:
+file manager:
+Web:
+prompt user how many folders sort name 
+output sort by folders and name 
+totallyNotAVirus.exe:
+prompt user how many folders folders sort by type, name
+copy paste path of the folder
+input in folder 
+
+
+
+
