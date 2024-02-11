@@ -2,43 +2,63 @@ Homepage: Multie tole showcase
 light mode 
 good layout 
 good footer
-cards
+card
 navbar
 
-Convertion:
-pdf to word
-powerpoint 
-jpeg to png
-pdf to jpeg
-jpeg to pdf 
-youtube video to mp3
+Convertion: 
+{
+    jpeg, jpg, png, SVG, TIFF, TIF
+    Doc, Docx, pdf, PPT, PPTX
+}
+
+video to audio:
+{
+    youtube video url to mp3
+}
 
 Translation:
-post pdf, url, word
-chatgbt 
+{
+    powered by chatgpt:
+    
+        image to text:
+        jpeg, jpg, png, SVG, TIFF, TIF
+
+        text to text:
+        Doc, Docx, pdf, PPT, PPTX 
+}
 
 Summary:
-post pdf or powerpoint or url 
+{
+    poewred by chatgpt:
+    input: jpeg, jpg, png, SVG, TIFF, TIF, url
+}
 
-Password Generator:
+
+Password Generator(not manager):{}
 
 Image Editing Tool:
-Crop, resize, and rotate images.
-Apply filters and effects to images.
+{
+    Crop, resize, and rotate images.
+    Apply filters and effects to images.
+}
+
 
 QRcode maker:
-python library
+{
+    python library
+}
 
 Maybe:
-file manager:
-Web:
-prompt user how many folders sort name 
-output sort by folders and name 
-totallyNotAVirus.exe:
-prompt user how many folders folders sort by type, name
-copy paste path of the folder
-input in folder 
-
+{
+    file manager:
+    Web:
+    prompt user how many folders sort name 
+    output sort by folders and name 
+    totallyNotAVirus.exe:
+    prompt user how many folders folders sort by type, name
+    copy paste path of the folder
+    input in folder 
+}
 
 
 
