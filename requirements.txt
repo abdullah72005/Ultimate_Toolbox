@@ -1,3 +1,8 @@
 flask
 flask-session
 cs50
+Werkzeug
+Pillow
+python-docx
+PyPDF2
+python-pptx
