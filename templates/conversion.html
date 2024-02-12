@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    conversion
+{% endblock %}
+
+{% block main %}
+    <form action="/conversion" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+{% endblock %}

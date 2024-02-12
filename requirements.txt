@@ -6,3 +6,4 @@ Pillow
 python-docx
 PyPDF2
 python-pptx
+python-magic
