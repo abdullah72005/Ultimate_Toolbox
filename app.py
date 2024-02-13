@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from PIL import Image
 
-from helpers.convert import deleteFiles, apology, remove_folder_type, conIMGtoPDF
+from helpers.convert import deleteFiles, apology, remove_folder_type, conIMGtoPDF, conIMGtoPNG
 
 app = Flask(__name__)
 
@@ -51,7 +51,7 @@ def conversion():
                     file.save(os.path.join(
                         app.config['UPLOAD_DIRECTORY'],
                         secure_filename(file.filename)
-                    )) 
+                    ))
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
 
                 # Check if the file extension is in the allowed extensions set
@@ -76,16 +76,32 @@ def conversion():
 
             # Return a success message and the select desired output 
             return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
+        
         elif buttonName == "convert":
+            # Get the list of files in the upload directory
             files = os.listdir(app.config['UPLOAD_DIRECTORY'])
+
+            # Get the user's choice from the form
+            choice = request.form.get("choice")
+
+            # Iterate through each file in the directory
             for file in files:
                 fileName = os.path.splitext(secure_filename(file))[0]
-                print(fileName)
-                conIMGtoPDF(fileName, file, app)
-                # Construct the path to the created PDF file
-                pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")
-                # Send the PDF file as a response for download
-                return send_file(pdf_path, as_attachment=True)
+
+                # Check the user's choice and perform the corresponding conversion
+                if choice == 'pdf':
+                    # Convert image to PDF
+                    conIMGtoPDF(fileName, file, app)
+                    pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")  
+                    return send_file(pdf_path, as_attachment=True)
+                elif choice == 'png':
+                    # Convert image to PNG
+                    conIMGtoPNG(fileName, file, app)
+                    png_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.png")
+                    return send_file(png_path, as_attachment=True)
+
+                # Delete the files
+                deleteFiles(app)
 
 
 
