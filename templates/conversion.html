@@ -13,7 +13,7 @@
                     <input type="file" name="file" class="form-control" id="file" accept=".jpg, .jpeg, .png, .avif, .svg, .tiff, .doc, .docx, .pdf, .ppt, .pptx" required>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary" name = "action" value = "upload">Upload</button>
         </form>
 
         {% if upload_successful %}
@@ -24,14 +24,14 @@
                 <div class="mb-3">
                     <label for="outputChoice" class="form-label">Select desired output:</label>
                     <div class="input-group">
-                        <select class="form-select" id="outputChoice" name="desiredChoice">
+                        <select class="form-select" id="outputChoice" name="desiredChoice" value = "convert">
                             {% for choice in outputChoices %}
                                 <option value="{{ choice }}">{{ choice }}</option>
                             {% endfor %}
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Convert</button>
+                <button type="submit" class="btn btn-primary" name = "action" value = "convert">Convert</button>
             </form>
         {% endif %}
     </div>

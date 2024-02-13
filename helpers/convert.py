@@ -36,6 +36,7 @@ def remove_folder_type(test_list, item):
     return res 
 
 def conIMGtoPDF(fileName, file, app):
-    img = Image.open(os.path.join(app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename)))
+    img_path = os.path.join(app.config['UPLOAD_DIRECTORY'], file)
+    img = Image.open(img_path)
     pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")
     img.save(pdf_path, "PDF")

@@ -2,7 +2,7 @@ import os
 import magic
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, send_file
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -40,46 +40,53 @@ def conversion():
     if request.method == "GET":
         return render_template("conversion.html")
     else:
-        try:
-            # Retrieve the file from the request
-            file = request.files['file']
+        buttonName = request.form['action']
+        if buttonName == 'upload':
+            try:
+                # Retrieve the file from the request
+                file = request.files['file']
+                # Check if a file is provided
+                if file:
+                    # Save the file to the specified directory
+                    file.save(os.path.join(
+                        app.config['UPLOAD_DIRECTORY'],
+                        secure_filename(file.filename)
+                    )) 
+                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
 
-            # Check if a file is provided
-            if file:
-                # Save the file to the specified directory
-                file.save(os.path.join(
-                    app.config['UPLOAD_DIRECTORY'],
-                    secure_filename(file.filename)
-                )) 
-            extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
+                # Check if the file extension is in the allowed extensions set
+                if extension not in app.config['ALLOWED_EXTENSIONS']:
+                    # load apology for invalid extenion and clear 
+                    return apology("invalid file type")
+            # Handle the case where the file size exceeds the limit
+            except RequestEntityTooLarge:
+                # load apology for invalid file size
+                return apology('File is larger than the 16mb limit.')
 
-            # Check if the file extension is in the allowed extensions set
-            if extension not in app.config['ALLOWED_EXTENSIONS']:
-                # load apology for invalid extenion and clear 
-                deleteFiles(app)
-                return apology("invalid file type")
-        # Handle the case where the file size exceeds the limit
-        except RequestEntityTooLarge:
-            # load apology for invalid file size
-            return apology('File is larger than the 16mb limit.')
-        
-        # make variable with desired output choices
-        outputChoices = []
-        fileName, extension2 = os.path.splitext(secure_filename(file.filename))
-
-        # if file is image let output choices be image options and remove the file extention
-        if extension in app.config['IMAGE_EXTENTIONS']:
-            outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension] + ['pdf']
+            # make variable with desired output choices
+            outputChoices = []
+            # if file is image let output choices be image options and remove the file extention
+            if extension in app.config['IMAGE_EXTENTIONS']:
+                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension] + ['pdf']
 
 
-        # if file is txt let output choices be txt options and remove the file extention
-        if extension in app.config['TEXT_EXTENTIONS']:
-            outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
+            # if file is txt let output choices be txt options and remove the file extention
+            if extension in app.config['TEXT_EXTENTIONS']:
+                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
 
-        # Convert file TODO
-        # delete file in folder 
-        deleteFiles(app)
-        # Return a success message after the file has been uploaded
-        return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
+            # Return a success message and the select desired output 
+            return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
+        elif buttonName == "convert":
+            files = os.listdir(app.config['UPLOAD_DIRECTORY'])
+            for file in files:
+                fileName = os.path.splitext(secure_filename(file))[0]
+                print(fileName)
+                conIMGtoPDF(fileName, file, app)
+                # Construct the path to the created PDF file
+                pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")
+                # Send the PDF file as a response for download
+                return send_file(pdf_path, as_attachment=True)
+
+
 
 
