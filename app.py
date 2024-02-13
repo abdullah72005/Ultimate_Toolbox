@@ -36,15 +36,19 @@ def index():
 
 @app.route('/conversion', methods=["GET", "POST"])
 def conversion():
+
     # If the request method is GET, render the conversion.html template
     if request.method == "GET":
+       
         return render_template("conversion.html")
     else:
-        buttonName = request.form['action']
-        if buttonName == 'upload':
+        # get button value
+        buttonValue = request.form['action']
+        if buttonValue == 'upload':
             try:
                 # Retrieve the file from the request
                 file = request.files['file']
+
                 # Check if a file is provided
                 if file:
                     # Save the file to the specified directory
@@ -52,12 +56,15 @@ def conversion():
                         app.config['UPLOAD_DIRECTORY'],
                         secure_filename(file.filename)
                     ))
+
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
 
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS']:
+
                     # load apology for invalid extenion and clear 
                     return apology("invalid file type")
+                
             # Handle the case where the file size exceeds the limit
             except RequestEntityTooLarge:
                 # load apology for invalid file size
@@ -65,6 +72,7 @@ def conversion():
 
             # make variable with desired output choices
             outputChoices = []
+
             # if file is image let output choices be image options and remove the file extention
             if extension in app.config['IMAGE_EXTENTIONS']:
                 outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension] + ['pdf']
@@ -77,7 +85,7 @@ def conversion():
             # Return a success message and the select desired output 
             return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
         
-        elif buttonName == "convert":
+        elif buttonValue == "convert":
             # Get the list of files in the upload directory
             files = os.listdir(app.config['UPLOAD_DIRECTORY'])
 
@@ -90,10 +98,12 @@ def conversion():
 
                 # Check the user's choice and perform the corresponding conversion
                 if choice == 'pdf':
+
                     # Convert image to PDF
                     conIMGtoPDF(fileName, file, app)
                     pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")  
                     return send_file(pdf_path, as_attachment=True)
+                
                 elif choice == 'png':
                     # Convert image to PNG
                     conIMGtoPNG(fileName, file, app)
@@ -102,7 +112,3 @@ def conversion():
 
                 # Delete the files
                 deleteFiles(app)
-
-
-
-
