@@ -11,19 +11,14 @@ uploadFolder = 'static/uploads/'
 
 
 def deleteFiles(app):
-    # app.config['UPLOAD_DIRECTORY'] was not innitialized
-    try:
-        # List all files in the uploads folder
-        files = os.listdir(uploadFolder)
-        
-        # Iterate over the files and remove them
-        for file in files:
-            file_path = os.path.join(uploadFolder, file)
-            os.remove(file_path)
+
+    # List all files in the uploads folder
+    files = os.listdir(app)
     
-    except Exception as e:
-        # Handle exceptions, e.g., if the folder doesn't exist
-        return 'No files to delete'
+    # Iterate over the files and remove them
+    for file in files:
+        file_path = os.path.join(app, file)
+        os.remove(file_path)
 
 # apology function for wrong input
 def apology(message, code=400):

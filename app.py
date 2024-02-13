@@ -26,8 +26,8 @@ app.config['ALLOWED_EXTENSIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'ima
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'image/avif', 'image/svg+xml', 'image/tiff']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
-app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'xml', 'tiff']
-app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx"']
+app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'xml', 'tiff', 'pdf']
+app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
 
 @app.route("/")
 def index():
@@ -75,12 +75,12 @@ def conversion():
 
             # if file is image let output choices be image options and remove the file extention
             if extension in app.config['IMAGE_EXTENTIONS']:
-                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension] + ['pdf']
+                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
 
 
             # if file is txt let output choices be txt options and remove the file extention
             if extension in app.config['TEXT_EXTENTIONS']:
-                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
+                outputChoices = [choice for choice in app.config['TEXT'] if choice != extension]
 
             # Return a success message and the select desired output 
             return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
@@ -102,13 +102,19 @@ def conversion():
                     # Convert image to PDF
                     conIMGtoPDF(fileName, file, app)
                     pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")  
-                    return send_file(pdf_path, as_attachment=True)
+                    
+                    # make variable with output file, delete files from local directory, return output file
+                    outputFile = send_file(pdf_path, as_attachment=True)
+                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
+                    return outputFile
                 
                 elif choice == 'png':
                     # Convert image to PNG
                     conIMGtoPNG(fileName, file, app)
                     png_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.png")
-                    return send_file(png_path, as_attachment=True)
 
-                # Delete the files
-                deleteFiles(app)
+                    # make variable with output file, delete files from local directory, return output file
+                    outputFile = send_file(png_path, as_attachment=True)
+                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
+                    return outputFile
+    
