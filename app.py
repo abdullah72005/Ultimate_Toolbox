@@ -6,9 +6,9 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
+from PIL import Image
 
-
-from helpers.convert import deleteFiles, apology, remove_folder_type
+from helpers.convert import deleteFiles, apology, remove_folder_type, conIMGtoPDF
 
 app = Flask(__name__)
 
@@ -26,10 +26,13 @@ app.config['ALLOWED_EXTENSIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'ima
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'image/avif', 'image/svg+xml', 'image/tiff']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
+app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'xml', 'tiff']
+app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx"']
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route('/conversion', methods=["GET", "POST"])
 def conversion():
@@ -47,43 +50,36 @@ def conversion():
                 file.save(os.path.join(
                     app.config['UPLOAD_DIRECTORY'],
                     secure_filename(file.filename)
-                ))    
+                )) 
+            extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
 
-                # add extention using magic lib 
-                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
-
-                # Check if the file extension is in the allowed extensions set
-                if extension not in app.config['ALLOWED_EXTENSIONS']:
-
-                    # load apology for invalid extenion and clear 
-                    deleteFiles(app)
-                    return apology("invalid file type")
-                
-            # make variable with desired output choices
-            outputChoices = []
-
-            # if file is image let output choices be image options and remove the file extention
-            if extension in app.config['IMAGE_EXTENTIONS']:
-                outputChoices = [choice for choice in app.config['IMAGE_EXTENTIONS'] if choice != extension] + ['application/pdf']
-
-            # if file is txt let output choices be txt options and remove the file extention
-            if extension in app.config['TEXT_EXTENTIONS']:
-                outputChoices = remove_folder_type(app.config['TEXT_EXTENTIONS'], extension)
-
-            # Convert file TODO
-
-
-            # delete file in folder 
-            deleteFiles(app)
-
-
+            # Check if the file extension is in the allowed extensions set
+            if extension not in app.config['ALLOWED_EXTENSIONS']:
+                # load apology for invalid extenion and clear 
+                deleteFiles(app)
+                return apology("invalid file type")
         # Handle the case where the file size exceeds the limit
         except RequestEntityTooLarge:
-
             # load apology for invalid file size
             return apology('File is larger than the 16mb limit.')
         
+        # make variable with desired output choices
+        outputChoices = []
+        fileName, extension2 = os.path.splitext(secure_filename(file.filename))
+
+        # if file is image let output choices be image options and remove the file extention
+        if extension in app.config['IMAGE_EXTENTIONS']:
+            outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension] + ['pdf']
+
+
+        # if file is txt let output choices be txt options and remove the file extention
+        if extension in app.config['TEXT_EXTENTIONS']:
+            outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
+
+        # Convert file TODO
+        # delete file in folder 
+        deleteFiles(app)
         # Return a success message after the file has been uploaded
-        return render_template("conversion.html", upload_successful=True, outputChoices = outputChoices)
+        return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
 
 

@@ -11,25 +11,28 @@
                 <label for="file" class="form-label">Choose a file:</label>
                 <div class="input-group">
                     <input type="file" name="file" class="form-control" id="file" accept=".jpg, .jpeg, .png, .avif, .svg, .tiff, .doc, .docx, .pdf, .ppt, .pptx" required>
-                    <button type="submit" class="btn btn-primary">Upload</button>
                 </div>
             </div>
-            {% if upload_successful %}
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+
+        {% if upload_successful %}
+            <form action="/conversion" method="post">
                 <div class="alert alert-success" role="alert">
                     Uploaded successfully!
                 </div>
                 <div class="mb-3">
                     <label for="outputChoice" class="form-label">Select desired output:</label>
                     <div class="input-group">
-                        <select class="form-select" id="outputChoice" name="outputChoice">
+                        <select class="form-select" id="outputChoice" name="desiredChoice">
                             {% for choice in outputChoices %}
                                 <option value="{{ choice }}">{{ choice }}</option>
                             {% endfor %}
                         </select>
-                        <button type="submit" class="btn btn-primary">Convert</button>
                     </div>
                 </div>
-            {% endif %}
-        </form>
+                <button type="submit" class="btn btn-primary">Convert</button>
+            </form>
+        {% endif %}
     </div>
 {% endblock %}
