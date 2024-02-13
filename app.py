@@ -64,16 +64,16 @@ def conversion():
 
             # if file is image let output choices be image options and remove the file extention
             if extension in app.config['IMAGE_EXTENTIONS']:
-                outputChoices = remove_folder_type(app.config['IMAGE_EXTENTIONS'], extension)
+                outputChoices = [choice for choice in app.config['IMAGE_EXTENTIONS'] if choice != extension] + ['application/pdf']
 
             # if file is txt let output choices be txt options and remove the file extention
             if extension in app.config['TEXT_EXTENTIONS']:
                 outputChoices = remove_folder_type(app.config['TEXT_EXTENTIONS'], extension)
 
-                # Convert file TODO
+            # Convert file TODO
 
 
-                # delete file in folder 
+            # delete file in folder 
             deleteFiles(app)
 
 
@@ -84,5 +84,6 @@ def conversion():
             return apology('File is larger than the 16mb limit.')
         
         # Return a success message after the file has been uploaded
-        return 'File has been uploaded successfully.'
+        return render_template("conversion.html", upload_successful=True, outputChoices = outputChoices)
+
 
