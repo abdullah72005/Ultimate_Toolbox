@@ -8,7 +8,9 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from PIL import Image
 
-from helpers.convert import deleteFiles, apology, remove_folder_type, conIMGtoPDF, conIMGtoPNG
+from helpers.functions import apology, getOutputChoices
+from helpers.convertion import convIMAGE
+
 
 app = Flask(__name__)
 
@@ -44,18 +46,21 @@ def conversion():
     else:
         # get button value
         buttonValue = request.form['action']
+        
         if buttonValue == 'upload':
             try:
                 # Retrieve the file from the request
                 file = request.files['file']
 
                 # Check if a file is provided
-                if file:
-                    # Save the file to the specified directory
-                    file.save(os.path.join(
-                        app.config['UPLOAD_DIRECTORY'],
-                        secure_filename(file.filename)
-                    ))
+                if not file:
+                    return apology("please input file")
+                
+                # Save the file to the specified directory
+                file.save(os.path.join(
+                    app.config['UPLOAD_DIRECTORY'],
+                    secure_filename(file.filename)
+                ))
 
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
 
@@ -71,16 +76,7 @@ def conversion():
                 return apology('File is larger than the 16mb limit.')
 
             # make variable with desired output choices
-            outputChoices = []
-
-            # if file is image let output choices be image options and remove the file extention
-            if extension in app.config['IMAGE_EXTENTIONS']:
-                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
-
-
-            # if file is txt let output choices be txt options and remove the file extention
-            if extension in app.config['TEXT_EXTENTIONS']:
-                outputChoices = [choice for choice in app.config['TEXT'] if choice != extension]
+            outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'])
 
             # Return a success message and the select desired output 
             return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
@@ -95,26 +91,19 @@ def conversion():
             # Iterate through each file in the directory
             for file in files:
                 fileName = os.path.splitext(secure_filename(file))[0]
+                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file), mime=True) 
 
-                # Check the user's choice and perform the corresponding conversion
-                if choice == 'pdf':
+                # if user inputs an image
+                if extension in app.config['IMAGE_EXTENTIONS']:
 
-                    # Convert image to PDF
-                    conIMGtoPDF(fileName, file, app)
-                    pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")  
-                    
-                    # make variable with output file, delete files from local directory, return output file
-                    outputFile = send_file(pdf_path, as_attachment=True)
-                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
-                    return outputFile
-                
-                elif choice == 'png':
-                    # Convert image to PNG
-                    conIMGtoPNG(fileName, file, app)
-                    png_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.png")
+                    # convert the image to the desired output
+                    outputFile = convIMAGE(fileName, file, app, choice)
 
-                    # make variable with output file, delete files from local directory, return output file
-                    outputFile = send_file(png_path, as_attachment=True)
-                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
-                    return outputFile
+                # if user inputs txt
+                elif extension in app.config['TEXT_EXTENTIONS']:
+
+                    # TODO
+                    return redirect("/")
+
+        return outputFile
     

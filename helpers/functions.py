@@ -1,14 +1,8 @@
 import os
-import magic
-
-from flask import Flask, flash, redirect, render_template, request, session
-from werkzeug.utils import secure_filename
-from werkzeug.exceptions import RequestEntityTooLarge
+from flask import render_template
 from PIL import Image
 
-
 uploadFolder = 'static/uploads/'
-
 
 def deleteFiles(app):
 
@@ -58,3 +52,15 @@ def conIMGtoPNG(fileName, file, app):
 
     # Save the image as a PNG file
     img.save(png_path, "PNG")
+
+def getOutputChoices(extension, ime, txte, im, txt):
+    # if file is image let output choices be image options and remove the file extention
+    if extension in ime:
+        x = [choice for choice in im if choice != extension]
+        return x
+
+
+    # if file is txt let output choices be txt options and remove the file extention
+    if extension in txte:
+        x = [choice for choice in txt if choice != extension]
+        return x
