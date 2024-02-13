@@ -28,7 +28,7 @@ app.config['ALLOWED_EXTENSIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'ima
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'image/avif', 'image/svg+xml', 'image/tiff']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
-app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'xml', 'tiff', 'pdf']
+app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'tiff']
 app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
 
 @app.route("/")
@@ -83,8 +83,8 @@ def conversion():
         
         elif buttonValue == "convert":
             # Get the list of files in the upload directory
-            files = os.listdir(app.config['UPLOAD_DIRECTORY'])
-
+            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 'ignore.txt']
+            print(files)
             # Get the user's choice from the form
             choice = request.form.get("choice")
 

@@ -4,15 +4,33 @@ from PIL import Image
 
 uploadFolder = 'static/uploads/'
 
+imagetypes = {
+    'image/jpg': 'jpg',
+    'image/jpeg': 'jpeg',
+    'image/png': 'png',
+    'image/avif': 'avif',
+    'image/svg+xml': 'svg',
+    'image/tiff': 'tiff'
+}
+
+txttypes = {
+    'application/msword': 'doc',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+    'application/pdf': 'pdf',
+    'application/vnd.ms-powerpoint': 'ppt',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx'
+}
+
 def deleteFiles(app):
 
     # List all files in the uploads folder
     files = os.listdir(app)
-    
     # Iterate over the files and remove them
+
     for file in files:
-        file_path = os.path.join(app, file)
-        os.remove(file_path)
+        if file != 'ignore.txt':
+            file_path = os.path.join(app, file)
+            os.remove(file_path)
 
 # apology function for wrong input
 def apology(message, code=400):
@@ -56,11 +74,12 @@ def conIMGtoPNG(fileName, file, app):
 def getOutputChoices(extension, ime, txte, im, txt):
     # if file is image let output choices be image options and remove the file extention
     if extension in ime:
-        x = [choice for choice in im if choice != extension]
+        x = [choice for choice in im if choice != imagetypes[extension]] + ['pdf']
+        print(imagetypes[extension])
         return x
 
 
     # if file is txt let output choices be txt options and remove the file extention
     if extension in txte:
-        x = [choice for choice in txt if choice != extension]
+        x = [choice for choice in txt if choice != txttypes[extension]]
         return x
