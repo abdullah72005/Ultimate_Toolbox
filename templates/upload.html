@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Conversion
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Choose a file:</label>
+                <div class="input-group">
+                    <input type="file" name="file" class="form-control" id="file" accept=".jpg, .jpeg, .png, .avif, .svg, .tiff, .doc, .docx, .pdf, .ppt, .pptx" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" name = "action" value = "upload">Upload</button>
+        </form>
+    </div>
+{% endblock %}

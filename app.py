@@ -36,18 +36,14 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/conversion', methods=["GET", "POST"])
-def conversion():
+@app.route('/upload', methods=["GET", "POST"])
+def upload():
 
     # If the request method is GET, render the conversion.html template
     if request.method == "GET":
        
-        return render_template("conversion.html")
+        return render_template("upload.html")
     else:
-        # get button value
-        buttonValue = request.form['action']
-        
-        if buttonValue == 'upload':
             try:
                 # Retrieve the file from the request
                 file = request.files['file']
@@ -78,32 +74,48 @@ def conversion():
             # make variable with desired output choices
             outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'])
 
+            # get file name
+            fileName = os.path.splitext(secure_filename(file.filename))[0]
+            fileExtention = os.path.splitext(secure_filename(file.filename))[1]
+            finalname = str(fileName) + str(fileExtention)            
             # Return a success message and the select desired output 
-            return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
+            return render_template("conversion.html", outputChoices=outputChoices, fileName=finalname)
+
+            
+
+
         
-        elif buttonValue == "convert":
-            # Get the list of files in the upload directory
-            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 'ignore.txt']
-            print(files)
-            # Get the user's choice from the form
-            choice = request.form.get("choice")
+@app.route('/conversion', methods=["GET", "POST"])
+def con():
+    if request.method == "POST":
+        # Get the list of files in the upload directory
+        files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 'ignore.txt']
+        # Get the user's choice from the form
+        choice = request.form.get("choice")
 
-            # Iterate through each file in the directory
-            for file in files:
-                fileName = os.path.splitext(secure_filename(file))[0]
-                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file), mime=True) 
+        # Iterate through each file in the directory
+        for file in files:
+            fileName = os.path.splitext(secure_filename(file))[0]
+            fileExtention = os.path.splitext(secure_filename(file))[1]
+            finalname = str(fileName) + str(fileExtention)
+            print(finalname)
+            extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + finalname, mime=True) 
 
-                # if user inputs an image
-                if extension in app.config['IMAGE_EXTENTIONS']:
+            # if user inputs an image
+            if extension in app.config['IMAGE_EXTENTIONS']:
 
-                    # convert the image to the desired output
-                    outputFile = convIMAGE(fileName, file, app, choice)
+                # convert the image to the desired output
+                outputFile = convIMAGE(fileName, file, app, choice)
 
-                # if user inputs txt
-                elif extension in app.config['TEXT_EXTENTIONS']:
+            # if user inputs txt
+            elif extension in app.config['TEXT_EXTENTIONS']:
 
-                    # TODO
-                    return redirect("/")
+                # TODO
+                return redirect("/")
 
         return outputFile
     
+    else:
+        return render_template("upload.html")
+
+
