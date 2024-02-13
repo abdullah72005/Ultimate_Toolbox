@@ -6,9 +6,12 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from PIL import Image
 
+
+uploadFolder = 'static/uploads/'
+
+
 def deleteFiles(app):
     # app.config['UPLOAD_DIRECTORY'] was not innitialized
-    uploadFolder = 'static/uploads/'
     try:
         # List all files in the uploads folder
         files = os.listdir(uploadFolder)
@@ -37,26 +40,26 @@ def remove_folder_type(test_list, item):
 
 def conIMGtoPDF(fileName, file, app):
     # Construct the path to the input image file
-    img_path = os.path.join(app.config['UPLOAD_DIRECTORY'], file)
+    img_path = os.path.join(uploadFolder, file)
 
     # Open the image file using Pillow (PIL)
     img = Image.open(img_path)
 
     # Construct the path to the output PDF file
-    pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")
+    pdf_path = os.path.join(uploadFolder, f"{fileName}.pdf")
 
     # Save the image as a PDF file
     img.save(pdf_path, "PDF")
 
 def conIMGtoPNG(fileName, file, app):
     # Construct the path to the input image file
-    img_path = os.path.join(app.config['UPLOAD_DIRECTORY'], file)
+    img_path = os.path.join(uploadFolder, file)
 
     # Open the image file using Pillow (PIL)
     img = Image.open(img_path)
 
     # Construct the path to the output PNG file
-    png_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.png")
+    png_path = os.path.join(uploadFolder, f"{fileName}.png")
 
     # Save the image as a PNG file
     img.save(png_path, "PNG")
