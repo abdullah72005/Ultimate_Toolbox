@@ -25,7 +25,9 @@ def convIMAGE(fileName, file, app, choice):
 
         # make variable with output file, delete files from local directory, return output file
         outputFile = send_file(png_path, as_attachment=True)
+        print("1")
         deleteFiles(uploadFolder)
+        print("2")
         return outputFile
 
     
