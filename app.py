@@ -2,13 +2,13 @@ import os
 import magic
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, send_file
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
+from PIL import Image
 
-
-from helpers.convert import deleteFiles, apology, remove_folder_type
+from helpers.convert import deleteFiles, apology, remove_folder_type, conIMGtoPDF, conIMGtoPNG
 
 app = Flask(__name__)
 
@@ -26,10 +26,13 @@ app.config['ALLOWED_EXTENSIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'ima
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'image/avif', 'image/svg+xml', 'image/tiff']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
+app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'xml', 'tiff']
+app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx"']
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route('/conversion', methods=["GET", "POST"])
 def conversion():
@@ -37,52 +40,69 @@ def conversion():
     if request.method == "GET":
         return render_template("conversion.html")
     else:
-        try:
-            # Retrieve the file from the request
-            file = request.files['file']
-
-            # Check if a file is provided
-            if file:
-                # Save the file to the specified directory
-                file.save(os.path.join(
-                    app.config['UPLOAD_DIRECTORY'],
-                    secure_filename(file.filename)
-                ))    
-
-                # add extention using magic lib 
+        buttonName = request.form['action']
+        if buttonName == 'upload':
+            try:
+                # Retrieve the file from the request
+                file = request.files['file']
+                # Check if a file is provided
+                if file:
+                    # Save the file to the specified directory
+                    file.save(os.path.join(
+                        app.config['UPLOAD_DIRECTORY'],
+                        secure_filename(file.filename)
+                    ))
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
 
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS']:
-
                     # load apology for invalid extenion and clear 
-                    deleteFiles(app)
                     return apology("invalid file type")
-                
+            # Handle the case where the file size exceeds the limit
+            except RequestEntityTooLarge:
+                # load apology for invalid file size
+                return apology('File is larger than the 16mb limit.')
+
             # make variable with desired output choices
             outputChoices = []
-
             # if file is image let output choices be image options and remove the file extention
             if extension in app.config['IMAGE_EXTENTIONS']:
-                outputChoices = remove_folder_type(app.config['IMAGE_EXTENTIONS'], extension)
+                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension] + ['pdf']
+
 
             # if file is txt let output choices be txt options and remove the file extention
             if extension in app.config['TEXT_EXTENTIONS']:
-                outputChoices = remove_folder_type(app.config['TEXT_EXTENTIONS'], extension)
+                outputChoices = [choice for choice in app.config['IMAGE'] if choice != extension]
 
-                # Convert file TODO
-
-
-                # delete file in folder 
-            deleteFiles(app)
-
-
-        # Handle the case where the file size exceeds the limit
-        except RequestEntityTooLarge:
-
-            # load apology for invalid file size
-            return apology('File is larger than the 16mb limit.')
+            # Return a success message and the select desired output 
+            return render_template("conversion.html", upload_successful=True, outputChoices=outputChoices)
         
-        # Return a success message after the file has been uploaded
-        return 'File has been uploaded successfully.'
+        elif buttonName == "convert":
+            # Get the list of files in the upload directory
+            files = os.listdir(app.config['UPLOAD_DIRECTORY'])
+
+            # Get the user's choice from the form
+            choice = request.form.get("choice")
+
+            # Iterate through each file in the directory
+            for file in files:
+                fileName = os.path.splitext(secure_filename(file))[0]
+
+                # Check the user's choice and perform the corresponding conversion
+                if choice == 'pdf':
+                    # Convert image to PDF
+                    conIMGtoPDF(fileName, file, app)
+                    pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.pdf")  
+                    return send_file(pdf_path, as_attachment=True)
+                elif choice == 'png':
+                    # Convert image to PNG
+                    conIMGtoPNG(fileName, file, app)
+                    png_path = os.path.join(app.config['UPLOAD_DIRECTORY'], f"{fileName}.png")
+                    return send_file(png_path, as_attachment=True)
+
+                # Delete the files
+                deleteFiles(app)
+
+
+
 

@@ -1,12 +1,38 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    conversion
+    Conversion
 {% endblock %}
 
 {% block main %}
-    <form action="/conversion" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
+    <div class="container mt-5">
+        <form action="/conversion" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Choose a file:</label>
+                <div class="input-group">
+                    <input type="file" name="file" class="form-control" id="file" accept=".jpg, .jpeg, .png, .avif, .svg, .tiff, .doc, .docx, .pdf, .ppt, .pptx" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" name = "action" value = "upload">Upload</button>
+        </form>
+
+        {% if upload_successful %}
+            <form action="/conversion" method="post">
+                <div class="alert alert-success" role="alert">
+                    Uploaded successfully!
+                </div>
+                <div class="mb-3">
+                    <label for="outputChoice" class="form-label">Select desired output:</label>
+                    <div class="input-group">
+                        <select class="form-select" id="outputChoice" name="choice" value = "convert">
+                            {% for choice in outputChoices %}
+                                <option value="{{ choice }}">{{ choice }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" name = "action" value = "convert">Convert</button>
+            </form>
+        {% endif %}
+    </div>
 {% endblock %}
