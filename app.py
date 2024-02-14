@@ -7,6 +7,8 @@ from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from PIL import Image
+import aspose.words as aw
+
 
 from helpers.functions import apology, getOutputChoices
 from helpers.convertion import convIMAGE
@@ -105,12 +107,16 @@ def con():
             if extension in app.config['IMAGE_EXTENTIONS']:
 
                 # convert the image to the desired output
+                print("1")
                 outputFile = convIMAGE(fileName, file, app, choice)
+                print("2")
 
             # if user inputs txt
             elif extension in app.config['TEXT_EXTENTIONS']:
 
                 # TODO
+                if extension == 'application/pdf' and choice == 'docx':
+                    
                 return redirect("/")
 
         return outputFile

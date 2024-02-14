@@ -1,8 +1,9 @@
 import os
 from flask import send_file
 from PIL import Image
+import aspose.words as aw
 
-from helpers.functions import conIMGtoPDF, conIMGtoPNG, deleteFiles
+from helpers.functions import conImgtoImg, deleteFiles
 
 uploadFolder = 'static/uploads/'
 
@@ -11,8 +12,10 @@ def convIMAGE(fileName, file, app, choice):
     if choice == 'pdf':
 
         # Convert image to PDF
-        conIMGtoPDF(fileName, file, app)
+        print("please help me part 2")
+        conImgtoImg(fileName, file, app, choice)
         pdf_path = os.path.join(uploadFolder, f"{fileName}.pdf")  
+        print("please kill me part 1")
 
         # make variable with output file, delete files from local directory, return output file
         outputFile = send_file(pdf_path, as_attachment=True)
@@ -20,14 +23,15 @@ def convIMAGE(fileName, file, app, choice):
         return outputFile
     elif choice == 'png':
         # Convert image to PNG
-        conIMGtoPNG(fileName, file, app)
+        conImgtoImg(fileName, file, app, choice)
         png_path = os.path.join(uploadFolder, f"{fileName}.png")
 
         # make variable with output file, delete files from local directory, return output file
         outputFile = send_file(png_path, as_attachment=True)
-        print("1")
         deleteFiles(uploadFolder)
-        print("2")
         return outputFile
+
+def convTXT(fileName, file, app, choice):
+    print('cat')
 
     

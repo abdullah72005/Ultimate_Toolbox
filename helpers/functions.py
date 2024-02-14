@@ -45,20 +45,33 @@ def remove_folder_type(test_list, item):
     res = [i for i in test_list if i != item] 
     return res 
 
-def conIMGtoPDF(fileName, file, app):
-    # Construct the path to the input image file
-    img_path = os.path.join(uploadFolder, file)
+#def conIMGtoPDF(fileName, file, app):
+#    # Construct the path to the input image file
+#    img_path = os.path.join(uploadFolder, file)
+#
+#    # Open the image file using Pillow (PIL)
+#    img = Image.open(img_path)
+#
+#    # Construct the path to the output PDF file
+#    pdf_path = os.path.join(uploadFolder, f"{fileName}.pdf")
+#
+#    # Save the image as a PDF file
+#    img.save(pdf_path, "PDF")
+#
+#def conIMGtoPNG(fileName, file, app):
+#    # Construct the path to the input image file
+#    img_path = os.path.join(uploadFolder, file)
+#
+#    # Open the image file using Pillow (PIL)
+#    img = Image.open(img_path)
+#
+#    # Construct the path to the output PNG file
+#    png_path = os.path.join(uploadFolder, f"{fileName}.png")
+#
+#    # Save the image as a PNG file
+#    img.save(png_path, "PNG") 
 
-    # Open the image file using Pillow (PIL)
-    img = Image.open(img_path)
-
-    # Construct the path to the output PDF file
-    pdf_path = os.path.join(uploadFolder, f"{fileName}.pdf")
-
-    # Save the image as a PDF file
-    img.save(pdf_path, "PDF")
-
-def conIMGtoPNG(fileName, file, app):
+def conImgtoImg(fileName, file, app, choice):
     # Construct the path to the input image file
     img_path = os.path.join(uploadFolder, file)
 
@@ -66,11 +79,12 @@ def conIMGtoPNG(fileName, file, app):
     img = Image.open(img_path)
 
     # Construct the path to the output PNG file
-    png_path = os.path.join(uploadFolder, f"{fileName}.png")
+    png_path = os.path.join(uploadFolder, f"{fileName}.{choice}")
+    print("please help")
 
     # Save the image as a PNG file
-    img.save(png_path, "PNG")
-
+    img.save(png_path, choice.upper())
+    print("help me")
 def getOutputChoices(extension, ime, txte, im, txt):
     # if file is image let output choices be image options and remove the file extention
     if extension in ime:
@@ -83,3 +97,5 @@ def getOutputChoices(extension, ime, txte, im, txt):
     if extension in txte:
         x = [choice for choice in txt if choice != txttypes[extension]]
         return x
+
+#def pdfToDocx(filename, )
