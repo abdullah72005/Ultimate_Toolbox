@@ -10,8 +10,8 @@ from PIL import Image
 import aspose.words as aw
 
 
-from helpers.functions import apology, getOutputChoices
-from helpers.convertion import convIMAGE
+from helpers.functions import apology, deleteFiles
+from helpers.convertion import convIMAGE, getOutputChoices
 
 
 app = Flask(__name__)
@@ -25,13 +25,15 @@ app.config['UPLOAD_DIRECTORY'] = 'static/uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
 
 # updated all allowed file types per magic output
-app.config['ALLOWED_EXTENSIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'image/avif', 'image/svg+xml', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
+app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
 
 # add allowed image and text separate variables
-app.config['IMAGE_EXTENTIONS'] = ['image/jpg', 'image/jpeg', 'image/png', 'image/avif', 'image/svg+xml', 'image/tiff']
+app.config['IMAGE_EXTENTIONS'] = ['image/bmp','image/jpeg', 'image/png', 'image/jpg', 'image/tiff' , 'image/gif', 'image/vnd.microsoft.icon', 'image/x-pcx', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
-app.config['IMAGE'] = ['jpg', 'jpeg', 'png', 'avif', 'svg', 'tiff']
+app.config['IMAGE'] = ['bmp', 'gif', 'ico', 'jpeg', 'pcx', 'png', 'ppm', 'psd', 'tiff', 'webp']
 app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
+
+
 
 @app.route("/")
 def index():
@@ -43,10 +45,16 @@ def upload():
 
     # If the request method is GET, render the conversion.html template
     if request.method == "GET":
-       
+    
+
+        # clean uploads directory and render template
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("upload.html")
     else:
             try:
+                # always start with cleaning upload directory to prevent errors
+                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
                 # Retrieve the file from the request
                 file = request.files['file']
 
@@ -65,11 +73,18 @@ def upload():
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS']:
 
+                    # Delete files in folder
+                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
                     # load apology for invalid extenion and clear 
                     return apology("invalid file type")
                 
             # Handle the case where the file size exceeds the limit
             except RequestEntityTooLarge:
+                
+                # Delete files in folder
+                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+                
                 # load apology for invalid file size
                 return apology('File is larger than the 16mb limit.')
 
@@ -90,38 +105,45 @@ def upload():
 @app.route('/conversion', methods=["GET", "POST"])
 def con():
     if request.method == "POST":
-        # Get the list of files in the upload directory
-        files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 'ignore.txt']
-        # Get the user's choice from the form
-        choice = request.form.get("choice")
+        try:
+            # Get the list of files in the upload directory
+            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 'ignore.txt']
 
-        # Iterate through each file in the directory
-        for file in files:
-            fileName = os.path.splitext(secure_filename(file))[0]
-            fileExtention = os.path.splitext(secure_filename(file))[1]
-            finalname = str(fileName) + str(fileExtention)
-            print(finalname)
-            extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + finalname, mime=True) 
+            # Get the user's choice from the form
+            choice = request.form.get("choice")
 
-            # if user inputs an image
-            if extension in app.config['IMAGE_EXTENTIONS']:
+            # Iterate through each file in the directory
+            for file in files:
+                fileName = os.path.splitext(secure_filename(file))[0]
+                fileExtention = os.path.splitext(secure_filename(file))[1]
+                finalname = str(fileName) + str(fileExtention)
+                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + finalname, mime=True) 
 
-                # convert the image to the desired output
-                print("1")
-                outputFile = convIMAGE(fileName, file, app, choice)
-                print("2")
+                # if user inputs an image
+                if extension in app.config['IMAGE_EXTENTIONS']:
 
-            # if user inputs txt
-            elif extension in app.config['TEXT_EXTENTIONS']:
+                    # convert the image to the desired output
+                    outputFile = convIMAGE(fileName, file, app, choice)
 
-                # TODO
-                if extension == 'application/pdf' and choice == 'docx':
+                # if user inputs txt
+                elif extension in app.config['TEXT_EXTENTIONS']:
+                    print("cat")
+
+                    # TODO 
                     
-                return redirect("/")
+            # return converted file
+            return outputFile
 
-        return outputFile
-    
+            # handle exeptions and make sure to clear upload directory before every move
+        except:
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            return apology("An error has happened")
+        else:
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            return apology("An error has occured")
     else:
+        # clean uploads directory and render template
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("upload.html")
 
 
