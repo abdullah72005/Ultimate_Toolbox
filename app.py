@@ -1,17 +1,14 @@
 import os
 import magic
 
-from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session, send_file
+from flask import Flask, redirect, render_template, request, session, send_file
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
-from PIL import Image
-import aspose.words as aw
 
 
 from helpers.functions import apology, deleteFiles
-from helpers.convertion import convIMAGE, getOutputChoices
+from helpers.convertion import convIMAGE, getOutputChoices, word2pdf
 
 
 app = Flask(__name__)
@@ -30,6 +27,7 @@ app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','ima
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/bmp','image/jpeg', 'image/png', 'image/jpg', 'image/tiff' , 'image/gif', 'image/vnd.microsoft.icon', 'image/x-pcx', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
+
 app.config['IMAGE'] = ['bmp', 'gif', 'ico', 'jpeg', 'pcx', 'png', 'ppm', 'psd', 'tiff', 'webp']
 app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
 
@@ -128,6 +126,9 @@ def con():
                 # if user inputs txt
                 elif extension in app.config['TEXT_EXTENTIONS']:
                     print("cat")
+
+                    if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' and choice == 'pdf':
+                        outputFile = word2pdf(finalname, fileName)
 
                     # TODO 
                     

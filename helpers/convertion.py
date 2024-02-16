@@ -1,7 +1,7 @@
 import os
 from flask import send_file
 from PIL import Image
-import aspose.words as aw
+from docx2pdf import convert
 
 from helpers.functions import deleteFiles
 
@@ -70,9 +70,8 @@ def convIMAGE(fileName, file, app, choice):
     deleteFiles(uploadFolder)
     return outputFile
 
-        
 
-def convTXT(fileName, file, app, choice):
-    print('cat')
-
-    
+def word2pdf(finalName, filename):
+    convert(uploadFolder + finalname, uploadFolder + filename + '.pdf')
+    outputFile = send_file ( uploadFolder + filename + '.pdf', as_attachment=True)
+    return outputFile
