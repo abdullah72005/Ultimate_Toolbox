@@ -1,7 +1,7 @@
 import os
 from flask import send_file
 from PIL import Image
-import aspose.words as aw
+from pydub import AudioSegment
 
 from helpers.functions import deleteFiles
 
@@ -20,6 +20,19 @@ imagetypes = {
     'image/x-portable-pixmap': 'ppm',
     'image/vnd.adobe.photoshop': 'psd',
     'image/webp': 'webp'
+}
+
+audioTypes = {
+    'audio/x-wav': 'wav',
+    'audio/mpeg': 'mp3',
+    'audio/ogg': 'ogg',
+    'audio/x-hx-aac-adts': 'aac',
+    'video/x-ms-asf': 'wma',
+    'audio/ogg': 'opus',
+    'audio/x-m4a': 'm4a',
+    'audio/vnd.dolby.dd-raw': 'ac3',
+    'audio/amr': 'amr'
+
 }
 
 txttypes = {
@@ -45,7 +58,7 @@ def conImgtoImg(fileName, file, app, choice):
     # Save the image as a PNG file
     img.save(png_path, choice2)
 
-def getOutputChoices(extension, ime, txte, im, txt):
+def getOutputChoices(extension, ime, txte, aue, im, txt, au):
     # if file is image let output choices be image options and remove the file extention
     if extension in ime:
         x = [choice for choice in im if choice != imagetypes[extension] and choice not in ['pcx', 'psd']] + ['pdf']
@@ -55,6 +68,11 @@ def getOutputChoices(extension, ime, txte, im, txt):
     # if file is txt let output choices be txt options and remove the file extention
     if extension in txte:
         x = [choice for choice in txt if choice != txttypes[extension]]
+        return x
+    
+    # if file is audio let output choices be audio options and remove the file extention
+    if extension in aue:
+        x = [choice for choice in au if choice != audioTypes[extension]]
         return x
 
 
@@ -76,3 +94,13 @@ def convTXT(fileName, file, app, choice):
     print('cat')
 
     
+def convert_audio(file, extension, output_filename, choice):
+    # Load the input audio file
+    sound = AudioSegment.from_file(file, format=audioTypes[extension])
+    
+    # Export the sound to the output format
+    
+    sound.export(output_filename, format=choice)
+    outputFile = send_file(output_filename, as_attachment=True)
+    deleteFiles(uploadFolder)
+    return outputFile

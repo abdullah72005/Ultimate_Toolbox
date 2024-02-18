@@ -7,4 +7,4 @@ python-docx
 PyPDF2
 python-pptx
 python-magic
-appose-words
+pydub
