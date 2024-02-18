@@ -11,7 +11,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 
 
 from helpers.functions import apology, deleteFiles
-from helpers.convertion import convIMAGE, getOutputChoices, convert_audio
+from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_wav_to_mp3
 
 
 app = Flask(__name__)
@@ -25,15 +25,15 @@ app.config['UPLOAD_DIRECTORY'] = 'static/uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
 
 # updated all allowed file types per magic output
-app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp', 'audio/x-wav', 'audio/mpeg', 'audio/ogg', 'audio/x-hx-aac-adts', 'video/x-ms-asf', 'audio/ogg', 'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr']
+app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp', 'audio/x-wav', 'audio/mpeg', 'audio/x-hx-aac-adts',  'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr']
 
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/bmp','image/jpeg', 'image/png', 'image/jpg', 'image/tiff' , 'image/gif', 'image/vnd.microsoft.icon', 'image/x-pcx', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
-app.config['AUDIO_EXTENTIONS'] = ['audio/x-wav', 'audio/mpeg', 'audio/ogg', 'audio/x-hx-aac-adts', 'video/x-ms-asf', 'audio/ogg', 'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr']
+app.config['AUDIO_EXTENTIONS'] = ['audio/x-wav', 'audio/mpeg', 'audio/x-hx-aac-adts', 'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr']
 
 app.config['IMAGE'] = ['bmp', 'gif', 'ico', 'jpeg', 'pcx', 'png', 'ppm', 'psd', 'tiff', 'webp']
-app.config['AUDIO'] = ['wav', 'mp3', 'ogg', 'aac', 'wma', 'opus', 'm4a', 'ac3', 'amr']
+app.config['AUDIO'] = ['wav', 'mp3', 'aac', 'm4a', 'ac3', 'amr']
 app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
 
 
@@ -132,29 +132,28 @@ def con():
                 # if user inputs txt
                 elif extension in app.config['TEXT_EXTENTIONS']:
                     print("cat")
-
                     # TODO 
-                
+                    
+                # if user inputs audio
                 elif extension in app.config['AUDIO_EXTENTIONS']:
-
-                    output_filename = app.config['UPLOAD_DIRECTORY'] + f"{fileName}.{choice}"
-                    
-                    convert_audio(file, extension, output_filename, choice)
-                    outputFile = output_filename
-                    
-
+    
+                    # convert the audio to the desired output
+                    outputFile = convert_audio(file, extension, fileName, choice)
                     
             # return converted file
             return outputFile
 
-            # handle exeptions and make sure to clear upload directory before every move
+        # handle exeptions and make sure to clear upload directory before every move
         except:
-            print("sdi")
-        #    deleteFiles(app.config['UPLOAD_DIRECTORY'])
-        #    return apology("An error has happened")
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            return apology("An error has happened")
     else:
         # clean uploads directory and render template
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("upload.html")
 
 
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

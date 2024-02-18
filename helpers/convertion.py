@@ -2,6 +2,7 @@ import os
 from flask import send_file
 from PIL import Image
 from pydub import AudioSegment
+from werkzeug.utils import secure_filename
 
 from helpers.functions import deleteFiles
 
@@ -25,10 +26,7 @@ imagetypes = {
 audioTypes = {
     'audio/x-wav': 'wav',
     'audio/mpeg': 'mp3',
-    'audio/ogg': 'ogg',
     'audio/x-hx-aac-adts': 'aac',
-    'video/x-ms-asf': 'wma',
-    'audio/ogg': 'opus',
     'audio/x-m4a': 'm4a',
     'audio/vnd.dolby.dd-raw': 'ac3',
     'audio/amr': 'amr'
@@ -45,7 +43,6 @@ txttypes = {
 
 def conImgtoImg(fileName, file, app, choice):
     # Construct the path to the input image file
-    print(choice)
     img_path = os.path.join(uploadFolder, file)
 
     # Open the image file using Pillow (PIL)
@@ -72,7 +69,8 @@ def getOutputChoices(extension, ime, txte, aue, im, txt, au):
     
     # if file is audio let output choices be audio options and remove the file extention
     if extension in aue:
-        x = [choice for choice in au if choice != audioTypes[extension]]
+        notto = ["aac", 'm4a', "amr"]
+        x = [choice for choice in au if choice != audioTypes[extension] and choice not in notto]
         return x
 
 
@@ -81,7 +79,8 @@ def convIMAGE(fileName, file, app, choice):
     
     # Convert image to PDF
     conImgtoImg(fileName, file, app, choice)
-    pdf_path = os.path.join(uploadFolder, f"{fileName}.{choice}")  
+    pdf_path = os.path.join(uploadFolder, f"{fileName}.{choice}"
+    )  
 
     # make variable with output file, delete files from local directory, return output file
     outputFile = send_file(pdf_path, as_attachment=True)
@@ -94,13 +93,18 @@ def convTXT(fileName, file, app, choice):
     print('cat')
 
     
-def convert_audio(file, extension, output_filename, choice):
-    # Load the input audio file
-    sound = AudioSegment.from_file(file, format=audioTypes[extension])
+def convert_audio(input_file, extension, filename, choice):
+    # get the audio path and Load the input audio file
+    audio_path = os.path.join(uploadFolder, input_file)
+    sound = AudioSegment.from_file(audio_path, format=audioTypes[extension])
     
-    # Export the sound to the output format
-    
-    sound.export(output_filename, format=choice)
-    outputFile = send_file(output_filename, as_attachment=True)
+    # get output filename and get its path
+    output_filename = secure_filename(filename + '.' + choice)
+    output_filepath = os.path.join(uploadFolder, output_filename)
+
+    # Export the sound to the output format, delete files, and return the output file
+    sound.export(output_filepath, format=choice)
+    x = send_file(output_filepath, as_attachment=True)
     deleteFiles(uploadFolder)
-    return outputFile
+    return x
+
