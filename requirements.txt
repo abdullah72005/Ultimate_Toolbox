@@ -5,9 +5,10 @@ Werkzeug
 Pillow
 python-docx
 PyPDF2
-python-pptx
 python-magic
 pydub
 pandas
 pyarrow
 openpyxl
+reportlab
+PyMuPDF
