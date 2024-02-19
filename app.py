@@ -8,7 +8,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 
 
 from helpers.functions import apology, deleteFiles
-from helpers.convertion import convIMAGE, getOutputChoices, word2pdf
+from helpers.convertion import convIMAGE, getOutputChoices, word2pdf, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt
 
 
 app = Flask(__name__)
@@ -22,14 +22,14 @@ app.config['UPLOAD_DIRECTORY'] = 'static/uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
 
 # updated all allowed file types per magic output
-app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
+app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp', 'text/plain']
 
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/bmp','image/jpeg', 'image/png', 'image/jpg', 'image/tiff' , 'image/gif', 'image/vnd.microsoft.icon', 'image/x-pcx', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
-app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
+app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'text/plain']
 
 app.config['IMAGE'] = ['bmp', 'gif', 'ico', 'jpeg', 'pcx', 'png', 'ppm', 'psd', 'tiff', 'webp']
-app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
+app.config['TEXT'] = ['docx', 'pdf', 'txt']
 
 
 
@@ -60,13 +60,21 @@ def upload():
                 if not file:
                     return apology("please input file")
                 
+                input_filename = secure_filename(file.filename)
+                print(input_filename)
+                if input_filename == 'ignore.txt':
+                    new_name = 'ignore2.txt'
+                    os.rename(app.config['UPLOAD_DIRECTORY'] + input_filename, app.config['UPLOAD_DIRECTORY'] + new_name)
+
+                
                 # Save the file to the specified directory
                 file.save(os.path.join(
                     app.config['UPLOAD_DIRECTORY'],
                     secure_filename(file.filename)
                 ))
 
-                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True) 
+                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
+                print(extension)
 
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS']:
@@ -125,12 +133,24 @@ def con():
 
                 # if user inputs txt
                 elif extension in app.config['TEXT_EXTENTIONS']:
-                    print("cat")
 
                     if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' and choice == 'pdf':
                         outputFile = word2pdf(finalname, fileName)
 
-                    # TODO 
+                    if extension == "application/pdf" and choice == "docx":
+                        outputFile = pdf2word(file, fileName, choice)
+
+                    if extension == "text/plain" and choice == "docx":
+                        outputFile = txt2word(file, fileName, choice)
+                    
+                    if extension == "text/plain" and choice == "pdf":
+                        outputFile = txt2pdf(file, fileName, choice)
+
+                    if extension == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" and choice == "txt":
+                        outputFile = word2txt(file, fileName, choice)
+
+                    if extension == "application/pdf" and choice == "txt":
+                        outputFile = pdf2txt(file, fileName, choice)
                     
             # return converted file
             return outputFile
@@ -138,10 +158,7 @@ def con():
             # handle exeptions and make sure to clear upload directory before every move
         except:
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
-            return apology("An error has happened")
-        else:
-            deleteFiles(app.config['UPLOAD_DIRECTORY'])
-            return apology("An error has occured")
+            #return apology("An error has happened")
     else:
         # clean uploads directory and render template
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
