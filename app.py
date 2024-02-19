@@ -11,7 +11,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 
 
 from helpers.functions import apology, deleteFiles
-from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_wav_to_mp3
+from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv
 
 
 app = Flask(__name__)
@@ -25,16 +25,18 @@ app.config['UPLOAD_DIRECTORY'] = 'static/uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
 
 # updated all allowed file types per magic output
-app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp', 'audio/x-wav', 'audio/mpeg', 'audio/x-hx-aac-adts',  'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr']
+app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp', 'audio/x-wav', 'audio/mpeg', 'audio/x-hx-aac-adts',  'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr', 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' , 'application/json']
 
 # add allowed image and text separate variables
 app.config['IMAGE_EXTENTIONS'] = ['image/bmp','image/jpeg', 'image/png', 'image/jpg', 'image/tiff' , 'image/gif', 'image/vnd.microsoft.icon', 'image/x-pcx', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp']
 app.config['TEXT_EXTENTIONS'] = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
 app.config['AUDIO_EXTENTIONS'] = ['audio/x-wav', 'audio/mpeg', 'audio/x-hx-aac-adts', 'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr']
+app.config['CSV_EXTENTIONS'] = ['text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' , 'application/json']
 
 app.config['IMAGE'] = ['bmp', 'gif', 'ico', 'jpeg', 'pcx', 'png', 'ppm', 'psd', 'tiff', 'webp']
 app.config['AUDIO'] = ['wav', 'mp3', 'aac', 'm4a', 'ac3', 'amr']
 app.config['TEXT'] = ['doc', 'docx', 'pdf', 'ppt', 'pptx']
+app.config['CSV'] = ['csv', 'xlsx', 'json']
 
 
 
@@ -92,7 +94,7 @@ def upload():
                 return apology('File is larger than the 16mb limit.')
 
             # make variable with desired output choices
-            outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['AUDIO_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'], app.config['AUDIO'])
+            outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['AUDIO_EXTENTIONS'],app.config['CSV_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'], app.config['AUDIO'], app.config['CSV'])
 
             # get file name
             fileName = os.path.splitext(secure_filename(file.filename))[0]
@@ -139,6 +141,12 @@ def con():
     
                     # convert the audio to the desired output
                     outputFile = convert_audio(file, extension, fileName, choice)
+
+                # if user inputs a csv
+                elif extension in app.config['CSV_EXTENTIONS']:
+
+                    # convert the csv file for the desired output
+                    outputFile = convert_csv(file, extension, fileName, choice)
                     
             # return converted file
             return outputFile
@@ -156,4 +164,5 @@ def con():
 
 
 if __name__ == '__main__':
+    deleteFiles(app.config['UPLOAD_DIRECTORY'])
     app.run(debug=True)
