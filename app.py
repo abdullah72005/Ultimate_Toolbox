@@ -10,7 +10,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 
 
 from helpers.functions import apology, deleteFiles
-from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt
+from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
 
 
 app = Flask(__name__)
@@ -67,10 +67,8 @@ def upload():
                     return apology("please input file")
                 
                 input_filename = secure_filename(file.filename)
-                print(input_filename)
-                if input_filename == 'ignore.txt':
-                    new_name = 'ignore2.txt'
-                    os.rename(app.config['UPLOAD_DIRECTORY'] + input_filename, app.config['UPLOAD_DIRECTORY'] + new_name)
+                if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
+                    return apology("stop hacking our website")
 
                 
                 # Save the file to the specified directory
@@ -119,7 +117,7 @@ def con():
     if request.method == "POST":
         try:
             # Get the list of files in the upload directory
-            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 'ignore.txt']
+            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt']
 
             # Get the user's choice from the form
             choice = request.form.get("choice")
@@ -142,7 +140,7 @@ def con():
                 elif extension in app.config['TEXT_EXTENTIONS']:
 
                     if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' and choice == 'pdf':
-                        outputFile = 'word2pdf(finalname, fileName)'
+                        outputFile = word2pdf(file, fileName, choice)
 
                     if extension == "application/pdf" and choice == "docx":
                         outputFile = pdf2word(file, fileName, choice)
@@ -177,7 +175,7 @@ def con():
         # handle exeptions and make sure to clear upload directory before every move
         except:
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
-            return apology("An error has happened")
+            #return apology("An error has happened")
     else:
         # clean uploads directory and render template
         deleteFiles(app.config['UPLOAD_DIRECTORY'])

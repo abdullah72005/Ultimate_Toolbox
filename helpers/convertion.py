@@ -101,6 +101,45 @@ def convIMAGE(fileName, file, app, choice):
     deleteFiles(uploadFolder)
     return outputFile
 
+def word2pdf(file, fileName, choice):
+    # Combine folder path with the uploaded file name
+    print("It is in the function")
+    word_path = os.path.join(uploadFolder, file)
+    pdf_path = os.path.join(uploadFolder, f"{fileName}.{choice}") 
+
+    # Read content from the DOCX file
+    doc = Document(word_path)
+
+    # Extract text from paragraphs and add newline between them
+    print("I am here")
+    text_content = '\n'.join([paragraph.text for paragraph in doc.paragraphs])
+
+    # Create a PDF using reportlab
+    pdf_canvas = canvas.Canvas(pdf_path, pagesize=letter)
+    width, height = letter
+
+    # Set font and size
+    pdf_canvas.setFont("Helvetica", 12)
+    print("I am there")
+    # Split content by lines to handle newline characters
+    lines = text_content.split('\n')
+    print(lines)
+
+    # Write content to PDF
+    for i, line in enumerate(lines):
+        y_position = height - 50 - (i * 14)  # Adjust spacing
+
+        # Strip leading spaces and then draw the line
+        pdf_canvas.drawString(50, y_position, line.lstrip())
+
+    # Save the PDF
+    print("I am everywhere")
+    pdf_canvas.save()
+    # Send the Word file as an attachment and delete temporary files
+    outputFile = send_file(pdf_path, as_attachment=True)
+    deleteFiles(uploadFolder)
+
+    return outputFile
 
 def pdf2word(file, fileName, choice):
     # Combine folder path with the uploaded file name
