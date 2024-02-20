@@ -181,6 +181,11 @@ def con():
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("upload.html")
 
+@app.route('/url', methods=["GET", "POST"])
+def url():
+    if request.method == "GET":
+        return render_template("URL.html")
+
 
 
 
