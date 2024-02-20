@@ -1,6 +1,7 @@
 import os
 import magic
 
+
 from flask import Flask, redirect, render_template, request, send_file
 from flask_session import Session
 from werkzeug.utils import secure_filename
@@ -181,10 +182,13 @@ def con():
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("upload.html")
 
-@app.route('/url', methods=["GET", "POST"])
+@app.route('/yt-to-mp3', methods=["GET", "POST"])
 def url():
-    if request.method == "GET":
-        return render_template("URL.html")
+    if request.method == "POST":
+        print()
+    else:
+        return render_template("ytcon.html")
+    
 
 
 

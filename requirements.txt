@@ -12,3 +12,4 @@ pyarrow
 openpyxl
 reportlab
 PyMuPDF
+youtube_dl
