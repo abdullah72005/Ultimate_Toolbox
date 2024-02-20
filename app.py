@@ -11,6 +11,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 
 from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
+from helpers.password import generate_password
 
 
 app = Flask(__name__)
@@ -186,6 +187,47 @@ def url():
     if request.method == "GET":
         return render_template("URL.html")
 
+
+
+@app.route('/password-generator', methods=["GET", "POST"])
+def generate():
+    if request.method == "POST":
+
+
+        # get password length
+        password_length = request.form.get('length')
+
+        # get user password choices
+        upper: bool = request.form.get('upper')
+        lower: bool = request.form.get('lower')
+        nums: bool = request.form.get('nums')
+        syms: bool = request.form.get('syms')
+
+        # check user input
+        if not password_length:
+            return apology("please provide password length")
+        
+        if int(password_length) < 4:
+            return apology("minimum password length is 4 characters")
+        
+        if int(password_length) > 128:
+            return apology("maximum password length is 128 characters")
+        
+        if not upper and not lower and not nums and not syms:
+            return apology("please choose one or more password characters")
+
+        if not upper and not lower and not nums and not syms and not password_length:
+            return apology("please provide input")
+        
+        # generate the password
+        password = generate_password(int(password_length), upper, lower, nums, syms)
+
+        # pass the password to the html
+        return render_template("password.html", password=password)
+        
+
+    else:
+        return render_template("password.html")
 
 
 
