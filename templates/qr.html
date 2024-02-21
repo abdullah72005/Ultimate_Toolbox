@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    QRcode Generator 
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <form action="/qrcode" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="url" name="link" class="form-control" placeholder="Enter URL" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" name = "action">Generate</button>
+        </form>
+    </div>
+    {% if qrcode %}
+
+    <div class="container mt-5">
+        <img src="{{ qrcode }}" alt="QR code">
+        
+    </div>
+
+    {% endif %}
+{% endblock %}

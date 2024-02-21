@@ -1,5 +1,7 @@
 import os
 import magic
+import random
+import string
 
 from flask import Flask, redirect, render_template, request, send_file
 from flask_session import Session
@@ -12,6 +14,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
 from helpers.password import generate_password
+from helpers.qr import convqr
 
 
 app = Flask(__name__)
@@ -228,6 +231,25 @@ def generate():
 
     else:
         return render_template("password.html")
+
+
+@app.route('/qrcode', methods=["GET", "POST"])
+def Qr():
+    if request.method == "POST":
+        url = request.form.get('link')
+        
+        if not url:
+            return apology("please enter url")
+        
+        filename = ''.join(random.choices(string.ascii_lowercase, k=4))
+        output_path = pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], filename + '.png')
+
+        convqr(url, output_path)
+
+        return render_template("qr.html", qrcode=output_path)
+        
+    else:
+        return render_template("qr.html")
 
 
 

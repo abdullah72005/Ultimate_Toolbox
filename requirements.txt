@@ -12,3 +12,5 @@ pyarrow
 openpyxl
 reportlab
 PyMuPDF
+pyqrcode
+pypng
