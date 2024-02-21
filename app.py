@@ -12,7 +12,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
 from helpers.password import generate_password
-from helpers.qr import convqr
+from helpers.qr import convqr, isvalid
 
 
 app = Flask(__name__)
@@ -235,15 +235,25 @@ def generate():
 @app.route('/qrcode', methods=["GET", "POST"])
 def Qr():
     if request.method == "POST":
+        # start by cleaning the upload directory
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+        # get input url
         url = request.form.get('link')
         
+        # check input
         if not url:
             return apology("please enter url")
         
+        # check if url is in valid format
+        if not isvalid(url):
+            return apology('url invalid')
+        
+        # generate a filename and make path for qrcode
         filename = generate_password(4, False, True, False, False)
         output_path = os.path.join(app.config['UPLOAD_DIRECTORY'], filename + '.png')
 
+        # create the qrcode
         convqr(url, output_path)
 
         return render_template("qr.html", qrcode=output_path, filename=filename)
