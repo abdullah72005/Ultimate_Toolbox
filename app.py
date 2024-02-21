@@ -1,7 +1,5 @@
 import os
 import magic
-import random
-import string
 
 from flask import Flask, redirect, render_template, request, send_file
 from flask_session import Session
@@ -45,6 +43,7 @@ app.config['CSV'] = ['csv', 'xlsx', 'json']
 
 @app.route("/")
 def index():
+    deleteFiles(app.config['UPLOAD_DIRECTORY'])
     return render_template("index.html")
 
 
@@ -236,17 +235,18 @@ def generate():
 @app.route('/qrcode', methods=["GET", "POST"])
 def Qr():
     if request.method == "POST":
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
         url = request.form.get('link')
         
         if not url:
             return apology("please enter url")
         
-        filename = ''.join(random.choices(string.ascii_lowercase, k=4))
-        output_path = pdf_path = os.path.join(app.config['UPLOAD_DIRECTORY'], filename + '.png')
+        filename = generate_password(4, False, True, False, False)
+        output_path = os.path.join(app.config['UPLOAD_DIRECTORY'], filename + '.png')
 
         convqr(url, output_path)
 
-        return render_template("qr.html", qrcode=output_path)
+        return render_template("qr.html", qrcode=output_path, filename=filename)
         
     else:
         return render_template("qr.html")

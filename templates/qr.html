@@ -9,7 +9,7 @@
         <form action="/qrcode" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <div class="input-group">
-                    <input type="url" name="link" class="form-control" placeholder="Enter URL" required>
+                    <input type="url" name="link" class="form-control" placeholder="Enter URL" autocomplete="off" autofocus required>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" name = "action">Generate</button>
@@ -19,8 +19,27 @@
 
     <div class="container mt-5">
         <img src="{{ qrcode }}" alt="QR code">
-        
+        <button class="btn btn-primary" id="copy" onclick="downloadPNG()">Download QRcode</button>
     </div>
 
     {% endif %}
+    <<script>
+        function downloadPNG() {
+            // Create an image element
+            var img = new Image();
+            // Set the source of the image
+            img.src = "{{ qrcode }}";
+            // Create a link element
+            var link = document.createElement('a');
+            // Set the href attribute of the link to the data URL of the image
+            link.href = img.src;
+            // Set the download attribute of the link to the file name
+            link.download = "{{ filename }}"; 
+            // Simulate a click on the link to trigger the download
+            link.click();
+
+            const button = document.getElementById('copy');
+            button.style.backgroundColor = '#111';
+        }
+        </script>
 {% endblock %}
