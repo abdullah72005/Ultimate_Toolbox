@@ -10,7 +10,7 @@
         <h2 class="mb-4">Video Details</h2>
         <p class="mb-2" name="url">{{ url }}</p>
         <p class="mb-2">Title: {{ title }}</p>
-        <p class="mb-2">Duration: {{ duration }} seconds</p>
+        <p class="mb-2">Duration: {{ duration }}</p>
         <img src="{{ thumbnail_url }}" alt="Video Thumbnail" class="img-fluid mb-4" style="max-width: 150px; height: auto;">
         <h2 class="mb-3">Download</h2>
         <div class="form-group">
@@ -23,6 +23,19 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary mt-2" name="button" value="Download">Download</button>
+        <div class="container mt-3" id="loading-section" style="display:none;">
+            <div class="alert alert-info" role="alert">
+                Loading...
+            </div>
+        </div>
     </form>
 </div>
+
+
+<script>
+    // Show loading section when the form is submitted
+    document.querySelector('form').addEventListener('submit', function () {
+        document.getElementById('loading-section').style.display = 'block';
+    });
+</script>
 {% endblock %}

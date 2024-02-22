@@ -6,7 +6,7 @@ from flask import Flask, redirect, render_template, request, send_file, session
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
-from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchError, VideoRegionBlocked
+from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchError, VideoRegionBlocked, MaxRetriesExceeded
 
 
 
@@ -193,6 +193,8 @@ def url():
 
             # Get video information and store title in the session 
             title, thumbnail_url, duration = get_video_info(youtube_url)
+            duration = "{:02}:{:02}".format(duration // 60, duration % 60)
+
             session['title'] = title  
 
             # Get audio streams and store in the session
@@ -219,7 +221,11 @@ def url():
             session['error_message'] = "Error: Please input a correct youtube URL"
             return render_template('ytcon.html', error_message=session['error_message'])
         
-        except Exception as e:
+        except MaxRetriesExceeded as e:
+            session['error_message'] = "Error: Max Retries was Exceeded"
+            return render_template('ytcon.html', error_message=session['error_message'])
+        
+        except Exception as e: 
             session['error_message'] = "Error: An unexpected error has happened"
             return render_template('ytcon.html', error_message=session['error_message'])
         
@@ -252,10 +258,10 @@ def download():
         title = session.get('title', None)
         
         # Download audio and return the file path
-        audio_url = download_audio(youtube_url, i, title)
+        audioFile = download_audio(youtube_url, i, title)
         
         # Return the audio file
-        return audio_url
+        return audioFile
     else:
         return render_template("ytcon.html")
 
