@@ -189,7 +189,7 @@ def url():
         try:
             # Retrieve YouTube URL from the form and store it in the session 
             youtube_url = request.form['url']
-            session['url'] = youtube_url 
+            session['url'] = youtube_url
 
             # Get video information and store title in the session 
             title, thumbnail_url, duration = get_video_info(youtube_url)
@@ -204,31 +204,27 @@ def url():
             # Render template with video information
             return render_template('ytDownload.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams)
         
-        #Handle the exceptions
+        #If there is an error get the Error message
         except AgeRestrictedError as e:
-            session['error_message'] = "Error: This video is age-restricted."
-            return render_template('ytcon.html', error_message=session['error_message'])
-        
+            session['error_message'] = "Error: This video is age-restricted." 
+
         except VideoRegionBlocked as e:
             session['error_message'] = "Error: This video is region blocked"
-            return render_template('ytcon.html', error_message=session['error_message'])
         
         except VideoUnavailable as e:
             session['error_message'] = "Error: This video is unavailable."
-            return render_template('ytcon.html', error_message=session['error_message'])
-        
+
         except RegexMatchError as e:
             session['error_message'] = "Error: Please input a correct youtube URL"
-            return render_template('ytcon.html', error_message=session['error_message'])
         
         except MaxRetriesExceeded as e:
             session['error_message'] = "Error: Max Retries was Exceeded"
-            return render_template('ytcon.html', error_message=session['error_message'])
         
         except Exception as e: 
             session['error_message'] = "Error: An unexpected error has happened"
-            return render_template('ytcon.html', error_message=session['error_message'])
         
+        #return the webpage with the error message 
+        return render_template('ytcon.html', error_message=session['error_message'])
 
     else: 
         return render_template("ytcon.html")
