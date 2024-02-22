@@ -194,7 +194,8 @@ def url():
 @app.route('/password-generator', methods=["GET", "POST"])
 def generate():
     if request.method == "POST":
-
+        # start by cleaning the upload directory
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
         # get password length
         password_length = request.form.get('length')
@@ -259,6 +260,9 @@ def Qr():
         return render_template("qr.html", qrcode=output_path, filename=filename)
         
     else:
+        # start by cleaning the upload directory
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
         return render_template("qr.html")
 
 
