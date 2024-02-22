@@ -1,10 +1,12 @@
 import os
 import magic
 
-from flask import Flask, redirect, render_template, request, send_file
+
+from flask import Flask, redirect, render_template, request, send_file, session
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
+from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchError, VideoRegionBlocked, MaxRetriesExceeded
 
 
 
@@ -13,6 +15,7 @@ from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
+from helpers.yt import print_audio_streams, download_audio, get_video_info
 
 
 app = Flask(__name__)
@@ -81,7 +84,6 @@ def upload():
                 ))
 
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
-                print(extension)
 
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS']:
@@ -184,11 +186,6 @@ def con():
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("upload.html")
 
-@app.route('/url', methods=["GET", "POST"])
-def url():
-    if request.method == "GET":
-        return render_template("URL.html")
-
 
 
 @app.route('/password-generator', methods=["GET", "POST"])
@@ -266,6 +263,84 @@ def Qr():
         return render_template("qr.html")
 
 
+@app.route('/yt-to-mp3', methods=["GET", "POST"])
+def url():
+    if request.method == "POST":
+        try:
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            # Retrieve YouTube URL from the form and store it in the session 
+            youtube_url = request.form['url']
+            session['url'] = youtube_url
+
+            # Get video information and store title in the session 
+            title, thumbnail_url, duration = get_video_info(youtube_url)
+            duration = "{:02}:{:02}".format(duration // 60, duration % 60)
+
+            session['title'] = title  
+            
+            # Get audio streams and store in the session
+            audio_streams = print_audio_streams(youtube_url)
+            session["audio_streams"] = audio_streams
+
+            # Render template with video information
+            return render_template('ytDownload.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams)
+        
+        #If there is an error get the Error message
+        except AgeRestrictedError as e:
+            session['error_message'] = "Error: This video is age-restricted." 
+
+        except VideoRegionBlocked as e:
+            session['error_message'] = "Error: This video is region blocked"
+        
+        except VideoUnavailable as e:
+            session['error_message'] = "Error: This video is unavailable."
+
+        except RegexMatchError as e:
+            session['error_message'] = "Error: Please input a correct youtube URL"
+        
+        except MaxRetriesExceeded as e:
+            session['error_message'] = "Error: Max Retries was Exceeded"
+        
+        except Exception as e: 
+            session['error_message'] = "Error: An unexpected error has happened"
+        
+        #return the webpage with the error message 
+        return render_template('ytcon.html', error_message=session['error_message'])
+
+    else: 
+        return render_template("ytcon.html")
+
+@app.route('/mp3-download', methods=["GET", "POST"])
+def download():
+    if request.method == "POST":
+        # Retrieve YouTube URL from the session
+        youtube_url = session.get('url', None)
+
+        # Retrieve audio streams from the session
+        audio_streams = session.get("audio_streams", None)
+        
+        # Counter for the selected audio stream
+        i = 0
+        
+        # Retrieve selected audio quality from the form
+        quality = request.form.get('quality')
+        
+        # Find the index of the selected audio stream
+        for audio_stream in audio_streams:
+            if quality == str(audio_stream):
+                break
+            i += 1
+        
+        # Retrieve video title from the session
+        title = session.get('title', None)
+        
+        # Download audio and return the file path
+        audioFile = download_audio(youtube_url, i, title)
+        
+        # Return the audio file
+        return audioFile
+    else:
+        return render_template("ytcon.html")
 
 if __name__ == '__main__':
     deleteFiles(app.config['UPLOAD_DIRECTORY'])

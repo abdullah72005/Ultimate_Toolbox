@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    URL
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <form action="/yt-to-mp3" method="post" class="d-flex"> 
+            <input type="url" class="form-control flex-grow-1" name="url" placeholder="Enter URL">
+            <button type="submit" class="btn btn-primary ml-2" name="button" value="Enter">Enter</button>
+        </form>
+    </div>
+
+    {% if error_message %}
+    <div class="container mt-3">
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="container mt-3" id="loading-section" style="display:none;">
+        <div class="alert alert-info" role="alert">
+            Loading...
+        </div>
+    </div>
+    
+    <script>
+        // Show loading section when the form is submitted
+        document.querySelector('form').addEventListener('submit', function () {
+            document.getElementById('loading-section').style.display = 'block';
+        });
+    </script>
+{% endblock %}
