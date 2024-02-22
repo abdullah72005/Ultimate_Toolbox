@@ -187,6 +187,7 @@ def con():
 def url():
     if request.method == "POST":
         try:
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
             # Retrieve YouTube URL from the form and store it in the session 
             youtube_url = request.form['url']
             session['url'] = youtube_url
