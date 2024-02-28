@@ -1,5 +1,7 @@
 import os
 import magic
+import googletrans
+
 
 
 from flask import Flask, redirect, render_template, request, send_file, session
@@ -10,12 +12,12 @@ from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchEr
 
 
 
-
 from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
 from helpers.yt import print_audio_streams, download_audio, get_video_info
+from helpers.translation import translatetxt
 
 
 app = Flask(__name__)
@@ -341,6 +343,33 @@ def download():
         return audioFile
     else:
         return render_template("ytcon.html")
+
+
+@app.route('/translation', methods=["GET", "POST"])
+def translate():
+
+    if request.method == "POST":
+        print()
+
+        input_txt = request.form.get('input_txt')
+        output_lang = request.form.get('output_lang')
+        input_lang = request.form.get('input_lang')
+        langs = googletrans.LANGCODES
+
+        if not input_txt:
+            return apology("please enter text to translate")
+        if not output_lang:
+            return apology('please choose a language to translate to')
+        if not input_lang:
+            input_lang = 'detect'
+        
+        output = translatetxt(input_txt, input_lang, output_lang, langs)
+
+        return render_template("translate.html", langs=langs, output=output, input_txt=input_txt)
+
+    else:
+        langs = googletrans.LANGCODES
+        return render_template("translate.html", langs=langs)
 
 if __name__ == '__main__':
     deleteFiles(app.config['UPLOAD_DIRECTORY'])
