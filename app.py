@@ -270,8 +270,15 @@ def url():
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
             # Retrieve YouTube URL from the form and store it in the session 
             youtube_url = request.form['url']
+            fileType = request.form['type']
             session['url'] = youtube_url
+            session['type'] = fileType
 
+            # if isPlaylist(youtube_url):
+            #    playlistName, totalFileSize = get_playlist_info(youtube_url)
+            #    session['playlistName'] = playlistName
+            #    return render_template('ytDownload.html', youtube_url=url, playlistName=playlistName, totalFileSize=totalFileSize)
+            # else:
             # Get video information and store title in the session 
             title, thumbnail_url, duration = get_video_info(youtube_url)
             duration = "{:02}:{:02}".format(duration // 60, duration % 60)
@@ -279,12 +286,12 @@ def url():
             session['title'] = title  
             
             # Get audio streams and store in the session
-            audio_streams = print_audio_streams(youtube_url)
+            audio_streams = print_audio_streams(youtube_url, fileType)
             session["audio_streams"] = audio_streams
 
             # Render template with video information
-            return render_template('ytDownload.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams)
-        
+            return render_template('ytDownload.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType)
+
         #If there is an error get the Error message
         except AgeRestrictedError as e:
             session['error_message'] = "Error: This video is age-restricted." 
@@ -300,9 +307,17 @@ def url():
         
         except MaxRetriesExceeded as e:
             session['error_message'] = "Error: Max Retries was Exceeded"
+
+        except RequestEntityTooLarge:
+            # Delete files in folder
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            
+            # load apology for invalid file size
+            session['error_message'] = "File is larger than the 16mb limit."
+
         
         except Exception as e: 
-            session['error_message'] = "Error: An unexpected error has happened"
+             session['error_message'] = "Error: An unexpected error has happened"
         
         #return the webpage with the error message 
         return render_template('ytcon.html', error_message=session['error_message'])
@@ -319,6 +334,8 @@ def download():
         # Retrieve audio streams from the session
         audio_streams = session.get("audio_streams", None)
         
+        fileType = session.get('type', None)
+
         # Counter for the selected audio stream
         i = 0
         
@@ -335,7 +352,7 @@ def download():
         title = session.get('title', None)
         
         # Download audio and return the file path
-        audioFile = download_audio(youtube_url, i, title)
+        audioFile = download_audio(youtube_url, i, title, fileType)
         
         # Return the audio file
         return audioFile

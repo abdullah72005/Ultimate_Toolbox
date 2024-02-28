@@ -14,14 +14,21 @@
         <img src="{{ thumbnail_url }}" alt="Video Thumbnail" class="img-fluid mb-4" style="max-width: 150px; height: auto;">
         <h2 class="mb-3">Download</h2>
         <div class="form-group">
-            <label for="quality">Choose MP3 Quality:</label>
+            <label for="quality">Choose Quality:</label>
             <select class="form-control" name="quality" required>
-                <option selected disabled>Select an a <audio src=""></audio> quality</option>
-                {% for as in audio_streams %}
-                    <option value="{{ as }}" >Bitrate: {{ as.abr }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB</option>
-                {% endfor %}
+                {% if fileType == "Audio" %}
+                <option selected disabled>Select an audio quality</option>
+                    {% for as in audio_streams %}
+                        <option value="{{ as }}" >Bitrate: {{ as.abr }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB</option>
+                    {% endfor %}
+                {% else %}
+                <option selected disabled>Select an video quality</option>
+                    {% for as in audio_streams %}
+                        <option value="{{ as }}" >Resolution: {{ as.resolution }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB, FPS: {{ as.fps }}</option>
+                    {% endfor %}
+                {% endif %}
             </select>
-        </div>
+        </div>        
         <button type="submit" class="btn btn-primary mt-2" name="button" value="Download">Download</button>
         <div class="container mt-3" id="loading-section" style="display:none;">
             <div class="alert alert-info" role="alert">
