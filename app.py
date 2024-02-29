@@ -319,21 +319,23 @@ def url():
         except Exception as e: 
              session['error_message'] = "Error: An unexpected error has happened"
         
-        #return the webpage with the error message 
+        #return the webpage with the error message and delete files
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])    
         return render_template('ytcon.html', error_message=session['error_message'])
 
     else: 
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("ytcon.html")
 
 @app.route('/mp3-download', methods=["GET", "POST"])
 def download():
     if request.method == "POST":
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
         # Retrieve YouTube URL from the session
         youtube_url = session.get('url', None)
 
-        # Retrieve audio streams from the session
+        # Retrieve audio streams from the session and filetype 
         audio_streams = session.get("audio_streams", None)
-        
         fileType = session.get('type', None)
 
         # Counter for the selected audio stream
@@ -354,9 +356,10 @@ def download():
         # Download audio and return the file path
         audioFile = download_audio(youtube_url, i, title, fileType)
         
-        # Return the audio file
+        # Return the file
         return audioFile
     else:
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("ytcon.html")
 
 if __name__ == '__main__':
