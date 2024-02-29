@@ -17,7 +17,7 @@ from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, conve
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
 from helpers.yt import print_audio_streams, download_audio, get_video_info
-from helpers.translation import translatetxt
+from helpers.translation import translatetxt, trans_doc
 
 
 app = Flask(__name__)
@@ -351,25 +351,106 @@ def translate():
     if request.method == "POST":
         print()
 
+        # get user input
         input_txt = request.form.get('input_txt')
         output_lang = request.form.get('output_lang')
         input_lang = request.form.get('input_lang')
+
+        # get all languages supported by googletrans
         langs = googletrans.LANGCODES
 
+
+        # check input
         if not input_txt:
             return apology("please enter text to translate")
         if not output_lang:
             return apology('please choose a language to translate to')
+        
+        # if no input lang specified detect input lang
         if not input_lang:
             input_lang = 'detect'
         
+        # translate input
         output = translatetxt(input_txt, input_lang, output_lang, langs)
 
-        return render_template("translate.html", langs=langs, output=output, input_txt=input_txt)
+        # load html with translated output
+        return render_template("translate.html", langs=langs, output=output)
 
     else:
+        # get all languages supported by googletrans and load html
         langs = googletrans.LANGCODES
         return render_template("translate.html", langs=langs)
+
+
+
+
+@app.route('/doc-translation', methods=["GET", "POST"])
+def translatedoc():
+
+    if request.method == "POST":
+
+        try:
+            # always start with cleaning upload directory to prevent errors
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+            # get user input
+            input_file = request.form.get('input_file')
+            output_lang = request.form.get('output_lang')
+            input_lang = request.form.get('input_lang')
+            langs = googletrans.LANGCODES
+
+
+            # check input
+            if not input_file:
+                return apology("please enter text to translate")
+
+            input_filename = secure_filename(input_file.filename)
+            if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
+                return apology("stop hacking our website")
+
+            if not output_lang:
+                return apology('please choose a language to translate to')
+
+            # if no input lang specified detect input lang
+            if not input_lang:
+                input_lang = 'detect'
+
+            # Save the file to the specified directory
+            input_file.save(os.path.join(
+                app.config['UPLOAD_DIRECTORY'],
+                input_filename
+            ))
+
+            extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + input_filename, mime=True)
+
+            # Check if the file extension is in the allowed extensions set
+            if extension not in app.config['TEXT_EXTENTIONS']:
+
+                # Delete files in folder
+                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+                # load apology for invalid extenion and clear 
+                return apology("invalid file type")
+                
+        # Handle the case where the file size exceeds the limit
+        except RequestEntityTooLarge:
+            
+            # Delete files in folder
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            
+            # load apology for invalid file size
+            return apology('File is larger than the 16mb limit.')
+
+        fileName = os.path.splitext(secure_filename(input_file))[0]
+        outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang)
+        
+
+        return render_template("transdocs.html", langs=langs)
+
+    else:
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
+        langs = googletrans.LANGCODES
+        return render_template("transdocs.html", langs=langs)
 
 if __name__ == '__main__':
     deleteFiles(app.config['UPLOAD_DIRECTORY'])
