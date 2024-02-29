@@ -394,7 +394,7 @@ def translatedoc():
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
             # get user input
-            input_file = request.form.get('input_file')
+            input_file = request.files['input_file']
             output_lang = request.form.get('output_lang')
             input_lang = request.form.get('input_lang')
             langs = googletrans.LANGCODES
@@ -420,7 +420,6 @@ def translatedoc():
                 app.config['UPLOAD_DIRECTORY'],
                 input_filename
             ))
-
             extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + input_filename, mime=True)
 
             # Check if the file extension is in the allowed extensions set
@@ -441,11 +440,10 @@ def translatedoc():
             # load apology for invalid file size
             return apology('File is larger than the 16mb limit.')
 
-        fileName = os.path.splitext(secure_filename(input_file))[0]
-        outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang)
+        fileName = os.path.splitext(secure_filename(input_file.filename))[0]
+        outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang, langs)
         
-
-        return render_template("transdocs.html", langs=langs)
+        return outputFile
 
     else:
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
@@ -455,3 +453,4 @@ def translatedoc():
 if __name__ == '__main__':
     deleteFiles(app.config['UPLOAD_DIRECTORY'])
     app.run(debug=True)
+

@@ -6,7 +6,7 @@ Translator
 
 {% block main %}
 <div class="container mt-5">
-    <form action="/doc-translation" method="post" class="d-flex"> 
+    <form action="/doc-translation" method="post" class="d-flex" enctype="multipart/form-data"> 
         <div class="mb-2">
         <input type="file" class="form-control mb-2" name="input_file" placeholder="Enter" autofocus autocomplete="off" accept=".docx, .pdf">
     </div> 
