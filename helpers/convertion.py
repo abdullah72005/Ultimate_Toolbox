@@ -119,10 +119,8 @@ def word2pdf(file, fileName, choice):
 
     # Set font and size
     pdf_canvas.setFont("Helvetica", 12)
-    print("I am there")
     # Split content by lines to handle newline characters
     lines = text_content.split('\n')
-    print(lines)
 
     # Write content to PDF
     for i, line in enumerate(lines):

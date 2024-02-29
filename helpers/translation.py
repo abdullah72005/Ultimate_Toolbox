@@ -1,9 +1,13 @@
-import googletrans
 from googletrans import Translator
 import os
 from docx import Document
 from flask import send_file
 from helpers.functions import deleteFiles
+from PyPDF2 import PdfReader
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 uploadFolder = 'static/uploads/'
 
@@ -23,7 +27,58 @@ def translatetxt(input_txt, input_lang, output_lang, langs):
 def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
 
     if extension == 'application/pdf':
-        print()
+
+        custom_font = TTFont('font-custom', 'static/NotoSans-VariableFont_wdth,wght.ttf')
+        pdfmetrics.registerFont(custom_font)
+
+
+        custom_ar = TTFont('ar-custom', 'static/IBMPlexSansArabic-Regular.ttf')
+        pdfmetrics.registerFont(custom_ar)
+
+        new_filename = f"{fileName}-{output_lang}.pdf"
+        output_filepath = os.path.join(uploadFolder, new_filename)
+        input_filepath = os.path.join(uploadFolder, f"{fileName}.pdf")
+
+        file = open(input_filepath, 'rb')
+
+        reader = PdfReader(file)
+        translator = Translator()
+        pn = len(reader.pages)
+
+        
+
+        c = canvas.Canvas(output_filepath, pagesize=letter)
+        width, height = letter
+
+        for p in range(pn):
+            page = reader.pages[p]
+            text = page.extract_text()
+
+            transtxt = translator.translate(text, src=langs[input_lang], dest=langs[output_lang])
+            output = transtxt.text
+            # Replace newline characters with proper formatting
+            output = output.replace('\n', '<br/>')
+            # Replace special characters with spaces using Unicode replacement
+            output = output.encode('utf-8', 'replace').decode('utf-8')
+            # Split content by <br/> to handle newline characters
+            lines = output.split('<br/>')
+            # Write content to PDF
+            for i, line in enumerate(lines):
+                y_position = height - 50 - (i * 14)  # Adjust spacing
+
+                #Strip leading spaces and then draw the line
+                if translator.detect(line).lang == "ar":
+                   c.setFont('ar-custom', 12)
+                   # Draw Arabic text from right to left
+                   c.drawRightString(width - 50, y_position, line[::-1])
+                else:
+                    c.setFont('font-custom', 12)
+                    c.drawString(50, y_position, line.lstrip())
+        c.save()
+
+        # Create a Flask send_file response for downloading the translated document
+        outputFile = send_file(output_filepath, as_attachment=True)
+
     elif extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 
         # Load the input Word document
@@ -42,10 +97,10 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
             srcLang = input_lang
             if srcLang == 'detect':
                 g = translator.detect(paragraph.text)
-                input_lang = g.lang
+                srcLang = g.lang
 
                 # Translate the paragraph from detect language to the output language
-                output = translator.translate(paragraph.text, src=input_lang, dest=langs[output_lang]).text
+                output = translator.translate(paragraph.text, src=srcLang, dest=langs[output_lang]).text
 
             else:
                 # Translate the paragraph from the specified input language to the output language
