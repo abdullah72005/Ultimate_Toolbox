@@ -8,7 +8,7 @@ Translator
 <div class="container mt-5">
     <form action="/doc-translation" method="post" class="d-flex" enctype="multipart/form-data"> 
         <div class="mb-2">
-        <input type="file" class="form-control mb-2" name="input_file" placeholder="Enter" autofocus autocomplete="off" accept=".docx, .pdf">
+        <input type="file" class="form-control mb-2" name="input_file" placeholder="Enter" autofocus autocomplete="off" accept=".docx, .txt">
     </div> 
         <div class="mb-2">
         <select class="form-control" name="input_lang" required>
@@ -34,6 +34,6 @@ Translator
     </form>
 </div>
 
-<div class="d-inline-flex focus-ring focus-ring-primary py-1 px-2 text-decoration-none border rounded-2" style="margin-right: 300px;">{% if output %}  {{ output }}  {% endif %}</div>
+<div class="d-inline-flex focus-ring focus-ring-primary py-1 px-2 border rounded-2" style="margin-right: 300px;" aria-placeholder="Translation">{% if output %}  {{ output }} {% endif %}</div>
 
 {% endblock %}
