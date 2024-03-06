@@ -13,7 +13,6 @@ from helpers.functions import deleteFiles
 
 uploadFolder = 'static/uploads/'
 
-
 # link magic file type input with actual file type input via dictionary
 imagetypes = {
     'image/jpeg': 'jpeg',
