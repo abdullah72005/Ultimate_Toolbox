@@ -24,19 +24,19 @@
     <body>
         <nav class="navbar" id="navv">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.html">
                     <img src="static/imgs/icon5.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                     <img src="static/imgs/line4.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" id="lline">
                     
                     <span class="ul">Ultimate</span> <span class="tb">Toolbox</span>
                   </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon" ></span>
-              </button>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" id="arrow" onclick="rot()">
+                    <span class="navbar-toggler-icon" ></span>
+                  </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                  <a id="navitem" class="nav-link active" aria-current="page" href="#">Conversion</a>
                   <a id="navitem" class="nav-link" href="#">home</a>
-                  <!-- <a id="navitem" class="nav-link active" aria-current="page" href="#">Conversion</a> -->
                   <a id="navitem" class="nav-link" href="#">Youtube Conversion</a>
                   <a id="navitem" class="nav-link" href="#">Translator</a>
                   <a id="navitem" class="nav-link" href="#">Disabled</a>
@@ -50,6 +50,20 @@
         <main>
             {% block main %}{% endblock %}
         </main>
+
+        <script>
+          var x = 0;
+          function rot(){
+            if (x % 2 == 0){
+              document.getElementById('arrow').style.transform = 'rotate(180deg)';}
+            else {
+              document.getElementById('arrow').style.transform = 'rotate(0deg)';
+            }
+            document.getElementById('arrow').style.transition = 'transform 0.4s linear';
+          x += 1;
+
+        }
+        </script>
     </body>
 
 </html>
