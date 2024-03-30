@@ -24,7 +24,7 @@
     <body>
         <nav class="navbar" id="navv">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="/">
                     <img src="static/imgs/icon5.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                     <img src="static/imgs/line4.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" id="lline">
                     
@@ -35,13 +35,7 @@
                   </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                  <a id="navitem" class="nav-link active" aria-current="page" href="#">Conversion</a>
-                  <a id="navitem" class="nav-link" href="#">home</a>
-                  <a id="navitem" class="nav-link" href="#">Youtube Conversion</a>
-                  <a id="navitem" class="nav-link" href="#">Translator</a>
-                  <a id="navitem" class="nav-link" href="#">Disabled</a>
-                  <a id="navitem" class="nav-link" href="#">QRcode Generator</a>
-                  <a id="navitem" class="nav-link" href="#">Password Generator</a>
+                  {% block nav %}{% endblock %}
                 </div>
               </div>
             </div>
@@ -59,9 +53,8 @@
             else {
               document.getElementById('arrow').style.transform = 'rotate(0deg)';
             }
-            document.getElementById('arrow').style.transition = 'transform 0.4s linear';
+            document.getElementById('arrow').style.transition = 'transform 0.3s linear';
           x += 1;
-
         }
         </script>
     </body>
