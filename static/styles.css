@@ -1,5 +1,8 @@
 body {
     background-color: black;
+    margin:0;
+    padding:0;
+    height:100%;
 }
 
 #navitem {
@@ -57,4 +60,24 @@ body {
 #lline {
     position:relative;
     right: 5px;
+}
+
+.footertxt {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width:100%;
+    height:30px;
+    color: #757575;
+    font-family: 'Alice';
+}
+
+.footerlink {
+    text-decoration: none;
+    color: #757575;
+}
+
+.footerlink:hover {
+    color: #9c091a;
+    transition: 0.5s;
 }
