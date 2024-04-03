@@ -9,13 +9,12 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchError, VideoRegionBlocked, MaxRetriesExceeded
 
 
-
-
 from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
 from helpers.yt import print_audio_streams, download_audio, get_video_info
+from helpers.image import filterImg, showFilters, cropImg
 
 
 app = Flask(__name__)
@@ -341,6 +340,120 @@ def download():
         return audioFile
     else:
         return render_template("ytcon.html")
+
+@app.route('/image/upload', methods=["GET", "POST"])
+def image():
+
+    # If the request method is GET, render the conversion.html template
+    if request.method == "GET":
+        # clean uploads directory and render template
+        deleteFiles(app.config['UPLOAD_DIRECTORY'])
+        return render_template("image.html")
+    else:
+            try:
+                # always start with cleaning upload directory to prevent errors
+                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+                # Retrieve the file from the request
+                file = request.files['file']
+
+                # Check if a file is provided
+                if not file:
+                    return apology("please input file")
+                
+                input_filename = secure_filename(file.filename)
+                if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
+                    return apology("stop hacking our website")
+
+                filePath = os.path.join(app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename))
+                session['filePath'] = filePath
+                # Save the file to the specified directory
+                file.save(filePath)
+
+                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
+
+                # Check if the file extension is in the allowed extensions set
+                if extension not in app.config['IMAGE_EXTENTIONS']:
+
+                    # Delete files in folder
+                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+                    # load apology for invalid extenion and clear 
+                    return apology("invalid file type")
+                
+            # Handle the case where the file size exceeds the limit
+            except RequestEntityTooLarge:
+                
+                # Delete files in folder
+                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+                
+                # load apology for invalid file size
+                return apology('File is larger than the 16mb limit.')
+            
+            # get file name
+            fileName = file.filename
+            session['fileName'] = fileName
+            imgPath = os.path.join("../", filePath)
+            # Return a success message and the select desired output 
+            filters = showFilters()
+            return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+
+@app.route('/image/filter', methods=["GET", "POST"])
+def imageFilter():
+    if request.method == "POST":
+        # Get the list of files in the upload directory
+        filePath = session['filePath']
+        fileName = session['fileName']
+        operation = request.form.get("operation")
+        print(fileName)
+
+        if operation == 'filter':
+            # Get the user's choice from the form
+            choice = request.form.get("choice")
+            filters = showFilters()
+            button = request.form.get('button')
+            if button == 'apply':
+                sliderValue = request.form.get('slider')
+                if not choice  or choice == 'original':
+                    imgPath = f"../{filePath}"
+                    return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+                else:
+                    outputPath = filterImg(filePath, choice, fileName, sliderValue)
+                    imgPath = f"../{outputPath}"
+                    return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+            elif button == 'download':
+                Newfile = os.path.join("static/uploads", "New" + fileName)
+                return send_file(Newfile, as_attachment=True)
+        
+        elif operation == 'rotation':
+            print(operation)
+            print("It is rotation time")
+            return apology("It is rotation time")
+        elif operation == 'crop':
+            print(operation)
+            print("It is cropping time") 
+
+            left_value = int(request.form.get('left'))
+            upper_value = int(request.form.get('upper'))
+            right_value = int(request.form.get('right'))
+            lower_value = int(request.form.get('lower'))
+
+            button = request.form.get('button')
+
+            print(f"{left_value}, {upper_value}, {right_value}, {lower_value}")
+            cropBox = (left_value, upper_value, right_value, lower_value)
+            outputPath = cropImg(filePath, fileName, cropBox)
+
+            if button == 'apply':
+                imgPath = f"../{outputPath}"
+                return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath)
+            
+            elif button == 'download':
+                Newfile = os.path.join("static/uploads", "New" + fileName)
+                return send_file(Newfile, as_attachment=True)
+    else:
+        return render_template("image.html")
+
 
 if __name__ == '__main__':
     deleteFiles(app.config['UPLOAD_DIRECTORY'])
