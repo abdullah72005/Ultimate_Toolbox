@@ -164,6 +164,9 @@ a {
     transition: color .5s ease;
     z-index: 2;
     position: relative;
+    font-family: 'Nunito', sans-serif;
+    color: #939393;
+    
 }
 
 .card-icon {
@@ -219,7 +222,7 @@ a {
   transition: all .5s ease;
 }
 .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
-  background-color: #3ecd5e;
+  background-color: #760808;
 }
 .ag-courses_item:nth-child(3n) .ag-courses-item_bg {
   background-color: #e44002;
