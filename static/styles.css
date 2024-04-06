@@ -284,4 +284,12 @@ a {
   .ag-courses-item_date-box {
     font-size: 16px;
   }
+
+  .footertxt{
+    font-size: 70%;
+  }
+
+  .ag-courses_box {
+    padding-bottom: 0%;
+  }
 }
