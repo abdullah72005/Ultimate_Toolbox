@@ -182,7 +182,7 @@ def con():
         # handle exeptions and make sure to clear upload directory before every move
         except:
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
-            #return apology("An error has happened")
+            return apology("An error has happened")
     else:
         # clean uploads directory and render template
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
