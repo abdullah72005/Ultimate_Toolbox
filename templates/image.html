@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Image Upload
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <form action="/image/upload" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Choose a file:</label>
+                <div class="input-group">
+                    <input type="file" name="file" class="form-control" id="file" accept=".bmp, .gif, .ico, .jpeg, .jpg, .pcx, .png, .ppm, .psd, .tiff, .webp" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" name = "action" value = "upload">Upload</button>
+        </form>
+    </div>
+{% endblock %}

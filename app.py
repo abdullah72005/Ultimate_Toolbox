@@ -1,8 +1,8 @@
 import os
 import magic
+import base64
 
-
-from flask import Flask, redirect, render_template, request, send_file, session
+from flask import Flask, redirect, render_template, request, send_file, session, jsonify, url_for
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -14,7 +14,7 @@ from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, conve
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
 from helpers.yt import print_audio_streams, download_audio, get_video_info
-from helpers.image import filterImg, showFilters, cropImg
+from helpers.image import filterImg, showFilters, filters_dic, cropImg
 
 
 app = Flask(__name__)
@@ -343,116 +343,134 @@ def download():
 
 @app.route('/image/upload', methods=["GET", "POST"])
 def image():
-
-    # If the request method is GET, render the conversion.html template
+    # If the request method is GET, render the image.html template
     if request.method == "GET":
-        # clean uploads directory and render template
+        # Clean the uploads directory and render the image.html template
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
         return render_template("image.html")
+    
     else:
-            try:
-                # always start with cleaning upload directory to prevent errors
-                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+        try:
+            # Always start with cleaning the upload directory to prevent errors
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
-                # Retrieve the file from the request
-                file = request.files['file']
+            # Retrieve the file from the request
+            file = request.files['file']
 
-                # Check if a file is provided
-                if not file:
-                    return apology("please input file")
-                
-                input_filename = secure_filename(file.filename)
-                if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
-                    return apology("stop hacking our website")
+            # Check if a file is provided
+            if not file:
+                return apology("please input file")
+            
+            input_filename = secure_filename(file.filename)
 
-                filePath = os.path.join(app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename))
-                session['filePath'] = filePath
-                # Save the file to the specified directory
-                file.save(filePath)
+            # Check if the filename is a specific value to prevent hacking attempts
+            if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
+                return apology("stop hacking our website")
 
-                extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
+            # Create the file path where the uploaded file will be saved
+            filePath = os.path.join(app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename))
+            session['filePath'] = filePath
+            
+            # Save the file to the specified directory
+            file.save(filePath)
 
-                # Check if the file extension is in the allowed extensions set
-                if extension not in app.config['IMAGE_EXTENTIONS']:
+            # Determine the file extension using the magic library
+            extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
 
-                    # Delete files in folder
-                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            # Check if the file extension is in the allowed extensions set
+            if extension not in app.config['IMAGE_EXTENTIONS']:
 
-                    # load apology for invalid extenion and clear 
-                    return apology("invalid file type")
-                
-            # Handle the case where the file size exceeds the limit
-            except RequestEntityTooLarge:
-                
                 # Delete files in folder
                 deleteFiles(app.config['UPLOAD_DIRECTORY'])
-                
-                # load apology for invalid file size
-                return apology('File is larger than the 16mb limit.')
+
+                # Return an apology for an invalid extension
+                return apology("invalid file type")
             
-            # get file name
-            fileName = file.filename
-            session['fileName'] = fileName
-            imgPath = os.path.join("../", filePath)
-            # Return a success message and the select desired output 
-            filters = showFilters()
-            return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+        # Handle the case where the file size exceeds the limit
+        except RequestEntityTooLarge:
+            
+            # Delete files in folder
+            deleteFiles(app.config['UPLOAD_DIRECTORY'])
+            
+            # Return an apology for an invalid file size
+            return apology('File is larger than the 16mb limit.')
+        
+        # Get the filename and save it in the session
+        fileName = file.filename
+        session['fileName'] = fileName
+        imgPath = os.path.join("../", filePath)
+
+        # Retrieve available filters
+        filters = showFilters()
+
+        # Return the imageFilter.html template with the filename, image path, and available filters
+        return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
 
 @app.route('/image/filter', methods=["GET", "POST"])
 def imageFilter():
+    # Dictionary containing filter options
+    filters = filters_dic
+    
     if request.method == "POST":
-        # Get the list of files in the upload directory
+        # Retrieve file path and file name from session
         filePath = session['filePath']
         fileName = session['fileName']
-        operation = request.form.get("operation")
-        print(fileName)
 
+        # Get the operation type
+        operation = request.form.get("operation")
+        
         if operation == 'filter':
-            # Get the user's choice from the form
-            choice = request.form.get("choice")
-            filters = showFilters()
-            button = request.form.get('button')
+            # If operation is 'filter', handle filter application
+            choice = request.form.get("choice")  # Get the selected filter choice
+            button = request.form.get('button')  # Get the button value ('apply' or 'download')
+            isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
+            
             if button == 'apply':
-                sliderValue = request.form.get('slider')
-                if not choice  or choice == 'original':
+                # If 'apply' button is clicked
+                sliderValue = request.form.get('slider')  # Get the slider value
+                
+                if not choice or choice == 'original':
+                    # If no filter selected or original filter selected, display original image
                     imgPath = f"../{filePath}"
                     return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+                
                 else:
-                    outputPath = filterImg(filePath, choice, fileName, sliderValue)
+                    # Apply selected filter to the image
+                    if isCropped:
+                        # If image is already cropped, use the cropped image path and name
+                        filePath = session['croppedImgPath']
+                        fileName = session['croppedImgName']
+
+                    # Apply filter to the image
+                    outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
                     imgPath = f"../{outputPath}"
-                    return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+                    return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
+                                   
             elif button == 'download':
+                # If 'download' button is clicked, prepare image for download
                 Newfile = os.path.join("static/uploads", "New" + fileName)
                 return send_file(Newfile, as_attachment=True)
         
-        elif operation == 'rotation':
-            print(operation)
-            print("It is rotation time")
-            return apology("It is rotation time")
-        elif operation == 'crop':
-            print(operation)
-            print("It is cropping time") 
+        else:
+            # If operation is 'edit', handle image cropping
+            croppedImg = request.form.get('cropped_image')
 
-            left_value = int(request.form.get('left'))
-            upper_value = int(request.form.get('upper'))
-            right_value = int(request.form.get('right'))
-            lower_value = int(request.form.get('lower'))
+            cropped_image_path, croppedImgName = cropImg(croppedImg ,fileName)
+            # Store cropped image details in session
+            session['croppedImgPath'] = cropped_image_path
+            session['croppedImgName'] = croppedImgName
 
-            button = request.form.get('button')
+            # Save that the image is cropped in the HTML
+            isCropped = 1
 
-            print(f"{left_value}, {upper_value}, {right_value}, {lower_value}")
-            cropBox = (left_value, upper_value, right_value, lower_value)
-            outputPath = cropImg(filePath, fileName, cropBox)
+            croppedImgPath = f"../{cropped_image_path}"
+            return render_template("imagefilter.html", fileName=fileName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
 
-            if button == 'apply':
-                imgPath = f"../{outputPath}"
-                return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath)
-            
-            elif button == 'download':
-                Newfile = os.path.join("static/uploads", "New" + fileName)
-                return send_file(Newfile, as_attachment=True)
     else:
+        # If request method is 'GET', render default image.html template
+        print("why are you here")
         return render_template("image.html")
+
 
 
 if __name__ == '__main__':

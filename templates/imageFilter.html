@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Image Filter 
+    <style>
+        #imageContainer {
+            width: 300px;
+            height: 200px;
+            overflow: hidden;
+        }
+        #img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <!-- This div is optional and can be used for additional content -->
+</div>
+<div class="container mt-5">
+    <form action="/image/filter" method="post" enctype="multipart/form-data" id="filterForm">
+        <div class="mb-3">
+            <h2 id="fileName">{{ fileName }}</h2>
+            <div id="imageContainer" style="width: 300px; height: 200px; overflow: hidden;">
+                <img id="img" src="{{ imgPath }}" alt="Uploaded Image" style="width: 100%; height: auto;">
+            </div>
+            <select class="form-select" id="operationChoice" name="operation" value="operation" onchange="showBlock(this.value)">
+                <option disabled selected>Operations</option>
+                <option value="filter">Filter</option>
+                <option value="edit">Edit</option>
+            </select>
+            <div id = "filterBlock" style="display: none;">
+                <select class="form-select" id="outputChoice" name="choice" value="choice" onchange="toggleSlider()">
+                    <option disabled selected>Filters</option>
+                    <option value="original">Original</option>
+                    {% for choice in filters %}
+                        <option value="{{ choice }}">{{ choice }}</option>
+                    {% endfor %}
+                </select>
+                <label for="slider" id="sliderLabel" style="display: none;">Select a value:</label>
+                <input type="range" class="form-control-range" id="slider" name="slider" min="0" max="5" value="5" style="display: none;">
+                <output for="slider" id="sliderValue" class="mt-2 badge badge-primary">50</output>
+
+                <button type="submit" class="btn btn-primary" name="button" value="apply">Apply changes</button>
+                <button type="submit" class="btn btn-primary" name="button" value="download">Download</button>
+            </div>
+            <div id="editBlock" style="display: none;">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+                <label for="aspectRatio">Choose aspect ratio:</label>
+                <select id="aspectRatio">
+                    <option value="free">Free</option>
+                    <option value="16/9">16:9</option>
+                    <option value="4/3">4:3</option>
+                    <option value="1/1">1:1</option>
+                </select>
+                <button type="button" class="btn btn-primary" id="rotateClockwise">Rotate Clockwise</button>
+                <button type="button" class="btn btn-primary" id="rotateCounterclockwise">Rotate Counterclockwise</button>
+                <button type="button" class="btn btn-primary" id="flipHorizontal">Flip Horizontal</button>
+                <button type="button" class="btn btn-primary" id="flipVertical">Flip Vertical</button>            
+                <button type="submit" class="btn btn-primary" id="apply" value="apply" name="button">Apply changes</button>
+                <button type="button" class="btn btn-primary" id="download">Download</button>
+                <button type="button" class="btn btn-primary" id="dragCrop">Crop Drag Mode</button>
+                <button type="button" class="btn btn-primary" id="dragMove">Move Drag Mode</button>
+                <button type="button" class="btn btn-primary" id="dragNone">None Drag Mode</button>            
+                <input type="hidden" name="cropped_image" id="croppedImage">
+                <input type="hidden" name="isCropped" id="isCropped" value="{{ isCropped }}">
+            </div>
+        </div>
+        
+    </form>
+</div>
+
+<script src="../static/image.js"> </script>
+{% endblock %}
