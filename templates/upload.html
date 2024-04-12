@@ -39,6 +39,7 @@ Conversion
         const imgV = document.getElementById("img-view");
         const ico = document.querySelector(".dragico");
         
+        
 
         inputFile.addEventListener("change", uploadImage);
 
@@ -48,19 +49,19 @@ Conversion
         }
 
 
-        document.body.addEventListener("dragover", function(e){
+        dropArea.addEventListener("dragover", function(e){
             e.preventDefault();
             dropArea.style.opacity = "0.9";
             ico.style.transform = "scale(1.15)";
         });
 
-        document.body.addEventListener("drop", function(e){
+        dropArea.addEventListener("drop", function(e){
             e.preventDefault();
             inputFile.files = e.dataTransfer.files;
             inputFile.form.submit();
         });
 
-        document.body.addEventListener("dragleave", function(e){
+        dropArea.addEventListener("dragleave", function(e){
             e.preventDefault();
             dropArea.style.opacity = "0.7";
             ico.style.transform = "scale(1)";

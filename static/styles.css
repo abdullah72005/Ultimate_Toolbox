@@ -258,6 +258,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  
 }
 
 #drop-area {
@@ -323,6 +324,21 @@ a {
   .ag-courses-item_title {
     font-size: 24px;
   }
+
+  #drop-area{
+    width: 700px;
+    margin-left: 20px;
+    
+  }
+
+  .dragico{
+    margin-top: 65px;
+
+  }
+
+  .dragtxt {
+    margin-top: 10px;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -330,6 +346,23 @@ a {
     width: 96%;
   }
 
+  #drop-area{
+    width: 600px;
+    margin-left: 20px;
+    
+  }
+
+  .dragico{
+    width: 13em;
+    height: 13em;
+    margin-top: 90px;
+
+  }
+
+  .dragtxt {
+    font-size: 18px;
+    margin-top: 30px;
+  }
 }
 @media only screen and (max-width: 639px) {
   .ag-courses_item {
@@ -355,5 +388,24 @@ a {
 
   .ag-courses_box {
     padding-bottom: 0%;
+  }
+
+
+
+  #drop-area{
+    width: 90%;
+    height: 50%;
+    margin-left: 20px;
+    
+  }
+
+  .dragico{
+    width: 10em;
+    height: 10em;
+  }
+
+  .dragtxt {
+    font-size: 15px;
+    margin-bottom: 20px;
   }
 }
