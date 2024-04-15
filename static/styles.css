@@ -9,8 +9,22 @@ body {
 
 a {
     text-decoration:none;
-    }
+}
 
+html::-webkit-scrollbar {
+  width: 12px;
+}
+
+html::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #95a5a6;
+  border: 1px solid #cacaca;
+}
+
+html::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #222;
+}
 #navitem {
     color: #E2E2E2;
     font-family: 'Nunito', sans-serif;
@@ -258,7 +272,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
 
 #drop-area {
@@ -268,7 +281,7 @@ a {
   background: #171717;
   text-align: center;
   border-radius: 20px;
-  border: 3px dashed #333;
+  border: 2px dashed #333;
   opacity: 0.7;
   cursor: pointer;
 }
@@ -306,6 +319,187 @@ a {
 
 
 
+
+
+
+
+
+
+.dragpageTrans {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  
+}
+
+#drop-areaTrans {
+  width: 1000px;
+  height: 450px;
+  padding: 50px;
+  background: #171717;
+  text-align: center;
+  border-radius: 20px;
+  border: 2px dashed #333;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+
+
+.dragicoTrans {
+  min-height: 50px;
+  display: inline-block;
+  width: 12em;
+  height: 12em;
+  margin-top: 35px;
+  transition: transform 0.3s ease;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='%2304135d' d='M11 16V7.85l-2.6 2.6L7 9l5-5l5 5l-1.4 1.45l-2.6-2.6V16zm-5 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z'/%3E%3C/svg%3E");
+}
+
+
+#img-viewTrans {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: #111;
+  border: 1px solid #04135d;
+
+}
+
+.dragtxtTrans {
+  color: #939393;
+  font-size: 20px;
+  margin-top: 25px;
+  font-family: 'Nunito', sans-serif; 
+}
+
+
+.doc-forms {
+  display: flex;
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 25px;
+  gap: 150px;
+}
+
+.sel {
+  appearance: none;
+  outline: 10px red;
+  border: 0;
+  box-shadow: none;
+
+  flex: 1;
+  padding: 0 1em;
+  color: #a1a1a1;
+  background-color: #111;
+  background-image: none;
+  cursor: pointer;
+}
+
+.sel::-ms-expand {
+  display: none;
+}
+
+.seldiv {
+  position: relative;
+  display: flex;
+  width: 24em;
+  height: 3.2em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+
+
+.seldiv::after {
+  content: '\25BC';
+  color: #E2E2E2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #151515;
+  transition: .3s all ease;
+  pointer-events: none;
+}
+
+.seldiv:hover::after {
+  color: #04135d;
+}
+
+
+.sel::-webkit-scrollbar {
+  width: 12px;
+}
+
+.sel::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #95a5a6;
+  border: 1px solid #cacaca;
+}
+
+.sel::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #222;
+}
+
+#transdocdisplay {
+  width: 1000px;
+  height: 450px;
+  padding: 50px;
+  background: #171717;
+  text-align: center;
+  border-radius: 20px;
+  border: 2px dashed #333;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+
+.viewdoc {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: #111;
+  border: 1px solid #04135d;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  color: #bebebe;
+  font-size: 30px;
+  flex-direction: column;
+  font-family: 'Nunito', sans-serif;
+  gap: 20px;
+}
+
+.msgbox {
+  text-align: left;
+  width: 90%;
+  line-height: 90px;
+  background-color: #171717;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+.btndoc {
+  background-color: #04135d;
+  --bs-btn-border-width: 0;
+  --bs-btn-font-family: 'Nunito', sans-serif;
+  --bs-btn-hover-bg: #020c41;
+  font-size: 20px;
+  padding: 8px 16px;
+  position: relative;
+  margin-left: 690px;
+  
+}
+
+.supported{
+  color: #545454;
+  font-family: 'Nunito', sans-serif;
+  margin-top: 5px;
+}
 
 
 

@@ -19,35 +19,112 @@ Translator
 
 
 {% block main %}
-<div class="container mt-5">
+<div>
     <form action="/doc-translation" method="post" class="d-flex" enctype="multipart/form-data"> 
-        <div class="mb-2">
-        <input type="file" class="form-control mb-2" name="input_file" placeholder="Enter" autofocus autocomplete="off" accept=".docx, .txt">
-    </div> 
-        <div class="mb-2">
-        <select class="form-control" name="input_lang" required>
-            <option selected disabled>Input language</option>
-            <option value="detect"> detect language(default) </option>
-            {% for lang in langs %}
-                <option value="{{ lang }}" >{{ lang }}</option>
-            {% endfor %}
-        </select>
-    </div>
 
-        <div class="mb-2">
-        <select class="form-control" name="output_lang" required>
-            <option selected disabled>Output language</option>
-            {% for lang in langs %}
-                <option value="{{ lang }}" >{{ lang }}</option>
-            {% endfor %}
-        </select>
+        <div class="doc-forms">
+            <div class="seldiv">
+            <select name="input_lang" required class="sel">
+                <option selected disabled>Input language</option>
+                <option value="detect"> detect language(default) </option>
+                {% for lang in langs %}
+                    <option value="{{ lang }}" >{{ lang }}</option>
+                {% endfor %}
+            </select>
         </div>
 
-        
-        <button type="submit" class="btn btn-primary ml-2" name="button">Enter</button>
-    </form>
-</div>
+            <div class="seldiv">
+            <select name="output_lang" required class="sel">
+                <option selected disabled>Output language</option>
+                {% for lang in langs %}
+                    <option value="{{ lang }}" >{{ lang }}</option>
+                {% endfor %}
+            </select>
+            </div>
+        </div>
+    </div>
 
-<div class="d-inline-flex focus-ring focus-ring-primary py-1 px-2 border rounded-2" style="margin-right: 300px;" aria-placeholder="Translation">{% if output %}  {{ output }} {% endif %}</div>
+   <div class="dragpageTrans">
+    <label for="file" id="drop-areaTrans">
+        <input type="file" name="input_file" id="file" accept=".docx, .txt" required hidden multiple="off">
+        <div id="img-viewTrans">
+            <div class="dragicoTrans"></div>
+            <div class="dragtxtTrans">Drag and drop or click here to upload file</div>
+            <div class="supported">Supported file types: .docx, .txt</div>
+            
+                 </div>
+            
+                </label>
+
+                <div id="transdocdisplay" style="display: none;">
+                    <div class="viewdoc">
+                        <div class="msgbox">
+                        <div id="msg"></div></div>
+                        <button type="submit" class="btn btn-primary btndoc">Translate</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+    <script>
+        const dropArea = document.getElementById("drop-areaTrans");
+        const inputFile = document.getElementById("file");
+        const imgV = document.getElementById("img-viewTrans");
+        const ico = document.querySelector(".dragicoTrans");
+        const txt = document.querySelector(".dragtxtTrans");
+        const docdisplay = document.getElementById("transdocdisplay");
+        let msg = document.getElementById("msg");
+        
+        
+        inputFile.addEventListener("change", uploadImage);
+
+
+        function uploadImage(){
+            ico.style.display = "none";
+            txt.style.display = "none";
+            dropArea.style.display = "none";
+            docdisplay.style.display = "block";
+            let filename = inputFile.files[0].name;
+            msg.innerHTML = filename; 
+        }
+    
+
+        document.body.addEventListener("dragover", function(e){
+            e.preventDefault();
+            dropArea.style.opacity = "0.9";
+            ico.style.transform = "scale(1.15)";
+        });
+    
+        document.body.addEventListener("drop", function(e){
+            e.preventDefault();
+            inputFile.files = e.dataTransfer.files;
+            ico.style.display = "none";
+            txt.style.display = "none";
+            dropArea.style.display = "none";
+            docdisplay.style.display = "block";
+            let filename = inputFile.files[0].name;
+            msg.innerHTML = filename;         
+        });
+    
+        document.body.addEventListener("dragleave", function(e){
+            e.preventDefault();
+            dropArea.style.opacity = "0.7";
+            ico.style.transform = "scale(1)";
+        });
+    
+        dropArea.addEventListener("mouseover", function(){
+            dropArea.style.opacity = "0.8";
+            ico.style.transform = "scale(1.15)";
+        });
+    
+        dropArea.addEventListener("mouseout", function(){
+            dropArea.style.opacity = "0.7";
+            ico.style.transform = "scale(1)";
+        });
+         
+    </script>
+
 
 {% endblock %}
