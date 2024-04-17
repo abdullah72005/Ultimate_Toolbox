@@ -25,6 +25,13 @@ html::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background-color: #222;
 }
+
+
+footer{
+  margin-top: auto;
+}
+
+
 #navitem {
     color: #E2E2E2;
     font-family: 'Nunito', sans-serif;
@@ -88,7 +95,6 @@ html::-webkit-scrollbar-thumb {
     height:30px;
     color: #757575;
     font-family: 'Alice';
-    margin-top: auto;
 }
 
 .footerlink {
@@ -454,7 +460,6 @@ html::-webkit-scrollbar-thumb {
   border-radius: 20px;
   border: 2px dashed #333;
   opacity: 0.7;
-  cursor: pointer;
 }
 
 
@@ -491,7 +496,8 @@ html::-webkit-scrollbar-thumb {
   font-size: 20px;
   padding: 8px 16px;
   position: relative;
-  margin-left: 690px;
+  margin-right: 50px;
+  margin-left: auto;
   
 }
 
@@ -533,6 +539,37 @@ html::-webkit-scrollbar-thumb {
   .dragtxt {
     margin-top: 10px;
   }
+
+  #drop-areaTrans{
+    width: 80%;
+  }
+
+
+  .doc-forms {
+    gap: 90px;
+    padding-top: 70px;
+    padding-bottom: 55px;
+  }
+
+
+  .seldiv {
+    width: 18em;
+    height: 2.9em;
+
+  }
+
+  #transdocdisplay {
+    width: 80%;
+    
+  }
+
+  .btndoc {
+    margin-right: 30px;
+    
+  }
+
+  
+  
 }
 
 @media only screen and (max-width: 767px) {
@@ -557,6 +594,44 @@ html::-webkit-scrollbar-thumb {
     font-size: 18px;
     margin-top: 30px;
   }
+
+  #drop-areaTrans {
+    width: 80%;
+  }
+
+
+  .doc-forms {
+    gap: 70px;
+  }
+
+
+  .seldiv {
+    width: 14em;
+
+  }
+
+  .dragtxtTrans {
+    font-size: 19px;
+}
+
+.dragicoTrans {
+  width: 11em;
+  height: 11em;
+  margin-top: 45px;
+  }
+
+
+  .msgbox {
+    line-height: 70px;
+    font-size: 21px;
+  }
+  
+
+  .btndoc {
+    font-size: 17px;
+    margin-right: 27px;
+  }
+
 }
 @media only screen and (max-width: 639px) {
   .ag-courses_item {
@@ -601,5 +676,41 @@ html::-webkit-scrollbar-thumb {
   .dragtxt {
     font-size: 15px;
     margin-bottom: 20px;
+  }
+
+  .doc-forms {
+    gap: 30px;
+  }
+
+
+  .seldiv {
+    width: 10em;
+
+  }
+
+  .dragtxtTrans {
+    font-size: 15px;
+}
+
+.dragicoTrans {
+  width: 9em;
+  height: 9em;
+  margin-top: 55px;
+  }
+
+  .supported{
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .msgbox {
+    line-height: 50px;
+    font-size: 16px;
+  }
+  
+
+  .btndoc {
+    font-size: 15px;
+    margin-right: 25px;
   }
 }

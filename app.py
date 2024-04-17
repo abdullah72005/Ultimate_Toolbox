@@ -443,6 +443,7 @@ def translatedoc():
             ))
             extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + input_filename, mime=True)
 
+
             # Check if the file extension is in the allowed extensions set
             if extension not in ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']:
 
