@@ -21,30 +21,20 @@ function toggleSlider() {
     }
 }
 
-document.getElementById("applyButton").addEventListener("click", function() {
-    var form = document.getElementById("filterForm");
-    var formData = new FormData(form);
-
-    fetch('/image/filter', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.imgPath);
-        document.getElementById("img").src = data.imgPath;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-
+// Execute the following code when the window finishes loading
 window.onload = function () {
+    // Add a new entry to the browser's history stack with the same URL
+    // This ensures that when the user navigates back, they stay on the same page
     window.history.pushState(null, '', window.location.href);
+
+    // Listen for the popstate event, which occurs when the user navigates back or forward
     window.onpopstate = function () {
+        // When the user navigates back, attempt to move forward in the history
+        // This effectively prevents the user from going back to the previous page
         window.history.forward();
     };
 };
+
 
 // Function to show/hide filter and crop blocks
 function showBlock(selectedBlock) {
