@@ -417,7 +417,6 @@ def imageFilter():
 
         # Get the operation type
         operation = request.form.get("operation")
-        print(operation)
         
         if operation == 'filter':
             # If operation is 'filter', handle filter application
@@ -469,7 +468,6 @@ def imageFilter():
 
     else:
         # If request method is 'GET', render default image.html template
-        print("why are you here")
         return render_template("image.html")
 
 

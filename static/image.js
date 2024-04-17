@@ -10,12 +10,9 @@ function toggleSlider() {
 
     // Check if the selected option is "Blur"
     if (choiceSelect.value === "Blur") {
-        console.log("It is blurtime"); // Log a message to the console
         sliderLabel.style.display = "block"; // Show slider label
         sliderInput.style.display = "block"; // Show slider input
     } else {
-        console.log("Why isn't it choosing blur :("); // Log a message to the console
-        console.log(choiceSelect.value); // Log the selected value to the console
         sliderLabel.style.display = "none"; // Hide slider label
         sliderInput.style.display = "none"; // Hide slider input
     }
@@ -60,19 +57,16 @@ function showBlock(selectedBlock) {
 
 // Event listener for changing drag mode to 'crop'
 document.getElementById('dragCrop').addEventListener('click', function() {
-    console.log("crop"); // Log a message to the console
     cropper.setDragMode('crop'); // Set Cropper drag mode to 'crop'
 });
 
 // Event listener for changing drag mode to 'move'
 document.getElementById('dragMove').addEventListener('click', function() {
-    console.log("move"); // Log a message to the console
     cropper.setDragMode('move'); // Set Cropper drag mode to 'move'
 });
 
 // Event listener for changing drag mode to 'none'
 document.getElementById('dragNone').addEventListener('click', function() {
-    console.log("none"); // Log a message to the console
     cropper.setDragMode('none'); // Set Cropper drag mode to 'none'
 });
 
