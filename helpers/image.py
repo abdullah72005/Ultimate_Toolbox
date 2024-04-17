@@ -15,10 +15,6 @@ filters_dic = {
     "Very smooth": ImageFilter.SMOOTH_MORE  # Very smooth filter
 }
 
-# Function to return available filter options
-def showFilters():
-    return filters_dic.keys()
-
 # Function to apply filter to image
 def filterImg(imgPath, filter_name, fileName, value, isCropped):
     # Open the original image

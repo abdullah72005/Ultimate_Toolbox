@@ -21,6 +21,31 @@ function toggleSlider() {
     }
 }
 
+document.getElementById("applyButton").addEventListener("click", function() {
+    var form = document.getElementById("filterForm");
+    var formData = new FormData(form);
+
+    fetch('/image/filter', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.imgPath);
+        document.getElementById("img").src = data.imgPath;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+window.onload = function () {
+    window.history.pushState(null, '', window.location.href);
+    window.onpopstate = function () {
+        window.history.forward();
+    };
+};
+
 // Function to show/hide filter and crop blocks
 function showBlock(selectedBlock) {
     var filterBlock = document.getElementById("filterBlock");

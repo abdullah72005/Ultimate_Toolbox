@@ -14,7 +14,7 @@ from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, conve
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
 from helpers.yt import print_audio_streams, download_audio, get_video_info
-from helpers.image import filterImg, showFilters, filters_dic, cropImg
+from helpers.image import filterImg, filters_dic, cropImg
 
 
 app = Flask(__name__)
@@ -379,7 +379,6 @@ def image():
 
             # Check if the file extension is in the allowed extensions set
             if extension not in app.config['IMAGE_EXTENTIONS']:
-
                 # Delete files in folder
                 deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
@@ -401,23 +400,24 @@ def image():
         imgPath = os.path.join("../", filePath)
 
         # Retrieve available filters
-        filters = showFilters()
+        filters = filters_dic
 
         # Return the imageFilter.html template with the filename, image path, and available filters
         return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
-
+    
 @app.route('/image/filter', methods=["GET", "POST"])
 def imageFilter():
-    # Dictionary containing filter options
-    filters = filters_dic
-    
     if request.method == "POST":
+        # Dictionary containing filter options
+        filters = filters_dic       
+
         # Retrieve file path and file name from session
         filePath = session['filePath']
         fileName = session['fileName']
 
         # Get the operation type
         operation = request.form.get("operation")
+        print(operation)
         
         if operation == 'filter':
             # If operation is 'filter', handle filter application
@@ -433,7 +433,6 @@ def imageFilter():
                     # If no filter selected or original filter selected, display original image
                     imgPath = f"../{filePath}"
                     return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
-                
                 else:
                     # Apply selected filter to the image
                     if isCropped:
@@ -443,6 +442,7 @@ def imageFilter():
 
                     # Apply filter to the image
                     outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
+                    fileName = os.path.join("New" + fileName)
                     imgPath = f"../{outputPath}"
                     return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
                                    
@@ -454,8 +454,8 @@ def imageFilter():
         else:
             # If operation is 'edit', handle image cropping
             croppedImg = request.form.get('cropped_image')
-
             cropped_image_path, croppedImgName = cropImg(croppedImg ,fileName)
+            
             # Store cropped image details in session
             session['croppedImgPath'] = cropped_image_path
             session['croppedImgName'] = croppedImgName
@@ -464,7 +464,8 @@ def imageFilter():
             isCropped = 1
 
             croppedImgPath = f"../{cropped_image_path}"
-            return render_template("imagefilter.html", fileName=fileName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
+            
+            return render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
 
     else:
         # If request method is 'GET', render default image.html template
