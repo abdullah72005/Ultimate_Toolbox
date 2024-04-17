@@ -15,8 +15,10 @@
         <link href="https://fonts.cdnfonts.com/css/nunito" rel="stylesheet">
                 
         
-        <link href="/static/styles.css" rel="stylesheet">
+        <link href="/static/stylesheets/styles.css" rel="stylesheet">
         <link rel="icon" href="static/imgs/icon2.svg" type="image/icon">
+        {% block style %}{% endblock %}
+
 
         <title>{% block title %}{% endblock %}</title>
     </head>
