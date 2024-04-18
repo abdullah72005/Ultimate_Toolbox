@@ -104,11 +104,16 @@ Translator
         document.body.addEventListener("drop", function(e){
             e.preventDefault();
             inputFile.files = e.dataTransfer.files;
+            
+            if (inputFile == null){
+                return;
+            }
+            
+            let filename = inputFile.files[0].name;
             ico.style.display = "none";
             txt.style.display = "none";
             dropArea.style.display = "none";
             docdisplay.style.display = "block";
-            let filename = inputFile.files[0].name;
             msg.innerHTML = filename;         
         });
     
