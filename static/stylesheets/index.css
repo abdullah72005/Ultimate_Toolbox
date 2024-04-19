@@ -1,5 +1,5 @@
 .ag-format-container {
-    width: 1500px;
+    width: 100%;
     margin: 0 auto;
   }
 
@@ -151,6 +151,22 @@
 
 
 
+@media only screen and (max-width: 1375px) {
+    .card-description {
+      font-size: 14px;
+  }
+
+  .ag-courses-item_title {
+    min-height: 60px;
+    font-size: 25px;
+  }
+
+}
+
+
+
+
+
 @media only screen and (max-width: 979px) {
     .ag-courses_item {
       -ms-flex-preferred-size: calc(50% - 30px);
@@ -177,8 +193,7 @@
     .ag-courses-item_title {
       min-height: 72px;
       line-height: 1;
-  
-      font-size: 24px;
+
     }
     .ag-courses-item_link {
       padding: 22px 40px;

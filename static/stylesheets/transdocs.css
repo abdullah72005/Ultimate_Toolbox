@@ -177,7 +177,7 @@
   
 
 
-  @media only screen and (max-width: 979px) {
+  @media only screen and (max-width: 1050px) {
     #drop-areaTrans{
       width: 80%;
     }
@@ -248,28 +248,40 @@
   
   }
   @media only screen and (max-width: 639px) {
+
+    #drop-areaTrans {
+      padding: 40px;
+    }
+
+
     .doc-forms {
-      gap: 30px;
+      gap: 40px;
     }
   
   
     .seldiv {
-      width: 10em;
+      width: 10.5em;
   
+    }
+
+    .sel {
+      font-size: 14px;
     }
   
     .dragtxtTrans {
-      font-size: 15px;
+      font-size: 17px;
+      padding: 10px;
+      margin-top: 10px;
   }
   
   .dragicoTrans {
-    width: 9em;
-    height: 9em;
-    margin-top: 55px;
+    width: 10em;
+    height: 10em;
+    margin-top: 50px;
     }
   
     .supported{
-      font-size: 12px;
+      font-size: 14px;
       margin-top: 10px;
     }
   
@@ -281,6 +293,69 @@
   
     .btndoc {
       font-size: 15px;
-      margin-right: 25px;
+      margin-right: 20px;
     }
+
+    #transdocdisplay {
+      padding: 40px;
+      
+    }
+  }
+
+
+
+  @media only screen and (max-width: 460px) {
+
+
+    #drop-areaTrans {
+      height: 370px;
+    }
+
+
+    .doc-forms {
+      gap: 20px;
+    }
+  
+  
+    .seldiv {
+      width: 9em;
+  
+    }
+
+    .sel {
+      font-size: 12px;
+    }
+  
+    .dragtxtTrans {
+      font-size: 15px;
+      margin-top: 0;
+  }
+  
+  .dragicoTrans {
+    width: 8em;
+    height: 8em;
+    margin-top: 30px;
+    }
+  
+    .supported{
+      font-size: 11px;
+    }
+  
+    #transdocdisplay {
+      height: 370px;
+      
+    }
+
+
+    .msgbox {
+      line-height: 30px;
+      font-size: 13px;
+    }
+    
+  
+    .btndoc {
+      font-size: 12px;
+      margin-right: 17px;
+    }
+    
   }

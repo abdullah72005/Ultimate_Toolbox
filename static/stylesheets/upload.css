@@ -93,7 +93,7 @@
     .dragico{
       width: 13em;
       height: 13em;
-      margin-top: 90px;
+      margin-top: 70px;
   
     }
   
@@ -103,23 +103,74 @@
     }
   
   }
+
   @media only screen and (max-width: 639px) {
 
     #drop-area{
-      width: 90%;
+      width: 450px;
       height: 50%;
       margin-left: 20px;
+      padding: 40px;
       
     }
   
     .dragico{
       width: 10em;
       height: 10em;
+      margin-top: 50px;
     }
   
     .dragtxt {
       font-size: 15px;
       margin-bottom: 20px;
+      padding: 10px;
+    }
+  
+  }  
+
+
+  @media only screen and (max-width: 500px) {
+
+    #drop-area{
+      width: 350px;
+      height: 30%;
+      margin-left: 20px;
+      
+    }
+  
+    .dragico{
+      width: 9em;
+      height: 9em;
+      margin-top: 45px;
+    }
+  
+    .dragtxt {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  
+  }  
+
+
+  @media only screen and (max-width: 400px) {
+
+    #drop-area{
+      width: 290px;
+      height: 20%;
+      margin-left: 20px;
+      padding: 30px 30px;
+      
+    }
+  
+    .dragico{
+      width: 8em;
+      height: 8em;
+      margin-top: 40px;
+    }
+  
+    .dragtxt {
+      margin-top: 15px;
+      font-size: 12px;
     }
   
   }  
