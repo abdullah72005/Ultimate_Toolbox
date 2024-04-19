@@ -13,7 +13,7 @@ from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchEr
 
 
 from helpers.functions import apology, deleteFiles
-from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf
+from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf, imagetypes, audioTypes, txttypes, csvtypes
 from helpers.password import generate_password
 from helpers.qr import convqr, isvalid
 from helpers.yt import print_audio_streams, download_audio, get_video_info
@@ -90,7 +90,7 @@ def upload():
                 print(extension)
 
                 # Check if the file extension is in the allowed extensions set
-                if extension not in app.config['ALLOWED_EXTENSIONS']:
+                if extension not in app.config['ALLOWED_EXTENSIONS'] + ['application/octet-stream']:
 
                     # Delete files in folder
                     deleteFiles(app.config['UPLOAD_DIRECTORY'])
@@ -107,13 +107,39 @@ def upload():
                 # load apology for invalid file size
                 return apology('File is larger than the 16mb limit.')
 
-            # make variable with desired output choices
-            outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['AUDIO_EXTENTIONS'],app.config['CSV_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'], app.config['AUDIO'], app.config['CSV'])
-
             # get file name
             fileName = os.path.splitext(secure_filename(file.filename))[0]
             fileExtention = os.path.splitext(secure_filename(file.filename))[1]
-            finalname = str(fileName) + str(fileExtention)            
+            finalname = str(fileName) + str(fileExtention)    
+
+            if extension == "application/octet-stream":
+
+                    # split text to get suffix (extesnsion)
+                    ext = finalname.split('.')[-1]
+
+                    # make a dict with all extention-type pairs
+                    extDict = imagetypes
+                    extDict.update(audioTypes)
+                    extDict.update(txttypes)
+                    extDict.update(csvtypes)
+                    
+                    # try to get extension 
+                    value = [i for i in extDict if extDict[i]== ext]
+                    extension = value[0]
+
+                    # if no extension then filetype unsupported
+                    if extension == None:
+                         # Delete files in folder
+                        deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+                        # load apology for invalid extenion and clear 
+                        return apology("invalid file type")
+
+
+            # make variable with desired output choices
+            outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['AUDIO_EXTENTIONS'],app.config['CSV_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'], app.config['AUDIO'], app.config['CSV'])
+
+                   
             # Return a success message and the select desired output 
             return render_template("conversion.html", outputChoices=outputChoices, fileName=finalname)
 
@@ -126,7 +152,7 @@ def con():
     if request.method == "POST":
         try:
             # Get the list of files in the upload directory
-            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file != 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt']
+            files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file !=     's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2   r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt']
 
             # Get the user's choice from the form
             choice = request.form.get("choice")
@@ -137,7 +163,31 @@ def con():
                 fileExtention = os.path.splitext(secure_filename(file))[1]
                 finalname = str(fileName) + str(fileExtention)
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + finalname, mime=True) 
-                
+
+
+                if extension == "application/octet-stream":
+
+                    # split text to get suffix (extesnsion)
+                    ext = finalname.split('.')[-1]
+
+                    # make a dict with all extention-type pairs
+                    extDict = imagetypes
+                    extDict.update(audioTypes)
+                    extDict.update(txttypes)
+                    extDict.update(csvtypes)
+                    
+                    # try to get extension 
+                    value = [i for i in extDict if extDict[i]== ext]
+                    extension = value[0]
+
+                    # if no extension then filetype unsupported
+                    if extension == None:
+                         # Delete files in folder
+                        deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+                        # load apology for invalid extenion and clear 
+                        return apology("invalid file type")
+
 
                 # if user inputs an image
                 if extension in app.config['IMAGE_EXTENTIONS']:
@@ -156,7 +206,7 @@ def con():
 
                     if extension == "text/plain" and choice == "docx":
                         outputFile = txt2word(file, fileName, choice)
-                    
+
                     if extension == "text/plain" and choice == "pdf":
                         outputFile = txt2pdf(file, fileName, choice)
 
@@ -165,10 +215,10 @@ def con():
 
                     if extension == "application/pdf" and choice == "txt":
                         outputFile = pdf2txt(file, fileName, choice)
-                    
+
                 # if user inputs audio
                 elif extension in app.config['AUDIO_EXTENTIONS']:
-    
+
                     # convert the audio to the desired output
                     outputFile = convert_audio(file, extension, fileName, choice)
 
@@ -177,7 +227,7 @@ def con():
 
                     # convert the csv file for the desired output
                     outputFile = convert_csv(file, extension, fileName, choice)
-                    
+
             # return converted file
             return outputFile
 
@@ -422,6 +472,7 @@ def translatedoc():
             output_lang = request.form.get('output_lang')
             input_lang = request.form.get('input_lang')
             langs = googletrans.LANGCODES
+            x = 1 # flag
 
 
             # check input
@@ -450,11 +501,30 @@ def translatedoc():
             # Check if the file extension is in the allowed extensions set
             if extension not in ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']:
 
-                # Delete files in folder
-                deleteFiles(app.config['UPLOAD_DIRECTORY'])
+                if extension == 'application/octet-stream':
 
-                # load apology for invalid extenion and clear 
-                return apology("invalid file type")
+                    try:
+                        ext = input_filename.split('.')[-1]
+                        
+                        if ext in ['txt', 'docx']:
+
+                            x = 0
+                            fileName = os.path.splitext(secure_filename(input_file.filename))[0]
+                            outputFile = trans_doc(input_file, ext, fileName, input_lang, output_lang, langs)
+
+
+                    except:
+                        # Delete files in folder
+                        deleteFiles(app.config['UPLOAD_DIRECTORY'])
+
+                        # load apology for invalid extenion and clear 
+                        return apology("please input another file")
+                else:
+                    # Delete files in folder
+                    deleteFiles(app.config['UPLOAD_DIRECTORY'])
+    
+                    # load apology for invalid extenion and clear 
+                    return apology("invalid file type")
             
         # Handle the case where the file size exceeds the limit
         except RequestEntityTooLarge:
@@ -465,8 +535,10 @@ def translatedoc():
             # load apology for invalid file size
             return apology('File is larger than the 16mb limit.')
 
-        fileName = os.path.splitext(secure_filename(input_file.filename))[0]
-        outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang, langs)
+        # x will be flagged if the item was an octec file type
+        if x:
+            fileName = os.path.splitext(secure_filename(input_file.filename))[0]
+            outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang, langs)
         
         return outputFile
 

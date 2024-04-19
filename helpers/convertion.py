@@ -65,7 +65,7 @@ def conImgtoImg(fileName, file, app, choice):
 
 def getOutputChoices(extension, ime, txte, aue, csve, im, txt, au, csv):
     # if file is image let output choices be image options and remove the file extention
-    if extension in ime:
+    if extension in ime + ['application/octet-stream']:
         x = [choice for choice in im if choice != imagetypes[extension] and choice not in ['pcx', 'psd']] + ['pdf']
         return x
 
@@ -109,7 +109,7 @@ def word2pdf(file, fileName, choice):
     doc = Document(word_path)
 
     # Extract text from paragraphs and add newline between them
-    text_content = '\n'.join([paragraph.text for paragraph in doc.paragraphs])
+    text_content = '\n'.join([paragraph.text for paragraph in doc.paragraphs if paragraph.text])
 
     # Create a PDF using reportlab
     pdf_canvas = canvas.Canvas(pdf_path, pagesize=letter)
@@ -149,12 +149,14 @@ def pdf2word(file, fileName, choice):
     # Loop through each page in the PDF
     for page in doc:
 
-        # Extract text from the page
-        text = page.get_text("text")
+        # make sure page has text
+        if page.get_text("text"):
+            # Extract text from the page
+            text = page.get_text("text")
 
-        # Add each paragraph as a new paragraph in the Word document
-        for paragraph in text.split('\n'):
-            document.add_paragraph(paragraph)
+            # Add each paragraph as a new paragraph in the Word document
+            for paragraph in text.split('\n'):
+                document.add_paragraph(paragraph)
 
     # Combine folder path with the output Word file name
     word_path = os.path.join(uploadFolder, f"{fileName}.{choice}")  
@@ -220,12 +222,14 @@ def txt2pdf(file, fileName, choice):
     # Split content by <br/> to handle newline characters
     lines = content.split('<br/>')
 
-    # Write content to PDF
-    for i, line in enumerate(lines):
-        y_position = height - 50 - (i * 14)  # Adjust spacing
+    # make sure input file has text
+    if lines:
+        # Write content to PDF
+        for i, line in enumerate(lines):
+            y_position = height - 50 - (i * 14)  # Adjust spacing
 
-        # Strip leading spaces and then draw the line
-        pdf_canvas.drawString(50, y_position, line.lstrip())
+            # Strip leading spaces and then draw the line
+            pdf_canvas.drawString(50, y_position, line.lstrip())
 
     # Save the PDF
     pdf_canvas.save()
@@ -248,7 +252,7 @@ def word2txt(file, fileName, choice):
     doc = Document(docx_path)
 
     # Extract text from paragraphs and add newline between them
-    text_content = '\n'.join([paragraph.text for paragraph in doc.paragraphs])
+    text_content = '\n'.join([paragraph.text for paragraph in doc.paragraphs if paragraph.text])
 
     # Write the text content to a TXT file
     with open(txt_path, 'w') as txt_file:

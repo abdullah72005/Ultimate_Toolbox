@@ -26,6 +26,7 @@ def translatetxt(input_txt, input_lang, output_lang, langs):
 
 def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
 
+
     #if extension == 'application/pdf':
 #
     #    print('font1')
@@ -88,7 +89,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
     #    print('sendfile')
     #    outputFile = send_file(output_filepath, as_attachment=True)
 
-    if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+    if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or 'docx':
 
         # Load the input Word document
         doc = Document(input_file)
@@ -104,19 +105,22 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
 
             # Determine the source language if it is set to 'detect'
             srcLang = input_lang
-            if srcLang == 'detect':
-                g = translator.detect(paragraph.text)
-                srcLang = g.lang
 
-                # Translate the paragraph from detect language to the output language
-                output = translator.translate(paragraph.text, src=srcLang, dest=langs[output_lang]).text
+            # make sure the paragraph includes text to prevent errors
+            if paragraph.text:
+                if srcLang == 'detect':
+                    g = translator.detect(paragraph.text)
+                    srcLang = g.lang
 
-            else:
-                # Translate the paragraph from the specified input language to the output language
-                output = translator.translate(paragraph.text, src=langs[input_lang], dest=langs[output_lang]).text
+                    # Translate the paragraph from detect language to the output language
+                    output = translator.translate(paragraph.text, src=srcLang, dest=langs[output_lang]).text
 
-            # Add the translated paragraph to the new document
-            new_document.add_paragraph(output)
+                else:
+                    # Translate the paragraph from the specified input language to the output language
+                    output = translator.translate(paragraph.text, src=langs[input_lang], dest=langs[output_lang]).text
+
+                # Add the translated paragraph to the new document
+                new_document.add_paragraph(output)
 
         # Save the translated document with a new filename
         new_filename = f"{fileName}-{output_lang}.docx"
@@ -126,7 +130,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
         word_path = os.path.join(uploadFolder, new_filename)
         outputFile = send_file(word_path, as_attachment=True)
     
-    elif extension == 'text/plain':
+    elif extension == 'text/plain' or 'txt':
 
         # declare input and output paths
         new_filename = f"{fileName}-{output_lang}.txt"
@@ -142,15 +146,20 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
         
         # Determine the source language if it is set to 'detect'
         srcLang = input_lang
-        if srcLang == 'detect':
-            g = translator.detect(text)
-            srcLang = g.lang
+        
+        # make sure that there is text to translate
+        if text:
+            if srcLang == 'detect':
+                g = translator.detect(text)
+                srcLang = g.lang
 
-            # Translate the paragraph from detect language to the output language
-            transtxt = str(translator.translate(text, src=srcLang, dest=langs[output_lang]).text)
+                # Translate the paragraph from detect language to the output language
+                transtxt = str(translator.translate(text, src=srcLang, dest=langs[output_lang]).text)
+            else:
+                # Translate the paragraph from the specified input language to the output language
+                transtxt = str(translator.translate(text, src=langs[input_lang], dest=langs[output_lang]).text)
         else:
-            # Translate the paragraph from the specified input language to the output language
-            transtxt = str(translator.translate(text, src=langs[input_lang], dest=langs[output_lang]).text)
+            transtxt = None
 
         
         # Write the text content to a TXT file
