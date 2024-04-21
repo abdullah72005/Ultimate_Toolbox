@@ -1,0 +1,119 @@
+.transpage{
+    width: 100%;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#textbox{
+    width: 1200px;
+    height: 400px;
+    background: transparent;
+    border-radius: 10px;
+    opacity: 0.7;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #04135d;
+    display: flex;
+    gap: 20px;
+}
+
+.inputbox{
+    width: 40%;
+    height: 100%;
+    resize: none;
+    overflow:hidden;
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-size: 25px;
+    font-family: 'Nunito', sans-serif; 
+    outline: none;
+    border: 2px solid #04135d;
+    background-color: #111;
+    color: #E2E2E2;
+}
+
+.outputbox{
+    width: 40%;
+    height: 100%;
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-size: 25px;
+    font-family: 'Nunito', sans-serif; 
+    border: 2px solid #04135d;
+    background-color: #111;
+    color: #E2E2E2;
+    display: inline-block;
+}
+
+
+
+.doc-forms {
+    display: flex;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 25px;
+    gap: 150px;
+  }
+  
+  .sel {
+    appearance: none;
+    outline: 10px red;
+    border: 0;
+    box-shadow: none;
+  
+    flex: 1;
+    padding: 0 1em;
+    color: #a1a1a1;
+    background-color: #111;
+    background-image: none;
+    cursor: pointer;
+  }
+  
+  .sel::-ms-expand {
+    display: none;
+  }
+  
+  .seldiv {
+    position: relative;
+    display: flex;
+    width: 24em;
+    height: 3.2em;
+    border-radius: .25em;
+    overflow: hidden;
+  }
+  
+  
+  .seldiv::after {
+    content: '\25BC';
+    color: #E2E2E2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    background-color: #151515;
+    transition: .3s all ease;
+    pointer-events: none;
+  }
+  
+  .seldiv:hover::after {
+    color: #04135d;
+  }
+  
+  
+  .sel::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .sel::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #95a5a6;
+    border: 1px solid #cacaca;
+  }
+  
+  .sel::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #222;
+  }
+

@@ -5,6 +5,9 @@ Translator
 {% endblock %}
 
 
+{% block style %}<link href="/static/stylesheets/translate.css" rel="stylesheet">{% endblock %}
+
+
 {% block nav %}
 
 <a id="navitem" class="nav-link" href="/">Home</a>
@@ -19,36 +22,50 @@ Translator
 
 
 {% block main %}
-<div class="container mt-5">
-    <form action="/translation" method="post" class="d-flex"> 
-        <div class="mb-2">
-        <input type="text" class="form-control mb-2" name="input_txt" placeholder="Enter" autofocus autocomplete="off">
-    </div> 
-        <div class="mb-2">
-        <select class="form-control" name="input_lang" required>
-            <option selected disabled>Input language</option>
-            <option value="detect"> detect language </option>
-            {% for lang in langs %}
-                <option value="{{ lang }}" >{{ lang }}</option>
-            {% endfor %}
-        </select>
-    </div>
 
-        <div class="mb-2">
-        <select class="form-control" name="output_lang" required>
-            <option selected disabled>Output language</option>
-            {% for lang in langs %}
-                <option value="{{ lang }}" >{{ lang }}</option>
-            {% endfor %}
-        </select>
+
+
+<div class="transpage">
+    <form action="/translation" method="post" class="d-flex"> 
+
+
+        <div class="doc-forms">
+            <span class="seldiv">
+            <select name="input_lang" required class="sel">
+                <option selected disabled>Input language</option>
+                <option value="detect"> detect language </option>
+                {% for lang in langs %}
+                    <option value="{{ lang }}" >{{ lang }}</option>
+                {% endfor %}
+            </select>
+        </span>
+        
+            <span class="seldiv">
+            <select name="output_lang" required class="sel">
+                <option selected disabled>Output language</option>
+                {% for lang in langs %}
+                    <option value="{{ lang }}" >{{ lang }}</option>
+                {% endfor %}
+            </select>
+        </span>
         </div>
 
-        
-        <button type="submit" class="btn btn-primary ml-2" name="button">Enter</button>
+
+
+
+        <label for="txt" id="textbox">
+            <textarea name="input_txt" id="txt" placeholder="Enter" autofocus autocomplete="off" class="inputbox" wrap="soft" required></textarea>
+            <span class="outputbox">{% if output %}  {{ output }}  {% endif %}</span> 
+            
+            <button type="submit" class="btn btn-primary ml-2" name="button">Enter</button>
+    </label>
+
+
+    
     </form>
 </div>
 
-<div class="d-inline-flex focus-ring focus-ring-primary py-1 px-2 text-decoration-none border rounded-2" style="margin-right: 300px;">{% if output %}  {{ output }}  {% endif %}</div>
+
 
 <a href="/doc-translation">Translate documents</a>
 {% endblock %}
