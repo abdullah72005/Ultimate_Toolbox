@@ -26,7 +26,7 @@ Translator
 
 
 
-
+<div>
 <div class="transpage">
     <form action="/translation" method="post" class="d-flex transform"> 
 
@@ -34,8 +34,7 @@ Translator
         <div class="doc-forms">
             <span class="seldiv">
             <select name="input_lang" required class="sel">
-                <option selected disabled>Input language</option>
-                <option value="detect"> detect language </option>
+                <option value="detect" selected> detect language (default) </option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
                 {% endfor %}
@@ -44,7 +43,7 @@ Translator
         
             <span class="seldiv">
             <select name="output_lang" required class="sel">
-                <option selected disabled>Output language</option>
+                <option selected disabled>Output language (required)</option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
                 {% endfor %}
@@ -54,19 +53,17 @@ Translator
 
 
 
-
+        
         <label for="txt">
             <span id="textbox">
             <textarea name="input_txt" id="txt" autofocus autocomplete="off" class="inputbox" wrap="soft" required></textarea>
-            <span class="outputbox">{% if output %}  {{ output }}  {% else %} <span style="font-size: 35px;">Translation</span> {% endif %} 
+            <span class="outputbox">{% if output %}  {{ output }}  {% else %} <span class="translation">Translation</span> {% endif %} 
                 <button type="submit" class="btn btn-primary ml-2 transbutt" name="button">Enter</button>
             </span> 
         </span>
             
             
     </label>
-
-
     
     </form>
 </div>
@@ -77,17 +74,11 @@ Translator
 <script>
     const txt = document.getElementById("txt");
 
+    var input_txt = '{{input_txt}}';
 
-
-
-    function ali_saveText() {
-        const inputText = txt.value.trim(); 
-        if (inputText) {
-            localStorage.setItem('savedText', inputText); 
-        }
-    };
-
-
+    if (input_txt) {
+        txt.textContent = input_txt;
+    }
 </script>
 
 {% endblock %}

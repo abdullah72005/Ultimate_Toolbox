@@ -448,7 +448,7 @@ def translate():
         output = translatetxt(input_txt, input_lang, output_lang, langs)
 
         # load html with translated output
-        return render_template("translate.html", langs=langs, output=output)
+        return render_template("translate.html", langs=langs, output=output, input_txt=input_txt)
 
     else:
         # get all languages supported by googletrans and load html

@@ -155,14 +155,9 @@
     justify-items: center;
     display: flex;
     padding: 10px;
-    
-    
     border: 1px solid #111;
     border-radius: .25em;
     
-  
-    
-
     & .doclink {
       color: #ccc;
     
@@ -176,3 +171,259 @@
     }
   
   }
+
+  .translation{
+    font-size: 35px;
+  }
+
+  @media only screen and (max-width: 1420px) {
+    .linkdiv{
+      margin-right: 100px;
+    }
+  }
+
+  @media only screen and (max-width: 1300px) {
+    .linkdiv{
+      top: 0;
+    }
+
+    #textbox{
+      width: 1100px;
+      height: 380px;
+    }
+
+    .seldiv {
+      width: 22em;
+      height: 3em;
+    }
+
+    .doc-forms {
+      gap: 180px;
+    }
+  }
+
+  @media only screen and (max-width: 1150px) {
+    #textbox{
+      width: 980px;
+      height: 330px;
+    }
+
+    .seldiv {
+      width: 20em;
+      height: 2.9em;
+    }
+
+    .doc-forms {
+      gap: 150px;
+      padding-top: 20px;
+    }
+
+    .linkdiv{
+      width: 240px;
+      height: 50px;
+      font-size: 18px;
+      margin-right: 80px;
+    }
+
+    .transpage{
+      min-height: 450px;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    #textbox{
+      width: 880px;
+      height: 300px;
+    }
+
+    .seldiv {
+      width: 19em;
+      height: 2.8em;
+    }
+
+    .doc-forms {
+      gap: 130px;
+    }
+
+    .transbutt{
+     
+      font-size: 20px;
+      padding: 7px 14px;
+      
+    }
+
+    .transpage{
+      min-height: 400px;
+    }
+
+    .translation{
+      font-size: 30px;
+    }
+
+    .inputbox{
+      font-size: 23px;
+    }
+
+
+  }
+
+  @media only screen and (max-width: 900px) {
+    #textbox{
+      width: 780px;
+      height: 270px;
+    }
+
+    .seldiv {
+      width: 17em;
+      height: 2.5em;
+    }
+
+    .doc-forms {
+      gap: 110px;
+    }
+
+    .transpage{
+      min-height: 380px;
+    }
+
+    .translation{
+      font-size: 28px;
+    }
+
+    .inputbox{
+      font-size: 20px;
+    }
+
+  }
+
+
+  @media only screen and (max-width: 900px) {
+    #textbox{
+      width: 600px;
+      height: 240px;
+    }
+
+    .seldiv {
+      width: 16em;
+      height: 2.4em;
+      font-size: 12px;
+    }
+
+    .doc-forms {
+      gap: 80px;
+    }
+
+    .translation{
+      font-size: 24px;
+    }
+
+    .inputbox{
+      font-size: 18px;
+    }
+
+    .transpage{
+      min-height: 340px;
+    }
+
+    .transbutt{
+     
+      font-size: 16px;
+      padding: 5px 11px;
+      
+    }
+
+    .linkdiv{
+      width: 190px;
+      height: 40px;
+      font-size: 15px;
+      margin-right: 150px;
+    }
+  }
+
+  @media only screen and (max-width: 750px) {
+    .linkdiv{
+      width: 190px;
+      height: 40px;
+      font-size: 15px;
+      margin-right: 100px;
+    }
+  }
+
+  @media only screen and (max-width: 620px) {
+    #textbox{
+      width: 500px;
+      height: 200px;
+    }
+
+    .seldiv {
+      font-size: 10px;
+    }
+
+    .doc-forms {
+      gap: 60px;
+    }
+
+    .translation{
+      font-size: 20px;
+    }
+
+    .inputbox{
+      font-size: 15px;
+    }
+
+    .linkdiv{
+      width: 160px;
+      height: 35px;
+      font-size: 12px;
+      margin-right: 80px;
+    }
+
+    .transbutt{
+     
+      font-size: 14px;
+      padding: 4.5px 10px;
+      
+    }
+  }
+
+  @media only screen and (max-width: 510px) {
+    #textbox{
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+      height: 500px;
+      width: 350px;
+      box-sizing: border-box;
+    }
+    .doc-forms {
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .seldiv {
+      width: 16em;
+      height: 3em;
+      font-size: 11px;
+    }
+
+    .transpage{
+      min-height: 700px;
+    }
+
+    
+
+    .translation{
+      font-size: 18px;
+    }
+
+    .inputbox{
+      width: 90%;
+    }
+    .outputbox{
+      width: 90%;
+    }
+
+   
+  }
+
+  

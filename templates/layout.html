@@ -62,6 +62,12 @@
             document.getElementById('arrow').style.transition = 'transform 0.3s linear';
           x += 1;
         }
+
+      
+        if ( window.history.replaceState ) {
+          window.history.replaceState( null, null, window.location.href );
+        }
+   
         </script>
     </body>
 

@@ -29,8 +29,7 @@ Translator
         <div class="doc-forms">
             <div class="seldiv">
             <select name="input_lang" required class="sel">
-                <option selected disabled>Input language</option>
-                <option value="detect"> detect language(default) </option>
+                <option value="detect" selected> detect language (default) </option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
                 {% endfor %}
@@ -39,7 +38,7 @@ Translator
 
             <div class="seldiv">
             <select name="output_lang" required class="sel">
-                <option selected disabled>Output language</option>
+                <option selected disabled>Output language (required)</option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
                 {% endfor %}
@@ -132,6 +131,8 @@ Translator
             dropArea.style.opacity = "0.7";
             ico.style.transform = "scale(1)";
         });
+
+
          
     </script>
 
