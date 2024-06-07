@@ -1,0 +1,98 @@
+.topTabs {
+    list-style-type: none;
+    background-color: inherit;
+    display: flex;
+    color: white;
+    font-size: 25px;
+    
+}
+
+.topTabs input {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tabs input[type="radio"] {
+    display: none;
+  }
+
+.leftBoxes {
+    position: relative;
+    left: 10%;
+    border-right: 1px solid #ccc;
+    width: 10%;
+}
+
+.leftBoxes button {
+    display: block;
+    background-color: inherit;
+    color: white;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    border-bottom: 1px solid #ccc;
+}
+
+.selectContainer {
+    display: inline-block;
+    position: relative;
+  }
+
+  .selectBox {
+    cursor: pointer;
+  }
+
+  .selectOptions {
+    display: flex;
+    max-width: 0;
+    overflow: hidden;
+    transition: max-width 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .cropRatio {
+    padding: 10px;
+    background-color: #ddd;
+    margin-right: 5px;
+  }
+
+
+
+.bottomBoxes {
+    display: flex;
+    position: relative;
+    left: 25%;
+    width: 20%;
+}
+
+.bottomBoxes button{
+    background-color: #32174d;
+    --bs-btn-border-width: 0;
+    --bs-btn-font-family: 'Nunito', sans-serif;
+    --bs-btn-hover-bg: #020c41;
+    font-size: 20px;
+    position: relative;
+
+}
+
+.theImg {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+}
+
+.theImg img {
+    max-width: 70vw;
+    max-height: 70vh;
+    min-width: 50vw;
+    min-height: 50vh;
+}

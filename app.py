@@ -628,14 +628,16 @@ def imageFilter():
 
         # Get the operation type
         operation = request.form.get("operation")
+        print(operation)
         
         if operation == 'filter':
+            print(operation)
             # If operation is 'filter', handle filter application
             choice = request.form.get("choice")  # Get the selected filter choice
             button = request.form.get('button')  # Get the button value ('apply' or 'download')
             isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
             
-            if button == 'apply':
+            if choice != "download":
                 # If 'apply' button is clicked
                 sliderValue = request.form.get('slider')  # Get the slider value
                 
@@ -660,7 +662,6 @@ def imageFilter():
                 # If 'download' button is clicked, prepare image for download
                 Newfile = os.path.join("static/uploads", "New" + fileName)
                 return send_file(Newfile, as_attachment=True)
-        
         else:
             # If operation is 'edit', handle image cropping
             croppedImg = request.form.get('cropped_image')

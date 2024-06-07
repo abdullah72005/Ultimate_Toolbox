@@ -1,5 +1,5 @@
 // Initialize Cropper and aspectRatio variables
-let cropper;
+let cropper = null;
 let aspectRatio = 'free';
 
 // Function to toggle slider visibility based on filter choice
@@ -32,28 +32,49 @@ window.onload = function () {
     };
 };
 
+var isEdit = 0;
 
 // Function to show/hide filter and crop blocks
 function showBlock(selectedBlock) {
     var filterBlock = document.getElementById("filterBlock");
     var cropBlock = document.getElementById("editBlock");
+    var applyFilter = document.getElementById("applyFilter");
+    var applyCrop = document.getElementById("applyCrop");
+    var downloadFilter = document.getElementById("downloadFilter");
+    var downloadCrop = document.getElementById("downloadCrop");
+    var operationChoice = document.getElementById("operationChoice");
 
     // Show the selected block and hide the rest of the blocks
     if (selectedBlock === "filter") {
+        operationChoice.value = "filter";
+
+        destroyCropper()
+
         cropBlock.style.display = "none"; // Hide crop block
         filterBlock.style.display = "block"; // Show filter block
+
+        applyFilter.style.display = "block"; // Show applyFilter button
+        downloadFilter.style.display = "block"; // Show downloadFilter button
+        applyCrop.style.display = "none"; // Hide applyCrop button
+        downloadCrop.style.display = "none"; // Hide downloadCrop button
+
     } else if (selectedBlock === "edit") {
         filterBlock.style.display = "none"; // Hide filter block
         cropBlock.style.display = "block"; // Show crop block
 
-        // Initialize Cropper for image editing
-        const img = document.getElementById('img');
-        cropper = new Cropper(img, {
-            aspectRatio: NaN, // Set aspect ratio to NaN for free cropping
-            viewMode: 0, // Set view mode to 0 for unrestricted dragging and cropping
-        });
+        applyFilter.style.display = "none"; // Hide applyFilter button
+        downloadFilter.style.display = "none"; // Hide downloadFilter button
+        applyCrop.style.display = "block"; // Show applyCrop button
+        downloadCrop.style.display = "block"; // Show downloadCrop button
+
+        isEdit = 1;
+
+        initializeCropper()
+        
+        operationChoice.value = "edit";
     }
 }
+
 
 // Event listener for changing drag mode to 'crop'
 document.getElementById('dragCrop').addEventListener('click', function() {
@@ -71,25 +92,28 @@ document.getElementById('dragNone').addEventListener('click', function() {
 });
 
 // Event listener for applying changes
-document.getElementById('apply').addEventListener('click', function() {
-    var croppedCanvas = cropper.getCroppedCanvas(); // Get the cropped canvas
-    if (!croppedCanvas) {
-        console.error('Failed to crop image'); // Log an error message to the console
-        return;
+function applyCrop1() {
+    if(isEdit == 1){
+        var croppedCanvas = cropper.getCroppedCanvas(); // Get the cropped canvas
+        if (!croppedCanvas) {
+            console.error('Failed to crop image'); // Log an error message to the console
+            return;
+        }
+        
+        // Convert cropped canvas to data URL
+        var croppedImageData = croppedCanvas.toDataURL();
+
+        // Set the value of the hidden input field to the data URL
+        document.getElementById('croppedImage').value = croppedImageData;
+
+        // Set the value of the hidden input field to indicate that image is cropped
+        var isCropped = document.getElementById('isCropped').value = 1;
     }
-    
-    // Convert cropped canvas to data URL
-    var croppedImageData = croppedCanvas.toDataURL();
+};
 
-    // Set the value of the hidden input field to the data URL
-    document.getElementById('croppedImage').value = croppedImageData;
-
-    // Set the value of the hidden input field to indicate that image is cropped
-    var isCropped = document.getElementById('isCropped').value = 1;
-});
 
 // Event listener for downloading the cropped image
-document.getElementById('download').addEventListener('click', function() {
+document.getElementById('downloadCrop').addEventListener('click', function() {
     var fileName = document.getElementById("fileName").textContent; // Get the file name
 
     // Get the cropped canvas
@@ -124,16 +148,48 @@ document.getElementById('rotateCounterclockwise').addEventListener('click', func
     cropper.rotate(-90); // Rotate counterclockwise by 90 degrees
 });
 
-// Event listener for changing aspect ratio
-document.getElementById('aspectRatio').addEventListener('change', function() {
-    aspectRatio = this.value;
+
+// Toggle options box
+function toggleMenu() {
+    var menu = document.getElementById("selectOptions");
+    if (menu.style.maxWidth === "0px") {
+        menu.style.maxWidth = "200px"; // Change the width to whatever suits your design
+        cropper.setAspectRatio(NaN); // Set to 'free' aspect ratio
+    } else {
+        menu.style.maxWidth = "0px";
+    }
+}
+
+// Function to initialize cropper
+function initializeCropper() {
+    const img = document.getElementById('img');
+    cropper = new Cropper(img, {
+        aspectRatio: NaN, // Set aspect ratio to NaN for free cropping
+        viewMode: 0, // Set view mode to 0 for unrestricted dragging and cropping
+        autoCrop: false
+    });
+}
+
+// Function to destroy cropper
+function destroyCropper() {
+    if (cropper !== null) {
+        cropper.destroy();
+        cropper = null;
+    }
+}
+
+// Function to change aspect ratio
+function changeRatio(aspectRatio) {
+    if (cropper === null) {
+        return; // Do nothing if cropper is not initialized
+    }
     if (aspectRatio === 'free') {
         cropper.setAspectRatio(NaN); // Set to 'free' aspect ratio
     } else {
         const ratio = aspectRatio.split('/').map(Number);
         cropper.setAspectRatio(ratio[0] / ratio[1]);
     }
-});
+}
 
 // Event listener for flipping the image horizontally
 document.getElementById('flipHorizontal').addEventListener('click', function() {
@@ -147,4 +203,5 @@ document.getElementById('flipVertical').addEventListener('click', function() {
 
 // Initial setup
 showBlock(document.getElementById("operationChoice").value); // Show initial block based on selected option
+
 toggleSlider(); // Toggle slider visibility based on initial choice
