@@ -1,27 +1,56 @@
 .topTabs {
-    list-style-type: none;
-    background-color: inherit;
-    display: flex;
-    color: white;
-    font-size: 25px;
-    
+  background-color: inherit;
+  display: flex;
+  font-size: 25px;
+  border: none;
+  overflow: hidden; /* Ensure no overflow happens */
 }
 
-.topTabs input {
-    flex: 1;
-    text-align: center;
-    cursor: pointer;
+.topTabs button {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  background-color: inherit;
+  color: white;
+  border: none;
+  padding-bottom: 8px; /* Space for the pseudo-element */
+  position: relative; /* Necessary for the pseudo-element positioning */
+  overflow: hidden; /* Ensure the pseudo-element does not overflow */
+  transition: transform 0.3s ease-out; /* Transition for smooth animation */
+  transform-origin: center; /* Scale from the center */
+  padding-top: 15px;
 }
 
-.tabs input[type="radio"] {
-    display: none;
-  }
+.topTabs button::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%; /* Start from the center */
+  width: 0%; /* Start with 0 width */
+  height: 4px; /* Height of the border-bottom */
+  background: linear-gradient(to right, 
+                              rgba(128, 0, 128, 1) 0%,  /* Dark purple */
+                              rgba(128, 0, 128, 0.5) 50%,  /* Bright purple in the middle */
+                              rgba(128, 0, 128, 1) 100%); /* Dark purple */
+  transform: translateX(-50%); /* Center the pseudo-element horizontally */
+  transition: width 0.5s ease; /* Transition for smooth animation */
+  padding-bottom: 5px;
+}
+
+.topTabs button:hover {
+  transform: scale(1.1); /* Scale the button slightly on hover */
+}
+
+.topTabs button:hover::before {
+  width: 100%; /* Expand to full width on hover */
+}
 
 .leftBoxes {
     position: relative;
     left: 10%;
     border-right: 1px solid #ccc;
     width: 10%;
+    
 }
 
 .leftBoxes button {
@@ -39,9 +68,22 @@
 }
 
 .selectContainer {
-    display: inline-block;
-    position: relative;
-  }
+  display: inline-block; /* Change from inline-block to block for full width */
+  background-color: inherit;
+  color: white;
+  padding: 20px 14px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box; /* Ensure padding and border are included in the element's width and height */
+  text-align: center;
+  margin-right: 5px;
+}
+
 
   .selectBox {
     cursor: pointer;
@@ -52,17 +94,20 @@
     max-width: 0;
     overflow: hidden;
     transition: max-width 0.3s ease;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    background-color: #fff;
+    position: relative;
+    left: 20%;
+    background-color: inherit;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .cropRatio {
-    padding: 10px;
-    background-color: #ddd;
+    margin-left: 5px;
+    padding-right: 5px;
+    background-color: inherit;
+    color: white;
+    margin-top: 10px;
     margin-right: 5px;
+    border: 2px solid white;
   }
 
 
@@ -86,8 +131,8 @@
 
 .theImg {
     position: absolute;
-    left: 20%;
-    top: 50%;
+    left: 22%;
+    top: 25%;
 }
 
 .theImg img {

@@ -638,6 +638,7 @@ def imageFilter():
             isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
             
             if choice != "download":
+                print("nigga")
                 # If 'apply' button is clicked
                 sliderValue = request.form.get('slider')  # Get the slider value
                 
@@ -658,7 +659,8 @@ def imageFilter():
                     imgPath = f"../{outputPath}"
                     return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
                                    
-            elif button == 'download':
+            elif choice == 'download':
+                print("cracker")
                 # If 'download' button is clicked, prepare image for download
                 Newfile = os.path.join("static/uploads", "New" + fileName)
                 return send_file(Newfile, as_attachment=True)

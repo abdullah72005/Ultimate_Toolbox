@@ -46,9 +46,12 @@ function showBlock(selectedBlock) {
 
     // Show the selected block and hide the rest of the blocks
     if (selectedBlock === "filter") {
-        operationChoice.value = "filter";
-
+        console.log("before Destroy");
         destroyCropper()
+        console.log("after Destroy");
+
+
+        operationChoice.value = "filter";
 
         cropBlock.style.display = "none"; // Hide crop block
         filterBlock.style.display = "block"; // Show filter block
@@ -67,11 +70,13 @@ function showBlock(selectedBlock) {
         applyCrop.style.display = "block"; // Show applyCrop button
         downloadCrop.style.display = "block"; // Show downloadCrop button
 
-        isEdit = 1;
-
-        initializeCropper()
-        
+        isEdit = 1;        
         operationChoice.value = "edit";
+
+        console.log("before intializationi");
+        initializeCropper()
+        console.log("after intializationi");
+
     }
 }
 
@@ -148,17 +153,18 @@ document.getElementById('rotateCounterclockwise').addEventListener('click', func
     cropper.rotate(-90); // Rotate counterclockwise by 90 degrees
 });
 
-
 // Toggle options box
 function toggleMenu() {
+
     var menu = document.getElementById("selectOptions");
-    if (menu.style.maxWidth === "0px") {
-        menu.style.maxWidth = "200px"; // Change the width to whatever suits your design
-        cropper.setAspectRatio(NaN); // Set to 'free' aspect ratio
+
+    if (menu.style.maxWidth === "0px" || menu.style.maxWidth === "") {
+      menu.style.maxWidth = "200px"; // Change the width to whatever suits your design
+      cropper.setAspectRatio(NaN); // Set to 'free' aspect ratio
     } else {
-        menu.style.maxWidth = "0px";
+      menu.style.maxWidth = "0px";
     }
-}
+  }
 
 // Function to initialize cropper
 function initializeCropper() {
@@ -180,12 +186,18 @@ function destroyCropper() {
 
 // Function to change aspect ratio
 function changeRatio(aspectRatio) {
+
+    var menu = document.getElementById("selectOptions");
+
     if (cropper === null) {
         return; // Do nothing if cropper is not initialized
     }
     if (aspectRatio === 'free') {
+        menu.style.maxWidth = "0px";
+
         cropper.setAspectRatio(NaN); // Set to 'free' aspect ratio
     } else {
+        menu.style.maxWidth = "0px";
         const ratio = aspectRatio.split('/').map(Number);
         cropper.setAspectRatio(ratio[0] / ratio[1]);
     }
