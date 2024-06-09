@@ -87,8 +87,7 @@ def upload():
                 ))
 
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
-                print(extension)
-
+ 
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS'] + ['application/octet-stream']:
 
@@ -423,7 +422,6 @@ def download():
 def translate():
 
     if request.method == "POST":
-        print()
 
         # get user input
         input_txt = request.form.get('input_txt')
@@ -539,6 +537,9 @@ def translatedoc():
         if x:
             fileName = os.path.splitext(secure_filename(input_file.filename))[0]
             outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang, langs)
+
+        if outputFile == 1:
+            return apology("more than 15,000 characters.")
         
         return outputFile
 

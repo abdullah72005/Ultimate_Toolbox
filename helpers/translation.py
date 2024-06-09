@@ -89,8 +89,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
     #    print('sendfile')
     #    outputFile = send_file(output_filepath, as_attachment=True)
 
-    if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or 'docx':
-
+    if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or extension == 'docx':
         # Load the input Word document
         doc = Document(input_file)
 
@@ -100,27 +99,36 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
         # Create a new Word document to store the translated content
         new_document = Document()
 
-        # Iterate through paragraphs in the input document
+        docText = ""
+
         for paragraph in doc.paragraphs:
+            docText += str(paragraph.text) + "\n"
 
-            # Determine the source language if it is set to 'detect'
-            srcLang = input_lang
+        if len(docText) > 15000:
+            # Clean up the upload folder after processing
+            deleteFiles(uploadFolder)
 
-            # make sure the paragraph includes text to prevent errors
-            if paragraph.text:
-                if srcLang == 'detect':
-                    g = translator.detect(paragraph.text)
-                    srcLang = g.lang
+            # Return the Flask send_file response
+            return 1
+        
+        # Determine the source language if it is set to 'detect'
+        srcLang = input_lang
+        
+        # make sure the paragraph includes text to prevent errors
+        if docText:
+            if srcLang == 'detect':
+                g = translator.detect(docText)
+                srcLang = g.lang
 
-                    # Translate the paragraph from detect language to the output language
-                    output = translator.translate(paragraph.text, src=srcLang, dest=langs[output_lang]).text
+                # Translate the paragraph from detect language to the output language
+                output = translator.translate(docText, src=srcLang, dest=langs[output_lang]).text
 
-                else:
-                    # Translate the paragraph from the specified input language to the output language
-                    output = translator.translate(paragraph.text, src=langs[input_lang], dest=langs[output_lang]).text
+            else:
+                # Translate the paragraph from the specified input language to the output language
+                output = translator.translate(docText, src=langs[input_lang], dest=langs[output_lang]).text
 
-                # Add the translated paragraph to the new document
-                new_document.add_paragraph(output)
+            # Add the translated paragraph to the new document
+            new_document.add_paragraph(output)
 
         # Save the translated document with a new filename
         new_filename = f"{fileName}-{output_lang}.docx"
@@ -130,7 +138,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
         word_path = os.path.join(uploadFolder, new_filename)
         outputFile = send_file(word_path, as_attachment=True)
     
-    elif extension == 'text/plain' or 'txt':
+    elif extension == 'text/plain' or extension == 'txt':
 
         # declare input and output paths
         new_filename = f"{fileName}-{output_lang}.txt"
