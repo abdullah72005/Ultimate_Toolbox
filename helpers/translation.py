@@ -108,7 +108,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
             # Clean up the upload folder after processing
             deleteFiles(uploadFolder)
 
-            # Return the Flask send_file response
+            # Return 1 to indicate file too big
             return 1
         
         # Determine the source language if it is set to 'detect'

@@ -53,10 +53,13 @@
 
         <script>
           var x = 0;
-          function rot(){
-            if (x % 2 == 0){
+          function rot()
+          {
+            if (x % 2 == 0)
+            {
               document.getElementById('arrow').style.transform = 'rotate(180deg)';}
-            else {
+            else 
+            {
               document.getElementById('arrow').style.transform = 'rotate(0deg)';
             }
             document.getElementById('arrow').style.transition = 'transform 0.3s linear';
@@ -64,7 +67,8 @@
         }
 
       
-        if ( window.history.replaceState ) {
+        if ( window.history.replaceState ) 
+        {
           window.history.replaceState( null, null, window.location.href );
         }
    
