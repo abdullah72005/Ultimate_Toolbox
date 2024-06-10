@@ -6,6 +6,18 @@
 
 {% block style %}<link href="../static/stylesheets/photo.css" rel="stylesheet">{% endblock %}
 
+{% block nav %}
+
+<a id="navitem" class="nav-link" href="/">Home</a>
+<a id="navitem" class="nav-link" href="/upload">File Converter</a>
+<a id="navitem" class="nav-link" href="/yt-to-mp3">Youtube Downloader</a>
+<a id="navitem" class="nav-link active" aria-current="page" href="/image/upload">Photo Editor</a>
+<a id="navitem" class="nav-link" href="/translation">Translator</a>
+<a id="navitem" class="nav-link" href="/qrcode">QRcode Generator</a>
+<a id="navitem" class="nav-link" href="/password-generator">Password Generator</a>
+
+{% endblock %}
+
 
 {% block main %}
     <form action="/image/filter" method="post" enctype="multipart/form-data" id="filterForm">
@@ -82,8 +94,15 @@
             <img id="img" src="{{ imgPath }}" alt="Uploaded Image">
         </div>
 
-        <div class="bottomBoxes">
-            <button type="submit" class="btn btn-primary" name="button" value="apply" id="applyFilter" style="display: block;" value="original">Original</button>
+        <div class="bottomBoxes" >
+            <button type="submit" class="btn btn-primary" name="button" value="apply" id="applyFilter" style="display: block;" value="original">
+                <span class="original">
+                </span>
+                <span>
+                    Original
+                </span>
+            </button>
+
             <button type="submit" class="btn btn-primary" name="button" value="apply" id="applyCrop" style="display: none;" onclick="applyCrop1()">Apply changes</button>
             <button type="submit" class="btn btn-primary" name="choice" value="download" id="downloadFilter" style="display: block;">Download</button>
             <button type="button" class="btn btn-primary" name="button" value="download" id="downloadCrop" style="display: none;">Download</button>

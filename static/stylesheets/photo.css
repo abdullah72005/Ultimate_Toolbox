@@ -68,7 +68,7 @@
 }
 
 .selectContainer {
-  display: inline-block; /* Change from inline-block to block for full width */
+  display: -webkit-flex; /* Change from inline-block to block for full width */
   background-color: inherit;
   color: white;
   padding: 20px 14px;
@@ -120,19 +120,32 @@
 }
 
 .bottomBoxes button{
-    background-color: #32174d;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+    justify-items: center;
+
+    background-color: inherit;
     --bs-btn-border-width: 0;
     --bs-btn-font-family: 'Nunito', sans-serif;
     --bs-btn-hover-bg: #020c41;
     font-size: 20px;
+    padding: 10px 20px;
     position: relative;
+    margin-right: 48px;
+    margin-left: auto;
 
 }
 
 .theImg {
-    position: absolute;
+    position: relative;
     left: 22%;
-    top: 25%;
+    top: 30%;
+    width: 50%;
+    margin-bottom: 5px;
+    margin-top: auto;
 }
 
 .theImg img {
@@ -140,4 +153,14 @@
     max-height: 70vh;
     min-width: 50vw;
     min-height: 50vh;
+}
+
+
+.original {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-5.04-6.71l-2.75 3.54l-1.96-2.36L6.5 17h11z'/%3E%3C/svg%3E");
 }
