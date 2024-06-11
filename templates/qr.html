@@ -4,9 +4,11 @@
     QRcode Generator 
 {% endblock %}
 
+{% block style %} <link href="/static/stylesheets/qr.css" rel="stylesheet"> {% endblock %}
+
 
 {% block nav %}
-
+    
 <a id="navitem" class="nav-link" href="/">Home</a>
 <a id="navitem" class="nav-link" href="/upload">File Converter</a>
 <a id="navitem" class="nav-link" href="/yt-to-mp3">Youtube Downloader</a>
@@ -19,26 +21,35 @@
 
 
 {% block main %}
-    <div class="container mt-5">
-        <form action="/qrcode" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <div class="input-group">
-                    <input type="url" name="link" class="form-control" placeholder="Enter URL" autocomplete="off" autofocus required>
+
+    <div class="qrbody">
+
+        <div class="urlform">
+            <form action="/qrcode" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="url" name="link" class="form-control" placeholder="Enter URL" autocomplete="off" autofocus required>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary" name = "action">Generate</button>
-        </form>
-    </div>
-    {% if qrcode %}
+                <button type="submit" class="btn btn-primary" name="action">Generate</button>
+            </form>
+        </div>
 
-    <div class="container mt-5">
-        <img src="{{ qrcode }}" alt="QR code">
-        <button class="btn btn-primary" id="copy" onclick="downloadPNG()">Download QRcode</button>
+    <div class="imgdiv">
+        {% if qrcode %}
+        <div class="container mt-5">
+            <img src="{{ qrcode }}" alt="QR code" class="qrimg">
+            <button class="btn btn-primary" id="copy" onclick="downloadPNG()">Download QRcode</button>
+        </div>
+    </div>
+        {% endif %}
     </div>
 
-    {% endif %}
     <script>
-        function downloadPNG() {
+        const button = document.getElementById('copy');
+
+        function downloadPNG() 
+        {
             // Create an image element
             var img = new Image();
             // Set the source of the image
@@ -52,7 +63,6 @@
             // Simulate a click on the link to trigger the download
             link.click();
 
-            const button = document.getElementById('copy');
             button.style.backgroundColor = '#111';
         }
     </script>
