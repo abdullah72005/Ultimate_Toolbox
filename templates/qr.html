@@ -26,14 +26,15 @@
 
         <div class="urlform">
             <form action="/qrcode" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <div class="input-group">
-                        <input type="url" name="link" class="form-control" placeholder="Enter URL" autocomplete="off" autofocus required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" name="action">Generate</button>
+                    <div class="form__group field">
+                        <input type="input" class="form__field" placeholder="Enter" name="link" id='link' required autocomplete="off" autofocus >
+                        <label for="link" class="form__label">Enter</label>
+                      </div>
+                <button type="submit" class="btn btn-primary btndoc" name="action">Generate</button>
             </form>
         </div>
+
+
 
     <div class="imgdiv">
         {% if qrcode %}

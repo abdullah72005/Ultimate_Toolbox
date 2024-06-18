@@ -152,7 +152,7 @@ def con():
         try:
             # Get the list of files in the upload directory
             files = [file for file in os.listdir(app.config['UPLOAD_DIRECTORY']) if file !=     's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2   r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt']
-
+        
             # Get the user's choice from the form
             choice = request.form.get("choice")
 

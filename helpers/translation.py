@@ -27,16 +27,16 @@ def translatetxt(input_txt, input_lang, output_lang, langs):
 def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
 
 
-    #if extension == 'application/pdf':
-#
+    # if extension == 'application/pdf':
+
     #    print('font1')
     #    custom_font = TTFont('font-custom', 'static/NotoSans-VariableFont_wdth,wght.ttf')
     #    pdfmetrics.registerFont(custom_font)
-#
+
     #    print('font2')
     #    custom_ar = TTFont('ar-custom', 'static/IBMPlexSansArabic-Regular.ttf')
     #    pdfmetrics.registerFont(custom_ar)
-#
+
     #    print("name")
     #    new_filename = f"{fileName}-{output_lang}.pdf"
     #    output_filepath = os.path.join(uploadFolder, new_filename)
@@ -47,8 +47,8 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
     #    reader = PdfReader(file)
     #    translator = Translator()
     #    pn = len(reader.pages)
-#
-    #    
+
+       
     #    print('csan')
     #    c = canvas.Canvas(output_filepath, pagesize=letter)
     #    width, height = letter
@@ -71,7 +71,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
     #        # Write content to PDF
     #        for i, line in enumerate(lines):
     #            y_position = height - 50 - (i * 14)  # Adjust spacing
-#
+
     #            #Strip leading spaces and then draw the line
     #            if translator.detect(line).lang == "ar":
     #               c.setFont('ar-custom', 12)
@@ -84,7 +84,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
     #                c.drawString(50, y_position, line.lstrip())
     #    print('save')
     #    c.save()
-#
+
     #    # Create a Flask send_file response for downloading the translated document
     #    print('sendfile')
     #    outputFile = send_file(output_filepath, as_attachment=True)
