@@ -1,9 +1,15 @@
+body{
+  color:#E2E2E2;
+}
+
 .topTabs {
   background-color: inherit;
   display: flex;
   font-size: 25px;
   border: none;
   overflow: hidden; /* Ensure no overflow happens */
+  font-family: 'Nunito', sans-serif;
+  opacity: 0.9;
 }
 
 .topTabs button {
@@ -11,7 +17,7 @@
   text-align: center;
   cursor: pointer;
   background-color: inherit;
-  color: white;
+  color: #E2E2E2;
   border: none;
   padding-bottom: 8px; /* Space for the pseudo-element */
   position: relative; /* Necessary for the pseudo-element positioning */
@@ -27,50 +33,125 @@
   bottom: 0;
   left: 50%; /* Start from the center */
   width: 0%; /* Start with 0 width */
-  height: 4px; /* Height of the border-bottom */
+  height: 5px; /* Height of the border-bottom */
+  border-radius: 7px; /* Rounded corners */
+  /* Gradient background with box-shadow */
   background: linear-gradient(to right, 
-                              rgba(128, 0, 128, 1) 0%,  /* Dark purple */
-                              rgba(128, 0, 128, 0.5) 50%,  /* Bright purple in the middle */
-                              rgba(128, 0, 128, 1) 100%); /* Dark purple */
+                              rgba(0, 0, 0, 0) 0%,    /* Black */
+                              rgba(128, 0, 128, 0.5) 10%,    /* Dark purple */
+                              rgba(128, 0, 128, 0.8) 25%,   /* Medium purple */
+                              rgba(128, 0, 128, 1) 50%,   /* Light purple */
+                              rgba(128, 0, 128, 0.8) 75%,   /* Medium purple */
+                              rgba(128, 0, 128, 0.5) 90%, /* Dark purple */
+                              rgba(0, 0, 0, 0) 100%); /* Black */
+  /* Box shadow for neon light effect */
+  box-shadow: 0 0 10px rgba(128, 0, 128, 0.8), 
+              0 0 20px rgba(128, 0, 128, 0.6); /* Neon light effect */  
   transform: translateX(-50%); /* Center the pseudo-element horizontally */
   transition: width 0.5s ease; /* Transition for smooth animation */
   padding-bottom: 5px;
 }
 
-.topTabs button:hover {
-  transform: scale(1.1); /* Scale the button slightly on hover */
+.topTabs button:hover,
+.topTabs button.active {
+  transform: scale(1.1); /* Scale the button slightly on hover or when active */
 }
 
-.topTabs button:hover::before {
-  width: 100%; /* Expand to full width on hover */
+.topTabs button:hover::before,
+.topTabs button.active::before {
+  width: 100%; /* Expand to full width on hover or when active */
 }
+
 
 .leftBoxes {
-    position: relative;
-    left: 10%;
-    border-right: 1px solid #ccc;
-    width: 10%;
-    
+  position: relative;
+  left: 5%;
+  width: 10%;
+  font-family: 'Nunito', sans-serif;
+  opacity: 2;
+  border: none;
 }
 
 .leftBoxes button {
-    display: block;
-    background-color: inherit;
-    color: white;
-    padding: 22px 16px;
-    width: 100%;
-    border: none;
-    outline: none;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
-    border-bottom: 1px solid #ccc;
+  display: block;
+  background-color: inherit;
+  color: #32174d;
+  padding: 22px 16px;
+  border: none;
+  width: 100%;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative; /* Necessary for pseudo-element positioning */
+  overflow: hidden; /* Ensure pseudo-element does not overflow */
 }
+
+.leftBoxes button::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  height: 3px; /* Adjust the height of the border-bottom */
+  background: linear-gradient(to right, 
+                              rgba(0, 0, 0, 0) 0%,    /* Black */
+                              rgba(128, 0, 128, 0.5) 10%,    /* Dark purple */
+                              rgba(128, 0, 128, 0.8) 25%,   /* Medium purple */
+                              rgba(128, 0, 128, 1) 50%,   /* Light purple */
+                              rgba(128, 0, 128, 0.8) 75%,   /* Medium purple */
+                              rgba(128, 0, 128, 0.5) 90%, /* Dark purple */
+                              rgba(0, 0, 0, 0) 100%); /* Black */
+  box-shadow: 0 0 5px rgba(128, 0, 128, 0.8), 
+              0 0 10px rgba(128, 0, 128, 0.6); /* Neon light effect */  
+  transform: translateX(-50%);
+  transition: width 0.5s ease;
+}
+
+.leftBoxes button:hover::before {
+  width: 100%;
+}
+
+.leftBoxes button:hover {
+  filter: brightness(3);
+  transform: scale(1.1);
+}
+
+.leftBoxesFilter {
+  font-size: 25px;
+}
+
+.leftBoxesEdit {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  &#rotateClockwiseICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2332174d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01m.57 4.09v.01m2.53 3.26v.01M11 19.94v.01'/%3E%3C/svg%3E");
+  }
+
+  &#rotateCounterclockwiseICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2332174d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01m.57 4.09v.01m2.53 3.26v.01M11 19.94v.01'/%3E%3C/svg%3E");
+    transform: scaleX(-1);
+  }
+
+  &#flipHorizontalICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M15 21h2v-2h-2m4-10h2V7h-2M3 5v14c0 1.1.9 2 2 2h4v-2H5V5h4V3H5c-1.1 0-2 .9-2 2m16-2v2h2c0-1.1-.9-2-2-2m-8 20h2V1h-2m8 16h2v-2h-2M15 5h2V3h-2m4 10h2v-2h-2m0 10c1.1 0 2-.9 2-2h-2Z'/%3E%3C/svg%3E");
+  }
+
+  &#flipVerticalICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M15 21h2v-2h-2m4-10h2V7h-2M3 5v14c0 1.1.9 2 2 2h4v-2H5V5h4V3H5c-1.1 0-2 .9-2 2m16-2v2h2c0-1.1-.9-2-2-2m-8 20h2V1h-2m8 16h2v-2h-2M15 5h2V3h-2m4 10h2v-2h-2m0 10c1.1 0 2-.9 2-2h-2Z'/%3E%3C/svg%3E");
+    transform: rotate(90deg);
+  }
+}
+
 
 .selectContainer {
   display: -webkit-flex; /* Change from inline-block to block for full width */
   background-color: inherit;
-  color: white;
+  color: #E2E2E2;
   padding: 20px 14px;
   width: 100%;
   border: none;
@@ -90,69 +171,67 @@
   }
 
   .selectOptions {
-    display: flex;
     max-width: 0;
     overflow: hidden;
     transition: max-width 0.3s ease;
     position: relative;
-    left: 20%;
     background-color: inherit;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: absolute;
   }
 
   .cropRatio {
-    margin-left: 5px;
-    padding-right: 5px;
     background-color: inherit;
     color: white;
-    margin-top: 10px;
-    margin-right: 5px;
     border: 2px solid white;
+    margin-left: 120px;
+    padding: 10px 20px;
   }
 
 
 
 .bottomBoxes {
     display: flex;
-    position: relative;
-    left: 25%;
-    width: 20%;
+    padding-top: 50px;
+    gap: 50px;
 }
 
-.bottomBoxes button{
-    display: flex;
-    align-items: center;
-    align-content: center;
-    text-align: center;
-    justify-content: center;
-    justify-items: center;
-
-    background-color: inherit;
-    --bs-btn-border-width: 0;
-    --bs-btn-font-family: 'Nunito', sans-serif;
-    --bs-btn-hover-bg: #020c41;
-    font-size: 20px;
-    padding: 10px 20px;
-    position: relative;
-    margin-right: 48px;
-    margin-left: auto;
-
+.bottomBoxes button {
+  display: flex;
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid rgba(50, 23, 77, 0.8);
+  color: white;
+  border-radius: 8px;
+  transition: all 0.3s ease-in;
+  margin-left: 25%;
 }
+
+.bottomBoxes button:hover {
+  transform: scale(1.1); /* Increase text size */
+  background-color: #32174d;
+}
+
 
 .theImg {
     position: relative;
-    left: 22%;
-    top: 30%;
-    width: 50%;
     margin-bottom: 5px;
-    margin-top: auto;
+    width: 100%;
+    max-width: 800px; /* Adjust as needed */
+    height: 550px; /* Adjust as needed */
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 80px;
 }
 
 .theImg img {
-    max-width: 70vw;
-    max-height: 70vh;
-    min-width: 50vw;
-    min-height: 50vh;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image covers the container while maintaining aspect ratio */
+  object-position: center; /* Centers the image within the container */
+
 }
 
 
@@ -164,3 +243,12 @@
   background-size: 100% 100%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-5.04-6.71l-2.75 3.54l-1.96-2.36L6.5 17h11z'/%3E%3C/svg%3E");
 }
+
+.flexContainer{
+  display: flex;
+  flex-direction: row;
+  gap: 150px;
+  padding-top: 50px;
+  align-items: center;
+}
+

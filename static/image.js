@@ -186,20 +186,20 @@ function destroyCropper() {
 
 // Function to change aspect ratio
 function changeRatio(aspectRatio) {
-
+    console.log("changeRatio called with:", aspectRatio);
     var menu = document.getElementById("selectOptions");
 
-    if (cropper === null) {
+    if (!cropper) {
+        console.error("Cropper is not initialized.");
         return; // Do nothing if cropper is not initialized
     }
+
     if (aspectRatio === 'free') {
         menu.style.maxWidth = "0px";
-
         cropper.setAspectRatio(NaN); // Set to 'free' aspect ratio
     } else {
         menu.style.maxWidth = "0px";
-        const ratio = aspectRatio.split('/').map(Number);
-        cropper.setAspectRatio(ratio[0] / ratio[1]);
+        cropper.setAspectRatio(  (aspectRatio));
     }
 }
 
@@ -213,7 +213,21 @@ document.getElementById('flipVertical').addEventListener('click', function() {
     cropper.scaleY(-cropper.getData().scaleY || -1);
 });
 
+const buttons = document.querySelectorAll('.topTabs button');
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove "active" class from all buttons
+        buttons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add "active" class to the clicked button
+        button.classList.add('active');
+    });
+});
+
 // Initial setup
 showBlock(document.getElementById("operationChoice").value); // Show initial block based on selected option
 
 toggleSlider(); // Toggle slider visibility based on initial choice
+
+

@@ -638,7 +638,6 @@ def imageFilter():
             isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
             
             if choice != "download":
-                print("nigga")
                 # If 'apply' button is clicked
                 sliderValue = request.form.get('slider')  # Get the slider value
                 
@@ -647,6 +646,7 @@ def imageFilter():
                     imgPath = f"../{filePath}"
                     return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
                 else:
+                    
                     # Apply selected filter to the image
                     if isCropped:
                         # If image is already cropped, use the cropped image path and name
@@ -660,10 +660,13 @@ def imageFilter():
                     return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
                                    
             elif choice == 'download':
-                print("cracker")
                 # If 'download' button is clicked, prepare image for download
                 Newfile = os.path.join("static/uploads", "New" + fileName)
-                return send_file(Newfile, as_attachment=True)
+                if os.path.exists(Newfile):
+                    return send_file(Newfile, as_attachment=True)
+                else:
+                    Newfile = os.path.join("static/uploads", fileName)
+                    return send_file(Newfile, as_attachment=True)
         else:
             # If operation is 'edit', handle image cropping
             croppedImg = request.form.get('cropped_image')
