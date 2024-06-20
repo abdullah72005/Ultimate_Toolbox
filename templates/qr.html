@@ -37,13 +37,18 @@
 
 
     <div class="imgdiv">
-        {% if qrcode %}
-        <div class="container mt-5">
+
+        <div class="innerImgDiv">
+            <div class="imgviewqr">
+            {% if qrcode %}
             <img src="{{ qrcode }}" alt="QR code" class="qrimg">
-            <button class="btn btn-primary" id="copy" onclick="downloadPNG()">Download QRcode</button>
+            {% endif %}
+            <!-- <button class="btn btn-primary" id="copy" onclick="downloadPNG()">Download QRcode</button> -->
         </div>
     </div>
-        {% endif %}
+    
+    </div>
+        
     </div>
 
     <script>
