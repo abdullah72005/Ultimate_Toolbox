@@ -15,7 +15,7 @@ from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchEr
 from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf, imagetypes, audioTypes, txttypes, csvtypes
 from helpers.password import generate_password
-from helpers.qr import convqr, isvalid
+from helpers.qr import convqr
 from helpers.yt import print_audio_streams, download_audio, get_video_info
 from helpers.translation import translatetxt, trans_doc
 from helpers.image import filterImg, filters_dic, cropImg
@@ -296,9 +296,10 @@ def Qr():
         if not url:
             return apology("please enter url")
         
-        # check if url is in valid format
-        if not isvalid(url):
-            return apology('url invalid')
+        # check input size
+        if len(url) > 1000:
+            return apology("input too big")
+        
         
         # generate a filename and make path for qrcode
         filename = generate_password(4, False, True, False, False)

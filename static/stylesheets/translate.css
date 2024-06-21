@@ -57,6 +57,8 @@
   --bs-btn-border-width: 0;
   --bs-btn-font-family: 'Nunito', sans-serif;
   --bs-btn-hover-bg: #020c41;
+  
+  --bs-btn-active-bg: #04135d;
   font-size: 25px;
   padding: 8px 16px;
   

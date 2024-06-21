@@ -42,8 +42,8 @@
             <div class="imgviewqr">
             {% if qrcode %}
             <img src="{{ qrcode }}" alt="QR code" class="qrimg">
+            <button class="btn btn-primary btndoc2" id="copy" onclick="downloadPNG()">Download</button>
             {% endif %}
-            <!-- <button class="btn btn-primary" id="copy" onclick="downloadPNG()">Download QRcode</button> -->
         </div>
     </div>
     
@@ -68,8 +68,6 @@
             link.download = "{{ filename }}"; 
             // Simulate a click on the link to trigger the download
             link.click();
-
-            button.style.backgroundColor = '#111';
         }
     </script>
 {% endblock %}
