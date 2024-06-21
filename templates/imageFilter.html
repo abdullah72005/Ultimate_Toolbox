@@ -23,7 +23,7 @@
     <form action="/image/filter" method="post" enctype="multipart/form-data" id="filterForm">
         <h2 style="display: none;" id="fileName" value="{{ fileName }}">{{ fileName }}</h2>
         <div class="topTabs">
-            <button type="button" onclick="showBlock('filter')">
+            <button type="button" onclick="applyCropFilter()" id="filterButton" class="active"> 
                 Filter
             </button>
             <button type="button" onclick="showBlock('edit')">
@@ -53,34 +53,24 @@
             <div class="leftBoxes" id="editBlock" style="display: none;">
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
-                <button type="button" id="rotateClockwise"> 
-                    <div id="rotateClockwiseICON" class="leftBoxesEdit"></div>
-                    <br>
+                <button type="button" id="rotateClockwise" class="leftBoxesEdit"> 
+                    <div id="rotateClockwiseICON" class="leftBoxesEditICON"></div>
                 </button>
-                <button type="button" id="rotateCounterclockwise">
-                    <div id="rotateCounterclockwiseICON" class="leftBoxesEdit"></div>
-                    <br>
+                <button type="button" id="rotateCounterclockwise" class="leftBoxesEdit">
+                    <div id="rotateCounterclockwiseICON" class="leftBoxesEditICON"></div>
                 </button>
-                <button type="button" id="flipHorizontal">
-                    <div id="flipHorizontalICON" class="leftBoxesEdit"></div>   
-                    <br>
+                <button type="button" id="flipHorizontal" class="leftBoxesEdit">
+                    <div id="flipHorizontalICON" class="leftBoxesEditICON"></div>   
                 </button>
-                <button type="button" id="flipVertical">
-                    <div id="flipVerticalICON" class="leftBoxesEdit"></div>   
-                    <br>
+                <button type="button" id="flipVertical" class="leftBoxesEdit">
+                    <div id="flipVerticalICON" class="leftBoxesEditICON" style="padding-top: 30px;"></div>   
                 </button>
-                <button type="button" id="dragCrop">
-                    <img src="" alt="">
-                    Crop Drag Mode
+                <button type="button" id="dragCrop" class="leftBoxesEdit">
+                    <div id="dragCropICON" class="leftBoxesEditICON"></div>   
                 </button>
-                <button type="button" id="dragMove">
-                    <img src="" alt="">
-                    Move Drag Mode
+                <button type="button" id="dragMove" class="leftBoxesEdit">
+                    <div id="dragMoveICON" class="leftBoxesEditICON"></div>   
                 </button>
-                <button type="button" id="dragNone">
-                    <img src="" alt="">
-                    None Drag Mode
-                </button>    
                 <input type="hidden" name="cropped_image" id="croppedImage">
                 <input type="hidden" name="isCropped" id="isCropped" value="{{ isCropped }}">
             </div>
@@ -89,18 +79,17 @@
                 <img id="img" src="{{ imgPath }}" alt="Uploaded Image">
             </div>
 
+            <div class="bottomBoxes" >
+                <button type="submit" name="original" value="original" class="btn btn-primary" style="display: block;" value="original">
+                        Original
+                </button>
+    
+                <button type="submit" name="choice" class="btn btn-primary" value="download" id="downloadFilter" style="display: block;">Download</button>
+                <button type="button" name="button" class="btn btn-primary" value="download" id="downloadCrop" style="display: none;">Download</button>
+            </div>
 
         </div>
 
-        <div class="bottomBoxes" >
-            <button type="submit" name="button" value="apply" id="applyFilter" style="display: block;" value="original">
-                    Original
-            </button>
-
-            <button type="submit" name="button" value="apply" id="applyCrop" style="display: none;" onclick="applyCrop1()">Apply changes</button>
-            <button type="submit" name="choice" value="download" id="downloadFilter" style="display: block;">Download</button>
-            <button type="button" name="button" value="download" id="downloadCrop" style="display: none;">Download</button>
-        </div>
 
     </form>
 

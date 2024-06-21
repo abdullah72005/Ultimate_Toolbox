@@ -87,8 +87,7 @@ def upload():
                 ))
 
                 extension: str = magic.from_file(app.config['UPLOAD_DIRECTORY'] + secure_filename(file.filename), mime=True)
-                print(extension)
-
+ 
                 # Check if the file extension is in the allowed extensions set
                 if extension not in app.config['ALLOWED_EXTENSIONS'] + ['application/octet-stream']:
 
@@ -423,7 +422,6 @@ def download():
 def translate():
 
     if request.method == "POST":
-        print()
 
         # get user input
         input_txt = request.form.get('input_txt')
@@ -629,35 +627,35 @@ def imageFilter():
         # Get the operation type
         operation = request.form.get("operation")
         print(operation)
-        
+        original = request.form.get("original")
+        print(original)
+        if original:
+            # If original button clicked display original image
+            imgPath = f"../{filePath}"
+            return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
+
         if operation == 'filter':
             print(operation)
             # If operation is 'filter', handle filter application
             choice = request.form.get("choice")  # Get the selected filter choice
-            button = request.form.get('button')  # Get the button value ('apply' or 'download')
             isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
             
             if choice != "download":
                 # If 'apply' button is clicked
                 sliderValue = request.form.get('slider')  # Get the slider value
                 
-                if not choice or choice == 'original':
-                    # If no filter selected or original filter selected, display original image
-                    imgPath = f"../{filePath}"
-                    return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
-                else:
                     
-                    # Apply selected filter to the image
-                    if isCropped:
-                        # If image is already cropped, use the cropped image path and name
-                        filePath = session['croppedImgPath']
-                        fileName = session['croppedImgName']
+                # Apply selected filter to the image
+                if isCropped:
+                    # If image is already cropped, use the cropped image path and name
+                    filePath = session['croppedImgPath']
+                    fileName = session['croppedImgName']
 
-                    # Apply filter to the image
-                    outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
-                    fileName = os.path.join("New" + fileName)
-                    imgPath = f"../{outputPath}"
-                    return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
+                # Apply filter to the image
+                outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
+                fileName = os.path.join("New" + fileName)
+                imgPath = f"../{outputPath}"
+                return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
                                    
             elif choice == 'download':
                 # If 'download' button is clicked, prepare image for download
