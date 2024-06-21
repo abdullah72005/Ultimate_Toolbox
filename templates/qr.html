@@ -42,9 +42,13 @@
             <div class="imgviewqr">
             {% if qrcode %}
             <img src="{{ qrcode }}" alt="QR code" class="qrimg">
-            <button class="btn btn-primary btndoc2" id="copy" onclick="downloadPNG()">Download</button>
+           
             {% endif %}
         </div>
+        {% if qrcode %}
+       
+        <button class="btn btn-primary btndoc2" id="copy" onclick="downloadPNG()">Download</button>
+        {% endif %}
     </div>
     
     </div>
