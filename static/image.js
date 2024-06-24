@@ -68,16 +68,12 @@ function showBlock(selectedBlock) {
         downloadFilter.style.display = "none"; // Hide downloadFilter button
         downloadCrop.style.display = "block"; // Show downloadCrop button
 
-        isEdit = 1;        
-        operationChoice.value = "edit";
-
         initializeCropper()
     }
 }
 
 // Apply changes when filter tab is hit
 function applyCropFilter() {
-    console.log("I am there");
     var filterButton = document.getElementById('filterButton');
     
     // Check if the button has the 'active' class
@@ -85,7 +81,7 @@ function applyCropFilter() {
         filterButton.type = 'button'; // Set button type to 'button'
         showBlock('filter');
     } else {
-        console.log("I am everywhere");
+        console.log("I am here");
         filterButton.type = 'submit'; // Set button type to 'submit'
 
         // Execute applyCrop function

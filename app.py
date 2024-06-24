@@ -617,6 +617,7 @@ def image():
 @app.route('/image/filter', methods=["GET", "POST"])
 def imageFilter():
     if request.method == "POST":
+
         # Dictionary containing filter options
         filters = filters_dic       
 
@@ -624,9 +625,10 @@ def imageFilter():
         filePath = session['filePath']
         fileName = session['fileName']
 
-        # Get the operation type
-        operation = request.form.get("operation")
-        print(operation)
+        # Get the choice
+        choice = request.form.get("choice")  # Get the selected filter choice
+
+
         original = request.form.get("original")
         print(original)
         if original:
@@ -634,38 +636,36 @@ def imageFilter():
             imgPath = f"../{filePath}"
             return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
 
-        if operation == 'filter':
-            print(operation)
-            # If operation is 'filter', handle filter application
-            choice = request.form.get("choice")  # Get the selected filter choice
+        if choice in filters:
+            print(choice)
             isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
-            
-            if choice != "download":
-                # If 'apply' button is clicked
-                sliderValue = request.form.get('slider')  # Get the slider value
-                
-                    
-                # Apply selected filter to the image
-                if isCropped:
-                    # If image is already cropped, use the cropped image path and name
-                    filePath = session['croppedImgPath']
-                    fileName = session['croppedImgName']
 
-                # Apply filter to the image
-                outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
-                fileName = os.path.join("New" + fileName)
-                imgPath = f"../{outputPath}"
-                return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
+            sliderValue = request.form.get('slider')  # Get the slider value
+            
+                
+            # Apply selected filter to the image
+
+            if isCropped:
+                # If image is already cropped, use the cropped image path and name
+                filePath = session['croppedImgPath']
+                fileName = session['croppedImgName']
+
+            # Apply filter to the image
+            outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
+            fileName = os.path.join("New" + fileName)
+            imgPath = f"../{outputPath}"
+            return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
                                    
-            elif choice == 'download':
-                # If 'download' button is clicked, prepare image for download
-                Newfile = os.path.join("static/uploads", "New" + fileName)
-                if os.path.exists(Newfile):
-                    return send_file(Newfile, as_attachment=True)
-                else:
-                    Newfile = os.path.join("static/uploads", fileName)
-                    return send_file(Newfile, as_attachment=True)
-        else:
+        elif choice == 'downloadFilter':
+            # If 'download' button is clicked, prepare image for download
+            Newfile = os.path.join("static/uploads", "New" + fileName)
+            if os.path.exists(Newfile):
+                return send_file(Newfile, as_attachment=True)
+            else:
+                Newfile = os.path.join("static/uploads", fileName)
+                return send_file(Newfile, as_attachment=True)
+        
+        elif choice == 'applyCrop':
             # If operation is 'edit', handle image cropping
             croppedImg = request.form.get('cropped_image')
             cropped_image_path, croppedImgName = cropImg(croppedImg ,fileName)
@@ -680,6 +680,8 @@ def imageFilter():
             croppedImgPath = f"../{cropped_image_path}"
             
             return render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
+        else:
+            return apology("Something went wrong")
 
     else:
         # If request method is 'GET', render default image.html template

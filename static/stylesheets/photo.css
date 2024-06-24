@@ -85,7 +85,6 @@ body{
   cursor: pointer;
   transition: 0.3s;
   position: relative; /* Necessary for pseudo-element positioning */
-  overflow: hidden; /* Ensure pseudo-element does not overflow */
 }
 
 .leftBoxes button::before {
@@ -132,6 +131,7 @@ body{
   height: 3em;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  filter: brightness(2);
 
   &#rotateClockwiseICON {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2332174d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01m.57 4.09v.01m2.53 3.26v.01M11 19.94v.01'/%3E%3C/svg%3E");
@@ -208,6 +208,7 @@ body{
     gap: 150px;
     justify-items: left;
     justify-items: left;
+    margin-right: 5%;
 }
 
 .bottomBoxes button {
@@ -225,8 +226,8 @@ body{
     position: relative;
     margin-bottom: 5px;
     width: 100%;
-    max-width: 750px; /* Adjust as needed */
-    height: 600px; /* Adjust as needed */
+    max-width: 750px; 
+    height: 600px;
     overflow: hidden;
     margin-left: 50px;
 }
@@ -238,22 +239,164 @@ body{
   object-position: center; /* Centers the image within the container */
 }
 
-
-.original {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-5.04-6.71l-2.75 3.54l-1.96-2.36L6.5 17h11z'/%3E%3C/svg%3E");
-}
-
 .flexContainer{
   display: flex;
   flex-direction: row;
   gap: 100px;
-  padding-top: 25px;
+  padding-top: 2%;
   align-items: center;
-  padding-bottom: 40px;
+  padding-bottom: 3%;
+  height: auto; 
+  width: auto;
 }
 
+@media only screen and (max-width: 1000px) {
+  .leftBoxes button {
+    padding: 8px 0px;
+  }
+
+  .leftBoxes {
+    margin-bottom: 30px;
+  }
+
+  .bottomBoxes button {
+    font-size: 19px;
+  }
+
+  .bottomBoxes {
+    gap: 130px;
+  }
+
+  .leftBoxes button {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+
+  .flexContainer{
+    flex-wrap: wrap;
+    padding-top: 15px;
+    padding-bottom: 0%;
+    align-items: normal;
+    max-height: 750px;
+    gap: 0px;
+  }
+  
+  .topTabs {
+    font-size: 19px;
+  }
+
+  .leftBoxes button {
+    padding: 6px 0px;
+    width: 100%;
+  }
+
+  .bottomBoxes button {
+    font-size: 19px;
+  }
+
+  .bottomBoxes {
+    flex-direction: row;
+    padding-top: 0px;
+    gap: 250px;
+    position: relative;
+    margin-left: 200px;
+    padding-bottom: 45px;
+  }
+
+  .leftBoxesEditICON {
+    width: 2em;
+    height: 2em;
+  }
+
+  .leftBoxes {
+    flex: 0 0 5%;
+    align-items: center;
+  }
+
+  .theImg img {
+    object-position: center; /* Centers the image within the container */
+    flex: 80%;
+  }
+
+  .theImg {
+    flex: 0 0 75%;
+    padding-left: 5%;
+    /* max-width: 750px;  */
+    height: 450px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .bottomBoxes {
+    gap: 250px;
+    margin-left: 150px;
+    padding-bottom: 45px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .bottomBoxes {
+    gap: 200px;
+    margin-left: 120px;
+    padding-bottom: 45px;
+  }
+
+  .leftBoxesFilter{
+    font-size: 13px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .bottomBoxes {
+    gap: 150px;
+    margin-left: 100px;
+    padding-bottom: 45px;
+  }
+
+  .leftBoxesFilter{
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .bottomBoxes {
+    gap: 130px;
+    margin-left: 90px;
+    padding-bottom: 45px;
+  }
+  .leftBoxesFilter{
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .bottomBoxes {
+    gap: 120px;
+    margin-left: 80px;
+    padding-bottom: 45px;
+  }
+  .bottomBoxes button {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .bottomBoxes {
+    gap: 100px;
+    margin-left: 60px;
+    padding-bottom: 45px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .bottomBoxes {
+    gap: 80px;
+    margin-left: 50px;
+    padding-bottom: 45px;
+  }
+  .flexContainer{
+    gap: 0px;
+  }
+}

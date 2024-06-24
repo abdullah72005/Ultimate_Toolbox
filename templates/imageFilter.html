@@ -23,7 +23,7 @@
     <form action="/image/filter" method="post" enctype="multipart/form-data" id="filterForm">
         <h2 style="display: none;" id="fileName" value="{{ fileName }}">{{ fileName }}</h2>
         <div class="topTabs">
-            <button type="button" onclick="applyCropFilter()" id="filterButton" class="active"> 
+            <button type="button" onclick="applyCropFilter()" id="filterButton" name="choice" value="applyCrop" class="active"> 
                 Filter
             </button>
             <button type="button" onclick="showBlock('edit')">
@@ -31,8 +31,6 @@
             </button> 
         </div> 
     
-        <input id="operationChoice" name="operation" value="filter" style="display: none;">
-
         <div class="flexContainer">
             <div class="leftBoxes" id = "filterBlock" style="display: block;">
                 <div id="outputChoice" name="choice" value="choice" onchange="toggleSlider()">
@@ -84,12 +82,11 @@
                         Original
                 </button>
     
-                <button type="submit" name="choice" class="btn btn-primary" value="download" id="downloadFilter" style="display: block;">Download</button>
-                <button type="button" name="button" class="btn btn-primary" value="download" id="downloadCrop" style="display: none;">Download</button>
+                <button type="submit" name="choice" class="btn btn-primary" value="downloadFilter" id="downloadFilter" style="display: block;">Download</button>
+                <button type="button" name="choice" class="btn btn-primary" value="downloadCrop" id="downloadCrop" style="display: none;">Download</button>
             </div>
 
         </div>
-
 
     </form>
 
