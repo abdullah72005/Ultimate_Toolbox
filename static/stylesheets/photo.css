@@ -1,0 +1,402 @@
+body{
+  color:#E2E2E2;
+}
+
+.topTabs {
+  background-color: inherit;
+  display: flex;
+  font-size: 25px;
+  border: none;
+  overflow: hidden; /* Ensure no overflow happens */
+  font-family: 'Nunito', sans-serif;
+  opacity: 0.9;
+}
+
+.topTabs button {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  background-color: inherit;
+  color: #E2E2E2;
+  border: none;
+  padding-bottom: 8px; /* Space for the pseudo-element */
+  position: relative; /* Necessary for the pseudo-element positioning */
+  overflow: hidden; /* Ensure the pseudo-element does not overflow */
+  transition: transform 0.3s ease-out; /* Transition for smooth animation */
+  transform-origin: center; /* Scale from the center */
+  padding-top: 15px;
+}
+
+.topTabs button::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%; /* Start from the center */
+  width: 0%; /* Start with 0 width */
+  height: 5px; /* Height of the border-bottom */
+  border-radius: 7px; /* Rounded corners */
+  /* Gradient background with box-shadow */
+  background: linear-gradient(to right, 
+                              rgba(0, 0, 0, 0) 0%,    /* Black */
+                              rgba(128, 0, 128, 0.5) 10%,    /* Dark purple */
+                              rgba(128, 0, 128, 0.8) 25%,   /* Medium purple */
+                              rgba(128, 0, 128, 1) 50%,   /* Light purple */
+                              rgba(128, 0, 128, 0.8) 75%,   /* Medium purple */
+                              rgba(128, 0, 128, 0.5) 90%, /* Dark purple */
+                              rgba(0, 0, 0, 0) 100%); /* Black */
+  /* Box shadow for neon light effect */
+  box-shadow: 0 0 10px rgba(128, 0, 128, 0.8), 
+              0 0 20px rgba(128, 0, 128, 0.6); /* Neon light effect */  
+  transform: translateX(-50%); /* Center the pseudo-element horizontally */
+  transition: width 0.5s ease; /* Transition for smooth animation */
+  padding-bottom: 5px;
+}
+
+.topTabs button:hover,
+.topTabs button.active {
+  transform: scale(1.1); /* Scale the button slightly on hover or when active */
+}
+
+.topTabs button:hover::before,
+.topTabs button.active::before {
+  width: 100%; /* Expand to full width on hover or when active */
+}
+
+
+.leftBoxes {
+  position: relative;
+  left: 5%;
+  width: 10%;
+  font-family: 'Nunito', sans-serif;
+  border: none;
+  justify-items: center;
+  opacity: 0.8;
+}
+
+.leftBoxes button {
+  display: block;
+  background-color: inherit;
+  color: #E2E2E2;
+  padding: 10px 0px;
+  border: none;
+  width: 65%;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative; /* Necessary for pseudo-element positioning */
+}
+
+.leftBoxes button::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  height: 2px; /* Adjust the height of the border-bottom */
+  background: linear-gradient(to right, 
+                              rgba(0, 0, 0, 0) 0%,    /* Black */
+                              rgba(128, 0, 128, 0.5) 10%,    /* Dark purple */
+                              rgba(128, 0, 128, 0.8) 25%,   /* Medium purple */
+                              rgba(128, 0, 128, 1) 50%,   /* Light purple */
+                              rgba(128, 0, 128, 0.8) 75%,   /* Medium purple */
+                              rgba(128, 0, 128, 0.5) 90%, /* Dark purple */
+                              rgba(0, 0, 0, 0) 100%); /* Black */
+  box-shadow: 0 0 5px rgba(128, 0, 128, 0.8), 
+              0 0 10px rgba(128, 0, 128, 0.6); /* Neon light effect */  
+  transform: translateX(-50%);
+  transition: width 0.5s ease;
+}
+
+.leftBoxes button:hover::before {
+  width: 100%;
+}
+
+.leftBoxes button:hover {
+  filter: brightness(2);
+  transform: scale(1.1);
+}
+
+.leftBoxesEdit{
+  margin-bottom: 15px;
+}
+
+.leftBoxesFilter {
+  font-size: 15px;
+}
+
+.leftBoxesEditICON {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  filter: brightness(2);
+
+  &#rotateClockwiseICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2332174d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01m.57 4.09v.01m2.53 3.26v.01M11 19.94v.01'/%3E%3C/svg%3E");
+  }
+
+  &#rotateCounterclockwiseICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2332174d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01m.57 4.09v.01m2.53 3.26v.01M11 19.94v.01'/%3E%3C/svg%3E");
+    transform: scaleX(-1);
+  }
+
+  &#flipHorizontalICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M15 21h2v-2h-2m4-10h2V7h-2M3 5v14c0 1.1.9 2 2 2h4v-2H5V5h4V3H5c-1.1 0-2 .9-2 2m16-2v2h2c0-1.1-.9-2-2-2m-8 20h2V1h-2m8 16h2v-2h-2M15 5h2V3h-2m4 10h2v-2h-2m0 10c1.1 0 2-.9 2-2h-2Z'/%3E%3C/svg%3E");
+  }
+
+  &#flipVerticalICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M15 21h2v-2h-2m4-10h2V7h-2M3 5v14c0 1.1.9 2 2 2h4v-2H5V5h4V3H5c-1.1 0-2 .9-2 2m16-2v2h2c0-1.1-.9-2-2-2m-8 20h2V1h-2m8 16h2v-2h-2M15 5h2V3h-2m4 10h2v-2h-2m0 10c1.1 0 2-.9 2-2h-2Z'/%3E%3C/svg%3E");
+    transform: rotate(90deg);
+  }
+
+  &#dragCropICON {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2332174d' d='M17 15h2V7c0-1.1-.9-2-2-2H9v2h8zM7 17V1H5v4H1v2h4v10c0 1.1.9 2 2 2h10v4h2v-4h4v-2z'/%3E%3C/svg%3E");
+    }
+  &#dragMoveICON {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath fill='%2332174d' d='M909.3 506.3L781.7 405.6a7.23 7.23 0 0 0-11.7 5.7V476H548V254h64.8c6 0 9.4-7 5.7-11.7L517.7 114.7a7.14 7.14 0 0 0-11.3 0L405.6 242.3a7.23 7.23 0 0 0 5.7 11.7H476v222H254v-64.8c0-6-7-9.4-11.7-5.7L114.7 506.3a7.14 7.14 0 0 0 0 11.3l127.5 100.8c4.7 3.7 11.7.4 11.7-5.7V548h222v222h-64.8c-6 0-9.4 7-5.7 11.7l100.8 127.5c2.9 3.7 8.5 3.7 11.3 0l100.8-127.5c3.7-4.7.4-11.7-5.7-11.7H548V548h222v64.8c0 6 7 9.4 11.7 5.7l127.5-100.8a7.3 7.3 0 0 0 .1-11.4'/%3E%3C/svg%3E");
+  }
+}
+
+
+/* .selectContainer {
+  display: -webkit-flex;
+  background-color: inherit;
+  color: #E2E2E2;
+  padding: 20px 14px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+  text-align: center;
+  margin-right: 5px;
+}
+
+
+  .selectBox {
+    cursor: pointer;
+  }
+
+  .selectOptions {
+    max-width: 0;
+    overflow: hidden;
+    transition: max-width 0.3s ease;
+    position: relative;
+    background-color: inherit;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: absolute;
+  }
+
+  .cropRatio {
+    background-color: inherit;
+    color: white;
+    border: 2px solid white;
+    margin-left: 120px;
+    padding: 10px 20px;
+  } */
+
+
+
+.bottomBoxes {
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+    justify-items: left;
+    justify-items: left;
+    margin-right: 5%;
+}
+
+.bottomBoxes button {
+  background-color: #32174d;
+  --bs-btn-border-width: 0;
+  --bs-btn-font-family: 'Nunito', sans-serif;
+  --bs-btn-hover-bg: #231036;
+  --bs-btn-active-bg: #231036;
+  font-size: 21px;
+  padding: 10px 20px;
+}
+
+
+.theImg {
+    position: relative;
+    margin-bottom: 5px;
+    width: 100%;
+    max-width: 750px; 
+    height: 600px;
+    overflow: hidden;
+    margin-left: 50px;
+}
+
+.theImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image covers the container while maintaining aspect ratio */
+  object-position: center; /* Centers the image within the container */
+}
+
+.flexContainer{
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  padding-top: 2%;
+  align-items: center;
+  padding-bottom: 3%;
+  height: auto; 
+  width: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+  .leftBoxes button {
+    padding: 8px 0px;
+  }
+
+  .leftBoxes {
+    margin-bottom: 30px;
+  }
+
+  .bottomBoxes button {
+    font-size: 19px;
+  }
+
+  .bottomBoxes {
+    gap: 130px;
+  }
+
+  .leftBoxes button {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+
+  .flexContainer{
+    flex-wrap: wrap;
+    padding-top: 15px;
+    padding-bottom: 0%;
+    align-items: normal;
+    max-height: 750px;
+    gap: 0px;
+  }
+  
+  .topTabs {
+    font-size: 19px;
+  }
+
+  .leftBoxes button {
+    padding: 6px 0px;
+    width: 100%;
+  }
+
+  .bottomBoxes button {
+    font-size: 19px;
+  }
+
+  .bottomBoxes {
+    flex-direction: row;
+    padding-top: 0px;
+    gap: 250px;
+    position: relative;
+    margin-left: 200px;
+    padding-bottom: 45px;
+  }
+
+  .leftBoxesEditICON {
+    width: 2em;
+    height: 2em;
+  }
+
+  .leftBoxes {
+    flex: 0 0 5%;
+    align-items: center;
+  }
+
+  .theImg img {
+    object-position: center; /* Centers the image within the container */
+    flex: 80%;
+  }
+
+  .theImg {
+    flex: 0 0 75%;
+    padding-left: 5%;
+    /* max-width: 750px;  */
+    height: 450px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .bottomBoxes {
+    gap: 250px;
+    margin-left: 150px;
+    padding-bottom: 45px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .bottomBoxes {
+    gap: 200px;
+    margin-left: 120px;
+    padding-bottom: 45px;
+  }
+
+  .leftBoxesFilter{
+    font-size: 13px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .bottomBoxes {
+    gap: 150px;
+    margin-left: 100px;
+    padding-bottom: 45px;
+  }
+
+  .leftBoxesFilter{
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .bottomBoxes {
+    gap: 130px;
+    margin-left: 90px;
+    padding-bottom: 45px;
+  }
+  .leftBoxesFilter{
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .bottomBoxes {
+    gap: 120px;
+    margin-left: 80px;
+    padding-bottom: 45px;
+  }
+  .bottomBoxes button {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .bottomBoxes {
+    gap: 100px;
+    margin-left: 60px;
+    padding-bottom: 45px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .bottomBoxes {
+    gap: 80px;
+    margin-left: 50px;
+    padding-bottom: 45px;
+  }
+  .flexContainer{
+    gap: 0px;
+  }
+}

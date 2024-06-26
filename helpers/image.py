@@ -7,12 +7,12 @@ filters_dic = {
     "Blur": ImageFilter.GaussianBlur,  # Gaussian blur filter
     "Contour": ImageFilter.CONTOUR,  # Contour filter
     "Detail": ImageFilter.DETAIL,  # Detail enhancement filter
-    "Edge enhance": ImageFilter.EDGE_ENHANCE,  # Edge enhancement filter
+    "Enhance": ImageFilter.EDGE_ENHANCE,  # Edge enhancement filter
     "Emboss": ImageFilter.EMBOSS,  # Emboss filter
-    "Find edges": ImageFilter.FIND_EDGES,  # Edge detection filter
+    "Edge": ImageFilter.FIND_EDGES,  # Edge detection filter
     "Sharpen": ImageFilter.SHARPEN,  # Sharpen filter
     "Smooth": ImageFilter.SMOOTH,  # Smooth filter
-    "Very smooth": ImageFilter.SMOOTH_MORE  # Very smooth filter
+    # "Very smooth": ImageFilter.SMOOTH_MORE  # Very smooth filter
 }
 
 # Function to apply filter to image
@@ -48,6 +48,7 @@ def cropImg(croppedImg ,fileName):
     
     # Save the cropped image to a file
     croppedImgName = "New" + fileName
+    print(croppedImgName)
     cropped_image_path = os.path.join('static/uploads', croppedImgName)
 
     try:

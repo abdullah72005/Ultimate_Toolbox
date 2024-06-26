@@ -2,75 +2,94 @@
 
 {% block title %}
     Image Filter 
-    <style>
-        #imageContainer {
-            width: 300px;
-            height: 200px;
-            overflow: hidden;
-        }
-        #img {
-            width: 100%;
-            height: auto;
-        }
-    </style>
 {% endblock %}
 
+{% block style %}<link href="../static/stylesheets/photo.css" rel="stylesheet">{% endblock %}
+
+{% block nav %}
+
+<a id="navitem" class="nav-link" href="/">Home</a>
+<a id="navitem" class="nav-link" href="/upload">File Converter</a>
+<a id="navitem" class="nav-link" href="/yt-to-mp3">Youtube Downloader</a>
+<a id="navitem" class="nav-link active" aria-current="page" href="/image/upload">Photo Editor</a>
+<a id="navitem" class="nav-link" href="/translation">Translator</a>
+<a id="navitem" class="nav-link" href="/qrcode">QRcode Generator</a>
+<a id="navitem" class="nav-link" href="/password-generator">Password Generator</a>
+
+{% endblock %}
+
+
 {% block main %}
-<div class="container mt-5">
-    <!-- This div is optional and can be used for additional content -->
-</div>
-<div class="container mt-5">
     <form action="/image/filter" method="post" enctype="multipart/form-data" id="filterForm">
-        <div class="mb-3">
-            <h2 id="fileName">{{ fileName }}</h2>
-            <div id="imageContainer" style="width: 300px; height: 200px; overflow: hidden;">
-                <img id="img" src="{{ imgPath }}" alt="Uploaded Image" style="width: 100%; height: auto;">
-            </div>
-            <select class="form-select" id="operationChoice" name="operation" value="operation" onchange="showBlock(this.value)">
-                <option disabled selected>Operations</option>
-                <option value="filter">Filter</option>
-                <option value="edit">Edit</option>
-            </select>
-            <div id = "filterBlock" style="display: none;">
-                <select class="form-select" id="outputChoice" name="choice" value="choice" onchange="toggleSlider()">
-                    <option disabled selected>Filters</option>
-                    <option value="original">Original</option>
+        <h2 style="display: none;" id="fileName" value="{{ fileName }}">{{ fileName }}</h2>
+        <div class="topTabs">
+            <button type="button" onclick="applyCropFilter()" id="filterButton" name="choice" value="applyCrop" class="active"> 
+                Filter
+            </button>
+            <button type="button" onclick="showBlock('edit')">
+               Edit
+            </button> 
+        </div> 
+    
+        <div class="flexContainer">
+            <div class="leftBoxes" id = "filterBlock" style="display: block;">
+                <div id="outputChoice" name="choice" value="choice" onchange="toggleSlider()">
                     {% for choice in filters %}
-                        <option value="{{ choice }}">{{ choice }}</option>
+                        <button value="{{ choice }}" name="choice" class="leftBoxesFilter">
+                            <div id="{{ choice }}ICON"></div>
+                            <br>
+                            {{ choice }}
+                        </button>
                     {% endfor %}
-                </select>
+                </div>
                 <label for="slider" id="sliderLabel" style="display: none;">Select a value:</label>
                 <input type="range" class="form-control-range" id="slider" name="slider" min="0" max="5" value="5" style="display: none;">
-                <output for="slider" id="sliderValue" class="mt-2 badge badge-primary">50</output>
-
-                <button type="submit" class="btn btn-primary" name="button" value="apply" id="applyButton">Apply changes</button>
-                <button type="submit" class="btn btn-primary" name="button" value="download">Download</button>
+                <output for="slider" id="sliderValue" class="mt-2 badge badge-primary" style="display: none;">50</output>
             </div>
-            <div id="editBlock" style="display: none;">
+
+            
+            <div class="leftBoxes" id="editBlock" style="display: none;">
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
-                <label for="aspectRatio">Choose aspect ratio:</label>
-                <select id="aspectRatio">
-                    <option value="free">Free</option>
-                    <option value="16/9">16:9</option>
-                    <option value="4/3">4:3</option>
-                    <option value="1/1">1:1</option>
-                </select>
-                <button type="button" class="btn btn-primary" id="rotateClockwise">Rotate Clockwise</button>
-                <button type="button" class="btn btn-primary" id="rotateCounterclockwise">Rotate Counterclockwise</button>
-                <button type="button" class="btn btn-primary" id="flipHorizontal">Flip Horizontal</button>
-                <button type="button" class="btn btn-primary" id="flipVertical">Flip Vertical</button>            
-                <button type="submit" class="btn btn-primary" id="apply" value="apply" name="button">Apply changes</button>
-                <button type="button" class="btn btn-primary" id="download">Download</button>
-                <button type="button" class="btn btn-primary" id="dragCrop">Crop Drag Mode</button>
-                <button type="button" class="btn btn-primary" id="dragMove">Move Drag Mode</button>
-                <button type="button" class="btn btn-primary" id="dragNone">None Drag Mode</button>            
+                <button type="button" id="rotateClockwise" class="leftBoxesEdit"> 
+                    <div id="rotateClockwiseICON" class="leftBoxesEditICON"></div>
+                </button>
+                <button type="button" id="rotateCounterclockwise" class="leftBoxesEdit">
+                    <div id="rotateCounterclockwiseICON" class="leftBoxesEditICON"></div>
+                </button>
+                <button type="button" id="flipHorizontal" class="leftBoxesEdit">
+                    <div id="flipHorizontalICON" class="leftBoxesEditICON"></div>   
+                </button>
+                <button type="button" id="flipVertical" class="leftBoxesEdit">
+                    <div id="flipVerticalICON" class="leftBoxesEditICON" style="padding-top: 30px;"></div>   
+                </button>
+                <button type="button" id="dragCrop" class="leftBoxesEdit">
+                    <div id="dragCropICON" class="leftBoxesEditICON"></div>   
+                </button>
+                <button type="button" id="dragMove" class="leftBoxesEdit">
+                    <div id="dragMoveICON" class="leftBoxesEditICON"></div>   
+                </button>
                 <input type="hidden" name="cropped_image" id="croppedImage">
                 <input type="hidden" name="isCropped" id="isCropped" value="{{ isCropped }}">
             </div>
+
+            <div id="imageContainer" class="theImg">
+                <img id="img" src="{{ imgPath }}" alt="Uploaded Image">
+            </div>
+
+            <div class="bottomBoxes" >
+                <button type="submit" name="original" value="original" class="btn btn-primary" style="display: block;" value="original">
+                        Original
+                </button>
+    
+                <button type="submit" name="choice" class="btn btn-primary" value="downloadFilter" id="downloadFilter" style="display: block;">Download</button>
+                <button type="button" name="choice" class="btn btn-primary" value="downloadCrop" id="downloadCrop" style="display: none;">Download</button>
+            </div>
+
         </div>
+
     </form>
-</div>
 
 <script src="../static/image.js"> </script>
 {% endblock %}
+ 
