@@ -24,11 +24,11 @@ Translator
 
 {% block main %}
 <div>
-    <form action="/doc-translation" method="post" class="d-flex" enctype="multipart/form-data"> 
+    <form action="/doc-translation" method="post" class="d-flex" enctype="multipart/form-data" id="form"> 
 
         <div class="doc-forms">
             <div class="seldiv">
-            <select name="input_lang" required class="sel">
+            <select name="input_lang" required class="sel" id="selectIn">
                 <option value="detect" selected> detect language (default) </option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
@@ -37,7 +37,7 @@ Translator
         </div>
 
             <div class="seldiv">
-            <select name="output_lang" required class="sel">
+            <select name="output_lang" required class="sel" id="selectOut">
                 <option selected disabled>Output language (required)</option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
@@ -78,6 +78,9 @@ Translator
         const ico = document.querySelector(".dragicoTrans");
         const txt = document.querySelector(".dragtxtTrans");
         const docdisplay = document.getElementById("transdocdisplay");
+        const selectIn = document.getElementById("selectIn");
+        const selectOut = document.getElementById("selectOut");
+
         let msg = document.getElementById("msg");
         
         
@@ -133,7 +136,29 @@ Translator
         });
 
 
-         
+    // Save values to localStorage on form submit
+    form.addEventListener('submit', (event) => {
+        localStorage.setItem('selectInDoc', selectIn.value);
+        localStorage.setItem('selectOutDoc', selectOut.value);
+        console.log('Form submitted and values saved to localStorage');
+    });
+
+    // Load saved values from localStorage
+    if (localStorage.getItem('selectInDoc')) {
+        selectIn.value = localStorage.getItem('selectInDoc');
+        console.log(localStorage.getItem('selectInDoc'));
+    }
+    
+    if (localStorage.getItem('selectOutDoc')) {
+        selectOut.value = localStorage.getItem('selectOutDoc');
+        console.log(localStorage.getItem('selectOutDoc'));
+    }
+
+    window.addEventListener('load', () => {
+        localStorage.removeItem('selectOutDoc');
+        localStorage.removeItem('selectInDoc');
+    });
+
     </script>
 
 
