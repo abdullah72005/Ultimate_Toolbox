@@ -21,7 +21,7 @@
 
 {% block main %}
     <form action="/image/filter" method="post" enctype="multipart/form-data" id="filterForm">
-        <h2 style="display: none;" id="fileName" value="{{ fileName }}">{{ fileName }}</h2>
+        <input type="hidden" name="fileName" id="fileName" value="{{ fileName }}">
         <div class="topTabs">
             <button type="button" onclick="applyCropFilter()" id="filterButton" name="choice" value="applyCrop" class="active"> 
                 Filter
@@ -42,10 +42,7 @@
                         </button>
                     {% endfor %}
                 </div>
-                <label for="slider" id="sliderLabel" style="display: none;">Select a value:</label>
-                <input type="range" class="form-control-range" id="slider" name="slider" min="0" max="5" value="5" style="display: none;">
-                <output for="slider" id="sliderValue" class="mt-2 badge badge-primary" style="display: none;">50</output>
-            </div>
+           </div>
 
             
             <div class="leftBoxes" id="editBlock" style="display: none;">

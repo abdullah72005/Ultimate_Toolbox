@@ -16,19 +16,14 @@ filters_dic = {
 }
 
 # Function to apply filter to image
-def filterImg(imgPath, filter_name, fileName, value, isCropped):
+def filterImg(imgPath, filter_name, fileName):
     # Open the original image
     originalImg = Image.open(imgPath)
     
     # Convert the image to RGB mode if it's already cropped
-    if isCropped:
-        originalImg = originalImg.convert("RGB")
-    
-    # Apply the selected filter to the image
-    if filter_name == "Blur":  # Check if the filter supports adjusting strength
-        filteredImg = originalImg.filter(filters_dic[filter_name](radius=int(value)))
-    else:
-        filteredImg = originalImg.filter(filters_dic[filter_name])
+    originalImg = originalImg.convert("RGB")
+
+    filteredImg = originalImg.filter(filters_dic[filter_name])
 
     # Save the filtered image to a file
     output_path = f"static/uploads/New{fileName}"
@@ -38,6 +33,7 @@ def filterImg(imgPath, filter_name, fileName, value, isCropped):
 
 # Function to crop image
 def cropImg(croppedImg ,fileName):
+
     # Decode the base64 cropped image data
     try:
         cropped_image_bytes = base64.b64decode(croppedImg.split(',')[1])

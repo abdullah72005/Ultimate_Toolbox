@@ -7,7 +7,7 @@ body{
   display: flex;
   font-size: 25px;
   border: none;
-  overflow: hidden; /* Ensure no overflow happens */
+  overflow: hidden; 
   font-family: 'Nunito', sans-serif;
   opacity: 0.9;
 }
@@ -59,7 +59,7 @@ body{
 
 .topTabs button:hover::before,
 .topTabs button.active::before {
-  width: 100%; /* Expand to full width on hover or when active */
+  width: 90%; /* Expand to full width on hover or when active */
 }
 
 

@@ -28,12 +28,12 @@ Translator
 
 <div>
 <div class="transpage">
-    <form action="/translation" method="post" class="d-flex transform"> 
+    <form action="/translation" method="post" class="d-flex transform" id="form"> 
 
 
         <div class="doc-forms">
             <span class="seldiv">
-            <select name="input_lang" required class="sel">
+            <select name="input_lang" required class="sel" id="selectIn">
                 <option value="detect" selected> detect language (default) </option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
@@ -42,7 +42,7 @@ Translator
         </span>
         
             <span class="seldiv">
-            <select name="output_lang" required class="sel">
+            <select name="output_lang" required class="sel" id="selectOut">
                 <option selected disabled>Output language (required)</option>
                 {% for lang in langs %}
                     <option value="{{ lang }}" >{{ lang }}</option>
@@ -73,12 +73,47 @@ Translator
 
 <script>
     const txt = document.getElementById("txt");
+    const selectIn = document.getElementById("selectIn");
+    const selectOut = document.getElementById("selectOut");
+    const form = document.getElementById("form");
 
-    var input_txt = '{{input_txt}}';
 
-    if (input_txt) {
-        txt.textContent = input_txt;
+    // var input_txt = '{{input_txt}}';
+
+    // if (input_txt) {
+    //     txt.textContent = input_txt;
+    // }
+
+    // Save values to localStorage on form submit
+    form.addEventListener('submit', (event) => {
+        localStorage.setItem('txt', txt.value);
+        localStorage.setItem('selectIn', selectIn.value);
+        localStorage.setItem('selectOut', selectOut.value);
+        console.log('Form submitted and values saved to localStorage');
+    });
+
+    // Load saved values from localStorage
+    if (localStorage.getItem('txt')) {
+        txt.value = localStorage.getItem('txt');
+        console.log(localStorage.getItem('txt'));
     }
+
+    if (localStorage.getItem('selectIn')) {
+        selectIn.value = localStorage.getItem('selectIn');
+        console.log(localStorage.getItem('selectIn'));
+    }
+    
+    if (localStorage.getItem('selectOut')) {
+        selectOut.value = localStorage.getItem('selectOut');
+        console.log(localStorage.getItem('selectOut'));
+    }
+
+    // Clear localStorage on page reload
+    window.addEventListener('load', () => {
+        localStorage.removeItem('txt');
+        localStorage.removeItem('selectIn');
+        localStorage.removeItem('selectOut');
+    });
 </script>
 
 {% endblock %}

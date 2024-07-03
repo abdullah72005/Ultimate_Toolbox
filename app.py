@@ -632,35 +632,34 @@ def imageFilter():
         # Get the choice
         choice = request.form.get("choice")  # Get the selected filter choice
 
-
         original = request.form.get("original")
-        print(original)
+
         if original:
             # If original button clicked display original image
             imgPath = f"../{filePath}"
             return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
 
         if choice in filters:
-            print(choice)
             isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
-
-            sliderValue = request.form.get('slider')  # Get the slider value
             
                 
             # Apply selected filter to the image
-
             if isCropped:
+                print("I am here")
                 # If image is already cropped, use the cropped image path and name
                 filePath = session['croppedImgPath']
                 fileName = session['croppedImgName']
 
             # Apply filter to the image
-            outputPath = filterImg(filePath, choice, fileName, sliderValue, isCropped)
+            outputPath = filterImg(filePath, choice, fileName)
             fileName = os.path.join("New" + fileName)
             imgPath = f"../{outputPath}"
             return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
-                                   
-        elif choice == 'downloadFilter':
+
+        elif choice == 'downloadFilter': 
+            # Get the latest fileName
+            fileName = request.form.get("fileName")
+
             # If 'download' button is clicked, prepare image for download
             Newfile = os.path.join("static/uploads", "New" + fileName)
             if os.path.exists(Newfile):
