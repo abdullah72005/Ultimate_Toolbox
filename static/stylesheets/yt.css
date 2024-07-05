@@ -1,0 +1,147 @@
+.flexContainer{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  gap: 30px;
+  box-sizing: border-box;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.ytURL {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    gap: 30px;
+    box-sizing: border-box;
+    flex-direction: row;
+}
+
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
+    width: 50%;
+  }
+  
+  .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 1.3rem;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+  }
+  
+  .form__field::placeholder {
+    color: transparent;
+  }
+  
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+  
+  .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #9b9b9b;
+    text-align: center;
+
+  }
+  
+  .form__field:focus ~ .form__label {
+    font-size: 1rem;
+    color: #880000;
+    font-weight: 700;
+  }
+  
+  .form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #660000, #770000, #880000, #990000, #880000, #770000, #660000);
+    border-image-slice: 1;
+  }
+  
+  .form__field:required, .form__field:invalid {
+    box-shadow: none;
+  }
+
+  .ytButton{
+    background-color: #660000;
+    --bs-btn-border-width: 0;
+    --bs-btn-font-family: 'Nunito', sans-serif;
+    --bs-btn-hover-bg: #550000;
+    --bs-btn-active-bg: #660000;
+    font-size: 18px;
+    padding: 10px 20px;
+    height: 100%;
+    color: #E2E2E2;
+    margin-top: 12px;
+}
+
+.ytRadio {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background: inherit;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    border: none;
+    margin-top: 12px;
+
+}
+
+.ytRadio input {
+    width: auto;
+    height: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 8px 16px;
+    background: #660000;
+    color: #E2E2E2;
+    font-size: 16px;
+    transition: all 0.3s ease-in; /* Adjust the timing and easing as needed */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.ytRadio input:checked {
+    background-image: linear-gradient(180deg, #c73847, #660000);
+    color: #fff;
+    box-shadow: 0 1px 1px #0000002e;
+    text-shadow: 0 1px 0px #79485f7a;
+    transform: scale(1.1);
+}
+
+.ytRadio input:before {
+    content: attr(label);
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.ytRadio input:not(:checked):hover{
+  background: #550000
+}

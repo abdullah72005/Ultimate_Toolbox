@@ -4,6 +4,7 @@
     URL
 {% endblock %}
 
+{% block style %}<link href="../static/stylesheets/yt.css" rel="stylesheet">{% endblock %}
 
 {% block nav %}
 
@@ -19,31 +20,68 @@
 
 
 {% block main %}
-    <div class="container mt-5">
-        <form action="/yt-to-mp3" method="post" class="d-flex"> 
-            <input type="url" class="form-control flex-grow-1" name="url" placeholder="Enter URL">
-            <select class="form-control" name="type" required>
-                <option selected disabled>Select a type</option>
-                <option>Video</option>
-                <option>Audio</option>
-            </select>
-            <button type="submit" class="btn btn-primary ml-2" name="button" value="Enter">Enter</button>
+    <div class="flexContainer">
+        <form class="ytURL" action="/yt-to-mp3" method="post" class="d-flex"> 
+            <div class="form__group field">
+                <input type="url" class="form__field" placeholder="Enter" name="url" id='link' required autocomplete="off" autofocus>
+                <label for="link" class="form__label">Enter a Youtube URL</label>
+            </div>
+            <div class="ytRadio">
+                <input label="Audio" type="radio" id="audio" name="type" value="Audio" checked>
+                <input label="Video" type="radio" id="video" name="type" value="Video">
+            </div>
+            <div>
+                <button type="submit" name="button" value="Enter" class="btn btn-primary ytButton">Convert</button>
+            </div>
         </form>
+        {% if error_message %}
+            <div class="alert alert-danger" role="alert" id = "alert">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        <div class="container mt-3" id="loading-section-ytcon" style="display:none;">
+            <div class="alert alert-info" role="alert">
+                Loading...
+            </div>
+        </div>
+
     </div>
 
-    {% if error_message %}
-    <div class="container mt-3">
-        <div class="alert alert-danger" role="alert" id = "alert">
-            {{ error_message }}
+    {% if conversion %}
+        <div class="container mt-5">
+            <form action="/mp3-download" method="post" class="d-flex flex-column align-items-center">
+                <h2 class="mb-4">Video Details</h2>
+                <p class="mb-2" name="url">{{ url }}</p>
+                <p class="mb-2">Title: {{ title }}</p>
+                <p class="mb-2">Duration: {{ duration }}</p>
+                <img src="{{ thumbnail_url }}" alt="Video Thumbnail" class="img-fluid mb-4" style="max-width: 150px; height: auto;">
+                <h2 class="mb-3">Download</h2>
+                <div class="form-group">
+                    <label for="quality">Choose Quality:</label>
+                    <select class="form-control" name="quality" required>
+                        {% if fileType == "Audio" %}
+                        <option selected disabled>Select an audio quality</option>
+                            {% for as in audio_streams %}
+                                <option value="{{ as }}" >Bitrate: {{ as.abr }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB</option>
+                            {% endfor %}
+                        {% else %}
+                        <option selected disabled>Select a video quality</option>
+                            {% for as in audio_streams %}
+                                <option value="{{ as }}" >Resolution: {{ as.resolution }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB, FPS: {{ as.fps }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>        
+                <button type="submit" class="btn btn-primary mt-2" name="button" value="Download">Download</button>
+                <div class="container mt-3" id="loading-section" style="display:none;">
+                    <div class="alert alert-info" role="alert">
+                        Loading...
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
     {% endif %}
-
-    <div class="container mt-3" id="loading-section-ytcon" style="display:none;">
-        <div class="alert alert-info" role="alert">
-            Loading...
-        </div>
-    </div>
 
     
     <script>

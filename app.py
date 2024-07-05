@@ -327,7 +327,9 @@ def url():
             fileType = request.form['type']
             session['url'] = youtube_url
             session['type'] = fileType
-
+            print("Nigger")
+            print(fileType)
+            print("Nigger")
             # if isPlaylist(youtube_url):
             #    playlistName, totalFileSize = get_playlist_info(youtube_url)
             #    session['playlistName'] = playlistName
@@ -342,9 +344,10 @@ def url():
             # Get audio streams and store in the session
             audio_streams = print_audio_streams(youtube_url, fileType)
             session["audio_streams"] = audio_streams
+            conversion = 1
 
             # Render template with video information
-            return render_template('ytDownload.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType)
+            return render_template('ytcon.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType, conversion=conversion)
 
         #If there is an error get the Error message
         except AgeRestrictedError as e:
@@ -370,8 +373,6 @@ def url():
             session['error_message'] = "File is larger than the 16mb limit."
 
         
-        except Exception as e: 
-             session['error_message'] = "Error: An unexpected error has happened"
         
         #return the webpage with the error message and delete files
         deleteFiles(app.config['UPLOAD_DIRECTORY'])    

@@ -15,7 +15,7 @@ def print_audio_streams(youtube_url, fileType):
     youtube_url = YouTube(youtube_url)
 
     # Sort the stream from the largest file to the smallest and check the file type
-    if fileType == "Audio":
+    if fileType == "audio":
         streams = sorted(youtube_url.streams.filter(only_audio=True), key=lambda s: s.filesize, reverse=True)
     else:
         streams = sorted((stream for stream in youtube_url.streams if stream.audio_codec is not None and stream.video_codec is not None), key=lambda s: s.filesize, reverse=True)
@@ -26,7 +26,7 @@ def download_audio(youtube_url, i, title, fileType):
     # Download audio and return the file path
     youtube_url = YouTube(youtube_url)
     # check the file type  
-    if fileType == 'Audio':
+    if fileType == 'audio':
         ext = ".mp3"
         selected_stream = sorted(youtube_url.streams.filter(only_audio=True), key=lambda s: s.filesize, reverse=True)
         ss = selected_stream[i]
