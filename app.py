@@ -327,18 +327,20 @@ def url():
             fileType = request.form['type']
             session['url'] = youtube_url
             session['type'] = fileType
-            print("Nigger")
-            print(fileType)
-            print("Nigger")
             # if isPlaylist(youtube_url):
             #    playlistName, totalFileSize = get_playlist_info(youtube_url)
             #    session['playlistName'] = playlistName
             #    return render_template('ytDownload.html', youtube_url=url, playlistName=playlistName, totalFileSize=totalFileSize)
             # else:
             # Get video information and store title in the session 
-            title, thumbnail_url, duration = get_video_info(youtube_url)
+            title, author, views, rating, duration, publishDate, thumbnail_url = get_video_info(youtube_url)
             duration = "{:02}:{:02}".format(duration // 60, duration % 60)
 
+            # Format the datetime object to dd:mm:yyyy
+            publishDate = publishDate.strftime("%d/%m/%Y")
+
+            views = f"{views:,}"
+            
             session['title'] = title  
             
             # Get audio streams and store in the session
@@ -347,7 +349,7 @@ def url():
             conversion = 1
 
             # Render template with video information
-            return render_template('ytcon.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType, conversion=conversion)
+            return render_template('ytcon.html', youtube_url=url, title=title, author=author, views=views, rating=rating, duration=duration, publishDate=publishDate, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType, conversion=conversion)
 
         #If there is an error get the Error message
         except AgeRestrictedError as e:

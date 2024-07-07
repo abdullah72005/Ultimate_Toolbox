@@ -15,10 +15,12 @@ def print_audio_streams(youtube_url, fileType):
     youtube_url = YouTube(youtube_url)
 
     # Sort the stream from the largest file to the smallest and check the file type
-    if fileType == "audio":
+    if fileType == "Audio":
         streams = sorted(youtube_url.streams.filter(only_audio=True), key=lambda s: s.filesize, reverse=True)
-    else:
+        print(streams)
+    elif fileType == 'Video':
         streams = sorted((stream for stream in youtube_url.streams if stream.audio_codec is not None and stream.video_codec is not None), key=lambda s: s.filesize, reverse=True)
+        print(streams)
     return streams
 
 
@@ -26,13 +28,14 @@ def download_audio(youtube_url, i, title, fileType):
     # Download audio and return the file path
     youtube_url = YouTube(youtube_url)
     # check the file type  
-    if fileType == 'audio':
+    if fileType == 'Audio':
         ext = ".mp3"
         selected_stream = sorted(youtube_url.streams.filter(only_audio=True), key=lambda s: s.filesize, reverse=True)
         ss = selected_stream[i]
-    else:
+    elif fileType == 'Video':
         ext = ".mp4"
-        selected_stream = sorted((stream for stream in youtube_url.streams if stream.audio_codec is not None and stream.video_codec is not None), key=lambda s: s.filesize, reverse=True)
+        selected_stream = sorted(youtube_url.streams.filter(file_extension='mp4'), key=lambda s: s.filesize, reverse=True)
+        print(selected_stream)
         ss = selected_stream[i]
 
     # Download the file to the specified path
@@ -51,9 +54,13 @@ def get_video_info(youtube_url):
     # Get title, thumbnail, and duration of a YouTube video
     youtube_url = YouTube(youtube_url)
     title = youtube_url.title
-    thumbnail_url = youtube_url.thumbnail_url
+    author = youtube_url.author
+    views = youtube_url.views
+    rating = youtube_url.rating
     duration = youtube_url.length
-    return title, thumbnail_url, duration
+    publishDate = youtube_url.publish_date
+    thumbnail_url = youtube_url.thumbnail_url
+    return title, author, views, rating, duration, publishDate, thumbnail_url
     
 
 

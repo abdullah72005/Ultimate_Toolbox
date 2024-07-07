@@ -1,4 +1,11 @@
-.flexContainer{
+.ytChoices{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+
+}
+
+.ytVideo{
   display: flex;
   height: 100%;
   width: 100%;
@@ -7,10 +14,10 @@
   justify-content: center;
   align-content: center;
   justify-items: center;
-  gap: 30px;
+  gap: 10px;
   box-sizing: border-box;
-  flex-direction: column;
-  margin-top: 40px;
+  flex-direction: row;
+  padding: 40px 0px;
 }
 
 .ytURL {
@@ -22,9 +29,10 @@
     justify-content: center;
     align-content: center;
     justify-items: center;
-    gap: 30px;
+    gap: 20px;
     box-sizing: border-box;
     flex-direction: row;
+    margin-top: 40px;
 }
 
 .form__group {
@@ -93,9 +101,10 @@
     --bs-btn-active-bg: #660000;
     font-size: 18px;
     padding: 10px 20px;
-    height: 100%;
+    height: auto;
     color: #E2E2E2;
-    margin-top: 12px;
+    margin-top: 15px;
+    width: min-content;
 }
 
 .ytRadio {
@@ -118,18 +127,18 @@
     -moz-appearance: none;
     appearance: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 15px;
     padding: 8px 16px;
-    background: #660000;
+    background:#333;
+    opacity: 0.66;
     color: #E2E2E2;
     font-size: 16px;
     transition: all 0.3s ease-in; /* Adjust the timing and easing as needed */
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: 'Nunito', sans-serif;
 }
 
 .ytRadio input:checked {
-    background-image: linear-gradient(180deg, #c73847, #660000);
-    color: #fff;
+    opacity: 1;
     box-shadow: 0 1px 1px #0000002e;
     text-shadow: 0 1px 0px #79485f7a;
     transform: scale(1.1);
@@ -143,5 +152,282 @@
 }
 
 .ytRadio input:not(:checked):hover{
-  background: #550000
+  opacity: 0.8;
 }
+
+.ytImg {
+  position: relative;
+  width: 70%;
+  max-width: 650px; 
+  max-height: 365px;
+  overflow: hidden;
+}
+
+.ytImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ytDownload{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.ytDownload p{
+  color: #E2E2E2;
+  font-size: 20px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.ytSelect {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  height: 3.2em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+
+.ytSelect::after {
+  content: '\25BC';
+  color: #E2E2E2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #151515;
+  transition: .3s all ease;
+  pointer-events: none;
+}
+
+.ytSelect:hover::after {
+  color: #8b0000;
+}
+
+.ytSelect select {
+  appearance: none;
+  outline: 10px red;
+  border: 0;
+  box-shadow: none;
+  flex: 1;
+  padding: 0 1em;
+  color: #a1a1a1;
+  background-color: #111;
+  background-image: none;
+  cursor: pointer;
+}
+
+.ytSelect select::-ms-expand {
+  display: none;
+}
+
+.ytSelect select::-webkit-scrollbar {
+  width: 12px;
+}
+
+.ytSelect select::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #95a5a6;
+  border: 1px solid #cacaca;
+}
+
+.ytSelect select::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #222;
+}
+
+@media only screen and (max-width: 1050px) {
+  .ytDownload p{
+    font-size: 20px;
+  }
+
+  .ytSelect {
+    width: min-content;
+    height: 3.2em;
+  }  
+
+  .ytImg {
+    width: 60%;
+  }
+
+  .ytDownload{
+    width: 40%;
+  }
+
+  .ytVideo{
+    padding: 40px 30px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .ytURL{
+    margin-top: 10px; 
+    width: 85%;
+    left: 5%;
+  }
+  .ytVideo{
+    padding: 10px 20px;
+  }
+  .ytRadio input {
+    font-size: 14px;
+  }
+  .ytButton {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .ytDownload p{
+    font-size: 16px;
+  }
+  .ytSelect select{
+    font-size: 15px; 
+  }
+
+  .form__field {
+    font-size: 1.1rem;
+  }
+  
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 1.1rem;
+  }
+  
+  .form__label {
+    font-size: 0.8rem;
+  }
+  
+  .form__field:focus ~ .form__label {
+    font-size: 0.8rem;
+  }
+  
+}
+
+@media only screen and (max-width: 730px) {
+  .ytImg {
+    width: 50%;
+  }
+
+  .ytDownload{
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .ytURL{
+    font-size: 14px;
+  }
+  .ytButton{
+    font-size: 13px;
+  }
+  .ytRadio input{
+    font-size: 12px;
+  }
+  .form__field {
+    font-size: 0.9rem;
+  }
+  
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 0.9rem;
+  }
+  
+  .form__label {
+    font-size: 0.8rem;
+  }
+  
+  .form__field:focus ~ .form__label {
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .ytURL{
+    gap: 15px;
+  }
+  .ytDownload p{
+    font-size: 14px;
+  }
+
+  .ytSelect select{
+    font-size: 13px;
+  }
+  .ytButton {
+    padding: 8px 12px;
+  }
+  .ytRadio input{
+    padding: 6px 14px;
+  }
+}
+
+@media only screen and (max-width: 550px){
+  .ytDownload p{
+    font-size: 12px;
+  }
+  .ytSelect select{
+    font-size: 11px;
+  }
+}
+
+@media only screen and (max-width: 500px){
+  .ytURL{
+    font-size: 12px;
+  }
+  .ytButton{
+    font-size: 11px;
+  }
+  .ytRadio input{
+    font-size: 10px;
+  }
+  .form__field {
+    font-size: 0.7rem;
+  }
+  
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 0.7rem;
+  }
+  
+  .form__label {
+    font-size: 0.6rem;
+  }
+  
+  .form__field:focus ~ .form__label {
+    font-size: 0.6rem;
+  }
+}
+@media only screen and (max-width: 450px){
+  .ytDownload p{
+    font-size: 11px;
+  }
+  .ytSelect select{
+    font-size: 11px;
+  }
+  .ytSelect::after {
+    padding: 0.8em;
+  }
+}
+@media only screen and (max-width: 400px){
+  .ytDownload{
+    align-items: center;
+  }
+  .ytURL{
+    font-size: 11px;
+  }
+  .ytButton{
+    font-size: 10px;
+  }
+  .ytRadio input{
+    font-size: 8px;
+  }
+  .ytURL {
+    flex-direction: column;
+    width: 90%;
+}
+}
+/* .ytDownload p{
+  font-size: 15px;
+}
+.ytSelect select{
+  font-size: 13px; 
+} */
+
