@@ -68,9 +68,12 @@
             </form>
     {% endif %}
     {% if error_message %}
-    <div class="alert alert-danger" role="alert" id = "alert">
-        {{ error_message }}
-    </div>
+        <div class="ytError">
+            <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+            <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
+            <strong class="font__weight-semibold">Error!</strong> {{ error_message }}
+            </div>
+        </div>
     {% endif %}
 
     <div  id="loading-section-ytcon" style="display:none;">
@@ -81,10 +84,23 @@
 
     
     <script>
+        // Select the ytError div
+        const errorDiv = document.querySelector('.ytError');
+
         // Show loading section when the form is submitted
         function showLoading(){
             document.getElementById('loading-section-ytcon').style.display = 'block';
-            document.getElementById('alert').style.display = 'none';
+            errorDiv.style.display = 'none';
         };
+
+        // Add a click event listener
+        errorDiv.addEventListener('click', function() {
+            // Toggle the display property
+            if (errorDiv.style.display === 'none') {
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        });
     </script>
 {% endblock %}

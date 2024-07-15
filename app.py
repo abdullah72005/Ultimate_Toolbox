@@ -353,19 +353,19 @@ def url():
 
         #If there is an error get the Error message
         except AgeRestrictedError as e:
-            session['error_message'] = "Error: This video is age-restricted." 
+            session['error_message'] = "This video is age-restricted." 
 
         except VideoRegionBlocked as e:
-            session['error_message'] = "Error: This video is region blocked"
+            session['error_message'] = "This video is region blocked"
         
         except VideoUnavailable as e:
-            session['error_message'] = "Error: This video is unavailable."
+            session['error_message'] = "This video is unavailable."
 
         except RegexMatchError as e:
-            session['error_message'] = "Error: Please input a correct youtube URL"
+            session['error_message'] = "Please input a correct youtube URL"
         
         except MaxRetriesExceeded as e:
-            session['error_message'] = "Error: Max Retries was Exceeded"
+            session['error_message'] = "Max Retries was Exceeded"
 
         except RequestEntityTooLarge:
             # Delete files in folder
@@ -373,6 +373,9 @@ def url():
             
             # load apology for invalid file size
             session['error_message'] = "File is larger than the 16mb limit."
+
+        except Exception as e:
+            session['error_message'] = "Nigger Code"
 
         
         
