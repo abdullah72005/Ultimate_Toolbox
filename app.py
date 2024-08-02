@@ -8,8 +8,7 @@ from flask import Flask, redirect, render_template, request, send_file, session,
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
-from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchError, VideoRegionBlocked, MaxRetriesExceeded
-
+from pytube.exceptions import RegexMatchError, LiveStreamError, VideoUnavailable, VideoPrivate, VideoRegionBlocked, AgeRestrictedError, MembersOnly
 
 
 from helpers.functions import apology, deleteFiles
@@ -327,40 +326,54 @@ def url():
             fileType = request.form['type']
             session['url'] = youtube_url
             session['type'] = fileType
-
             # if isPlaylist(youtube_url):
             #    playlistName, totalFileSize = get_playlist_info(youtube_url)
             #    session['playlistName'] = playlistName
             #    return render_template('ytDownload.html', youtube_url=url, playlistName=playlistName, totalFileSize=totalFileSize)
             # else:
             # Get video information and store title in the session 
-            title, thumbnail_url, duration = get_video_info(youtube_url)
+            title, author, views, rating, duration, publishDate, thumbnail_url = get_video_info(youtube_url)
             duration = "{:02}:{:02}".format(duration // 60, duration % 60)
 
+            # Format the datetime object to dd:mm:yyyy
+            publishDate = publishDate.strftime("%d/%m/%Y")
+
+            views = f"{views:,}"
+            
             session['title'] = title  
             
             # Get audio streams and store in the session
             audio_streams = print_audio_streams(youtube_url, fileType)
             session["audio_streams"] = audio_streams
+            conversion = 1
 
             # Render template with video information
-            return render_template('ytDownload.html', youtube_url=url, title=title, duration=duration, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType)
+            return render_template('ytcon.html', youtube_url=url, title=title, author=author, views=views, rating=rating, duration=duration, publishDate=publishDate, thumbnail_url=thumbnail_url, audio_streams=audio_streams, fileType=fileType, conversion=conversion)
 
         #If there is an error get the Error message
         except AgeRestrictedError as e:
-            session['error_message'] = "Error: This video is age-restricted." 
+            session['error_message'] = "This video is age-restricted."
 
         except VideoRegionBlocked as e:
-            session['error_message'] = "Error: This video is region blocked"
-        
+            session['error_message'] = "This video is region blocked."
+
         except VideoUnavailable as e:
-            session['error_message'] = "Error: This video is unavailable."
+            session['error_message'] = "This video is unavailable."
+
+        except VideoPrivate as e:
+            session['error_message'] = "This video is private."
+
+        except LiveStreamError as e:
+            session['error_message'] = "This is a live stream and cannot be downloaded."
+
+        except MembersOnly as e:
+            session['error_message'] = "This video is for members only."
 
         except RegexMatchError as e:
-            session['error_message'] = "Error: Please input a correct youtube URL"
-        
-        except MaxRetriesExceeded as e:
-            session['error_message'] = "Error: Max Retries was Exceeded"
+            session['error_message'] = "Please input a correct YouTube URL."
+
+        except Exception as e:
+            session['error_message'] = "An unexpected error occurred: "
 
         except RequestEntityTooLarge:
             # Delete files in folder
@@ -368,10 +381,9 @@ def url():
             
             # load apology for invalid file size
             session['error_message'] = "File is larger than the 16mb limit."
-
         
-        except Exception as e: 
-             session['error_message'] = "Error: An unexpected error has happened"
+        # except Exception as e:
+        #     session['error_message'] = "There is something that went wrong "
         
         #return the webpage with the error message and delete files
         deleteFiles(app.config['UPLOAD_DIRECTORY'])    

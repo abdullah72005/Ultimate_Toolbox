@@ -4,6 +4,7 @@
     URL
 {% endblock %}
 
+{% block style %}<link href="../static/stylesheets/yt.css" rel="stylesheet">{% endblock %}
 
 {% block nav %}
 
@@ -19,38 +20,114 @@
 
 
 {% block main %}
-    <div class="container mt-5">
-        <form action="/yt-to-mp3" method="post" class="d-flex"> 
-            <input type="url" class="form-control flex-grow-1" name="url" placeholder="Enter URL">
-            <select class="form-control" name="type" required>
-                <option selected disabled>Select a type</option>
-                <option>Video</option>
-                <option>Audio</option>
-            </select>
-            <button type="submit" class="btn btn-primary ml-2" name="button" value="Enter">Enter</button>
-        </form>
-    </div>
-
-    {% if error_message %}
-    <div class="container mt-3">
-        <div class="alert alert-danger" role="alert" id = "alert">
-            {{ error_message }}
+    <form class="ytURL" action="/yt-to-mp3" method="post" class="d-flex" onsubmit="showLoading()"> 
+        <div class="form__group field">
+            <input type="text" class="form__field" placeholder="Youtube URL" name="url" autocomplete="off" autofocus>
+            <label for="link" class="form__label">Youtube URL</label>
         </div>
-    </div>
-    {% endif %}
+        <div class="ytChoices">
+            <div class="ytRadio">
+                <input label="Audio" type="radio" id="audio" name="type" value="Audio" checked>
+                <input label="Video" type="radio" id="video" name="type" value="Video">
+            </div>
+            <div>
+                <button type="submit" name="button" value="Enter" class="btn btn-primary ytButton">Convert</button>
+            </div>
+        </div>
+    </form>
 
-    <div class="container mt-3" id="loading-section-ytcon" style="display:none;">
-        <div class="alert alert-info" role="alert">
-            Loading...
+    {% if conversion %}
+            <form action="/mp3-download" method="post" onsubmit="showLoading()" class="ytVideo">
+                <div class="ytDownload">
+                    <p name="url">{{ url }}</p>
+                    <p><b>Title</b>: {{ title }}</p>
+                    <p><b>Channel</b>: {{ author }}</p>
+                    <p><b>Views</b>: {{ views }}</p>
+                    <p><b>Duration</b>: {{ duration }}</p>
+                    <p><b>Publish Date</b>: {{ publishDate }}</p>
+                    <div class="ytSelect">
+                        <select name="quality">
+                            {% if fileType == "Audio" %}
+                            <option selected disabled>Select an audio quality</option>
+                                {% for as in audio_streams %}
+                                    <option value="{{ as }}" >Bitrate: {{ as.abr }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB</option>
+                                {% endfor %}
+                            {% else %}
+                            <option selected disabled>Select a video quality</option>
+                                {% for as in audio_streams %}
+                                    <option value="{{ as }}" >Resolution: {{ as.resolution }}, File Size: {{ "%0.2f" | format(as.filesize / (1024 * 1024) | float) }} MB, FPS: {{ as.fps }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>  
+                    </div>
+                    <button type="submit" class="btn btn-primary ytButton" name="button" value="Download">Download</button>
+                </div>
+                <div class="ytImg">
+                    <img src="{{ thumbnail_url }}" alt="Video Thumbnail">
+                </div>
+            </form>
+    {% endif %}
+    <div class="ytError">
+        {% if error_message %}
+            <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+            <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
+            <strong class="font__weight-semibold">{{ error_message }}</strong> 
+            </div>
+        {% endif %}
+    </div>
+
+    <div  id="loading-section-ytcon" style="display:none;">
+        <strong class="font__weight-semibold">Loading...</strong>
+        <div class="middle">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+            <div class="bar bar4"></div>
+            <div class="bar bar5"></div>
+            <div class="bar bar6"></div>
+            <div class="bar bar7"></div>
+            <div class="bar bar8"></div>
         </div>
     </div>
 
     
     <script>
+        // Select the ytError div
+        const errorDiv = document.querySelector('.ytError');
+
         // Show loading section when the form is submitted
-        document.querySelector('form').addEventListener('submit', function () {
+        function showLoading(){
             document.getElementById('loading-section-ytcon').style.display = 'block';
-            document.getElementById('alert').style.display = 'none';
+            errorDiv.style.display = 'none';
+        };
+
+        // Add a click event listener
+        errorDiv.addEventListener('click', function() {
+            // Toggle the display property
+            if (errorDiv.style.display === 'none') {
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there's a stored value for the 'type' radio button
+            const storedType = sessionStorage.getItem('selectedType');
+            if (storedType) {
+                // Set the radio button based on the stored value
+                document.querySelector(`input[name="type"][value="${storedType}"]`).checked = true;
+            }
+
+            // Add event listener to remember selected radio button
+            const radioButtons = document.querySelectorAll('input[name="type"]');
+            radioButtons.forEach(button => {
+                button.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Store the selected value in session storage
+                        sessionStorage.setItem('selectedType', this.value);
+                    }
+                });
+            });
         });
     </script>
 {% endblock %}
