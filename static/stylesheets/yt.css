@@ -149,7 +149,7 @@
   gap: 90px;
   box-sizing: border-box;
   flex-direction: row;
-  padding: 40px 180px;
+  padding: 0px 180px;
   
 }
 
@@ -225,7 +225,6 @@
   position: relative;
   width: 65%;
   max-width: 650px; 
-  max-height: 365px;
   overflow: hidden;
 }
 
@@ -271,13 +270,14 @@
 
 .ytError {
   display: flex;
-  position: center;
+  position: relative;
+  padding-top: 15px;
+  width: 50.5%;
   position: relative;
   align-items: center;
   justify-content: center;
   align-content: center;
   justify-items: center;
-  padding-top: 15px;
 }
 
 .alert-dismissible {
@@ -285,6 +285,59 @@
 }
 
 /* ////////////////////////////////////////////// */
+
+/* ///////////////Loading////////////////////////// */
+.bar {
+  width: 10px;
+  height: 70px;
+  background: #fff;
+  display: inline-block;
+  transform-origin: bottom center;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  /*   box-shadow:5px 10px 20px inset rgba(255,23,25.2); */
+  animation: loader 1.2s linear infinite;
+}
+.bar1 {
+  animation-delay: 0.1s;
+}
+.bar2 {
+  animation-delay: 0.2s;
+}
+.bar3 {
+  animation-delay: 0.3s;
+}
+.bar4 {
+  animation-delay: 0.4s;
+}
+.bar5 {
+  animation-delay: 0.5s;
+}
+.bar6 {
+  animation-delay: 0.6s;
+}
+.bar7 {
+  animation-delay: 0.7s;
+}
+.bar8 {
+  animation-delay: 0.8s;
+}
+
+@keyframes loader {
+  0% {
+    transform: scaleY(0.1);
+  }
+  50% {
+    transform: scaleY(1);
+    background: #660000;
+  }
+  100% {
+    transform: scaleY(0.1);
+    background: transparent;
+  }
+}
+/* ////////////////////////////////////////////////// */
+
 
 @media only screen and (max-width: 1200px) {
   .ytVideo{
@@ -325,6 +378,7 @@
 
   .ytError{
     font-size: 15px;
+    width: 54%;
   }
 }
 
@@ -350,7 +404,8 @@
   }
 
   .ytError{
-    font-size: 14px;
+    font-size: 13px;
+    width: 52%;
   }
   .ytSelect{
     width: 15em;
@@ -399,7 +454,8 @@
   }
 
   .ytError{
-    font-size: 13px;
+    font-size: 11px;
+    width: 48%;
   }
   .alert-dismissible {
     padding-right: 2rem; 
@@ -425,7 +481,7 @@
     padding: 6px 14px;
   }
   .ytError{
-    font-size: 12px;
+    width: 100%;
   }
   .alert-dismissible {
     padding-right: 1.5rem; 

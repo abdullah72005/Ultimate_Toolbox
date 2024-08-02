@@ -374,8 +374,7 @@ def url():
             # load apology for invalid file size
             session['error_message'] = "File is larger than the 16mb limit."
 
-        except Exception as e:
-            session['error_message'] = "Nigger Code"
+
 
         
         

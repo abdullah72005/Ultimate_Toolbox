@@ -1,5 +1,5 @@
 from flask import send_file
-from pytube import YouTube, Playlist
+from pytubefix import YouTube, Playlist
 from werkzeug.utils import secure_filename
 from helpers.functions import deleteFiles
 

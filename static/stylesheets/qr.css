@@ -217,16 +217,20 @@
     }
 
     .form__field {
-        font-size: 1rem; /* Smaller font size for form field */
+      font-size: 1.1rem;
     }
-    .form__field::placeholder {
-        font-size: 0.8rem; /* Smaller placeholder font size */
+    
+    .form__field:placeholder-shown ~ .form__label {
+      font-size: 1.1rem;
     }
-  
+    
     .form__label {
-        font-size: 0.8rem;
+      font-size: 0.8rem;
     }
-
+    
+    .form__field:focus ~ .form__label {
+      font-size: 0.8rem;
+    }
   
   }
 
@@ -239,6 +243,8 @@
     .imgdiv {
         width: 60%;
     }  
+
+
   }
 
   @media only screen and (max-width: 550px) {
@@ -256,6 +262,7 @@
         height: 130px;
         width: 130px;
     }
+
   }
 
   @media only screen and (max-width: 480px) {
