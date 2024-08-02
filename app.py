@@ -8,8 +8,7 @@ from flask import Flask, redirect, render_template, request, send_file, session,
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
-from pytube.exceptions import AgeRestrictedError, VideoUnavailable, RegexMatchError, VideoRegionBlocked, MaxRetriesExceeded
-
+from pytube.exceptions import RegexMatchError, LiveStreamError, VideoUnavailable, VideoPrivate, VideoRegionBlocked, AgeRestrictedError, MembersOnly
 
 
 from helpers.functions import apology, deleteFiles
@@ -353,19 +352,28 @@ def url():
 
         #If there is an error get the Error message
         except AgeRestrictedError as e:
-            session['error_message'] = "This video is age-restricted." 
+            session['error_message'] = "This video is age-restricted."
 
         except VideoRegionBlocked as e:
-            session['error_message'] = "This video is region blocked"
-        
+            session['error_message'] = "This video is region blocked."
+
         except VideoUnavailable as e:
             session['error_message'] = "This video is unavailable."
 
+        except VideoPrivate as e:
+            session['error_message'] = "This video is private."
+
+        except LiveStreamError as e:
+            session['error_message'] = "This is a live stream and cannot be downloaded."
+
+        except MembersOnly as e:
+            session['error_message'] = "This video is for members only."
+
         except RegexMatchError as e:
-            session['error_message'] = "Please input a correct youtube URL"
-        
-        except MaxRetriesExceeded as e:
-            session['error_message'] = "Max Retries was Exceeded"
+            session['error_message'] = "Please input a correct YouTube URL."
+
+        except Exception as e:
+            session['error_message'] = "An unexpected error occurred: "
 
         except RequestEntityTooLarge:
             # Delete files in folder
@@ -373,10 +381,9 @@ def url():
             
             # load apology for invalid file size
             session['error_message'] = "File is larger than the 16mb limit."
-
-
-
         
+        # except Exception as e:
+        #     session['error_message'] = "There is something that went wrong "
         
         #return the webpage with the error message and delete files
         deleteFiles(app.config['UPLOAD_DIRECTORY'])    
