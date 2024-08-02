@@ -6,7 +6,7 @@ def generate_password(length: int, upper: bool, lower: bool, nums: bool, syms: b
     uppercase = 'QWERTYUIOPASDFGHJKLZXCVBNM'
     lowercase = uppercase.lower()
     numbers = '1234567890'
-    symbols = '!@#$%^&*()-_+=[]{}|;:,.<>?~'
+    symbols = '!@#$%^&*_+=|;:,.~'
     all_input = ''
 
     password = ''
