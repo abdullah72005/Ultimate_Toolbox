@@ -6,7 +6,7 @@
   </a>
 <h1 align="center">Ultimate Toolbox</h1>
   <p align="center">
-    A comprehensive multipurpose toolbox offering file and image conversion, YouTube video and audio downloads, photo editing with filters, text and document translation, QR code generation, and password generation.
+    A multipurpose toolbox offering file and image conversion, YouTube video and audio downloads, photo editing with filters, text and document translation, QR code generation, and password generation.
     <br />
     <a href="https://github.com/abdullah72005/Ultimate_Toolbox"><strong>Explore the docs »</strong></a>
   </p>
