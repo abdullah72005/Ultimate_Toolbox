@@ -1,6 +1,5 @@
 flask
 flask-session
-cs50
 Werkzeug
 Pillow
 python-docx
@@ -14,5 +13,5 @@ reportlab
 PyMuPDF
 pyqrcode
 pypng
-pytube
+pytubefix
 googletrans
