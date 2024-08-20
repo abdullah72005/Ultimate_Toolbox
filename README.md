@@ -6,7 +6,6 @@
     <img src="static/imgs/iconpng.png" alt="Logo" width="90" height="90">
   </a>
 <br>
-<br>
 <h1 align="center">Ultimate Toolbox</h1>
   <p align="center">
     A comprehensive multipurpose toolbox offering file and image conversion, YouTube video and audio downloads, photo editing with filters, text and document translation, QR code generation, and password generation.
