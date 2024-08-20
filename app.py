@@ -326,12 +326,6 @@ def url():
             fileType = request.form['type']
             session['url'] = youtube_url
             session['type'] = fileType
-            # if isPlaylist(youtube_url):
-            #    playlistName, totalFileSize = get_playlist_info(youtube_url)
-            #    session['playlistName'] = playlistName
-            #    return render_template('ytDownload.html', youtube_url=url, playlistName=playlistName, totalFileSize=totalFileSize)
-            # else:
-            # Get video information and store title in the session 
             title, author, views, rating, duration, publishDate, thumbnail_url = get_video_info(youtube_url)
             duration = "{:02}:{:02}".format(duration // 60, duration % 60)
 

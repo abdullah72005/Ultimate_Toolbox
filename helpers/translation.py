@@ -26,69 +26,6 @@ def translatetxt(input_txt, input_lang, output_lang, langs):
 
 def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
 
-
-    # if extension == 'application/pdf':
-
-    #    print('font1')
-    #    custom_font = TTFont('font-custom', 'static/NotoSans-VariableFont_wdth,wght.ttf')
-    #    pdfmetrics.registerFont(custom_font)
-
-    #    print('font2')
-    #    custom_ar = TTFont('ar-custom', 'static/IBMPlexSansArabic-Regular.ttf')
-    #    pdfmetrics.registerFont(custom_ar)
-
-    #    print("name")
-    #    new_filename = f"{fileName}-{output_lang}.pdf"
-    #    output_filepath = os.path.join(uploadFolder, new_filename)
-    #    input_filepath = os.path.join(uploadFolder, f"{fileName}.pdf")
-    #    print('opening')
-    #    file = open(input_filepath, 'rb')
-    #    print('reader')
-    #    reader = PdfReader(file)
-    #    translator = Translator()
-    #    pn = len(reader.pages)
-
-       
-    #    print('csan')
-    #    c = canvas.Canvas(output_filepath, pagesize=letter)
-    #    width, height = letter
-    #    print('pages')
-    #    for p in range(pn):
-    #        print('getnum')
-    #        page = reader.pages[p]
-    #        print('extract')
-    #        text = page.extract_text()
-    #        print('trans')
-    #        transtxt = translator.translate(text, src=langs[input_lang], dest=langs[output_lang])
-    #        output = transtxt.text
-    #        # Replace newline characters with proper formatting
-    #        output = output.replace('\n', '<br/>')
-    #        print("encode")
-    #        # Replace special characters with spaces using Unicode replacement
-    #        output = output.encode('utf-8', 'replace').decode('utf-8')
-    #        # Split content by <br/> to handle newline characters
-    #        lines = output.split('<br/>')
-    #        # Write content to PDF
-    #        for i, line in enumerate(lines):
-    #            y_position = height - 50 - (i * 14)  # Adjust spacing
-
-    #            #Strip leading spaces and then draw the line
-    #            if translator.detect(line).lang == "ar":
-    #               c.setFont('ar-custom', 12)
-    #               # Draw Arabic text from right to left
-    #               c.drawRightString(width - 50, y_position, line[::-1])
-    #            else:
-    #                print('setrfot')
-    #                c.setFont('font-custom', 12)
-    #                print("draw")
-    #                c.drawString(50, y_position, line.lstrip())
-    #    print('save')
-    #    c.save()
-
-    #    # Create a Flask send_file response for downloading the translated document
-    #    print('sendfile')
-    #    outputFile = send_file(output_filepath, as_attachment=True)
-
     if extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or extension == 'docx':
         # Load the input Word document
         doc = Document(input_file)
