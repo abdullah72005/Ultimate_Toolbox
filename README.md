@@ -21,13 +21,13 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#built-with">Built With</a></li>
         <li><a href="#conversion">Conversion</a></li>
         <li><a href="#youtube-downloader">Youtube Downloader</a></li>
         <li><a href="#photo-editor">Photo Editor</a></li>
         <li><a href="#translation">Translation</a></li>
         <li><a href="#qr-generator">Qr Generator</a></li>
         <li><a href="#password-generator">Password Generator</a></li>
-        <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
@@ -54,6 +54,19 @@
 **Ultimate Toolbox** is a versatile software application designed to streamline and simplify your everyday tasks by providing a comprehensive suite of tools in one convenient platform. Whether you need to convert files and images, download videos and audio from YouTube, edit photos with filters, translate text and documents, generate QR codes, or create secure passwords, Ultimate Toolbox has you covered. The backend of the application is powered by Python's Flask framework, leveraging a variety of libraries to ensure efficient and robust functionality. The frontend is crafted with HTML, CSS, and JavaScript, offering a clean and user-friendly interface. Ultimate Toolbox is your go-to solution for enhancing productivity and managing tasks with ease.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Built With
+
+
+* [![Python][Python-logo]][Python-url]
+* [![Flask][Flask-logo]][Flask-url]
+* [![HTML][HTML-logo]][HTML-url]
+* [![CSS][CSS-logo]][CSS-url]
+* [![JavaScript][JavaScript-logo]][JavaScript-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 ### Conversion
@@ -99,18 +112,6 @@ The **QR Generator** tool in Ultimate Toolbox allows you to generate a QR code f
 ### Password Generator
 
 The **Password Generator** tool in Ultimate Toolbox creates strong and secure passwords based on your preferences. You can specify the size and include various components such as lowercase letters, uppercase letters, numbers, and symbols to generate a robust password.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Built With
-
-
-* [![Python][Python-logo]][Python-url]
-* [![Flask][Flask-logo]][Flask-url]
-* [![HTML][HTML-logo]][HTML-url]
-* [![CSS][CSS-logo]][CSS-url]
-* [![JavaScript][JavaScript-logo]][JavaScript-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
