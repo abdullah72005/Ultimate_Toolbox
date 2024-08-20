@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/abdullah72005/Ultimate_Toolbox">
-    <img src="static/imgs/iconpng.png" alt="Logo" width="90" height="90">
+    <img src="static/imgs/iconpng.png" alt="Logo" width="100" height="100">
   </a>
 <h1 align="center">Ultimate Toolbox</h1>
   <p align="center">
