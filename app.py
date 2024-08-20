@@ -704,18 +704,6 @@ def imageFilter():
             
         
             
-            
-
-@app.route('/about', methods=["GET"])
-def about():
-    return render_template("about.html")
-
-
-@app.route('/contact', methods=["GET"])
-def contact():
-    return render_template("contact.html")
-
-
 if __name__ == '__main__':
     deleteFiles(app.config['UPLOAD_DIRECTORY'])
     app.run(debug=True)
