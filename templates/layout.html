@@ -52,28 +52,8 @@
           <div class="footertxt">&copy;2024 | Ultimate Toolbox | All rights reserved &nbsp;&nbsp;&nbsp; <a class="footerlink" target=”_blank” href="https://github.com/abdullah72005/Ultimate_Toolbox?tab=readme-ov-file#about-the-project">About</a> &nbsp;&nbsp;&nbsp;<a class="footerlink" target=”_blank” href="https://github.com/abdullah72005/Ultimate_Toolbox?tab=readme-ov-file#contact">Contact us</a> </div>
         </footer>
 
-        <script>
-          var x = 0;
-          function rot()
-          {
-            if (x % 2 == 0)
-            {
-              document.getElementById('arrow').style.transform = 'rotate(180deg)';}
-            else 
-            {
-              document.getElementById('arrow').style.transform = 'rotate(0deg)';
-            }
-            document.getElementById('arrow').style.transition = 'transform 0.3s linear';
-          x += 1;
-        }
-
-      
-        if ( window.history.replaceState ) 
-        {
-          window.history.replaceState( null, null, window.location.href );
-        }
-   
-        </script>
+        <script src="../static/script/js.js"> </script>
+        {% block script %}{% endblock %}
     </body>
 
 </html>
