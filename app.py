@@ -28,7 +28,7 @@ Session(app)
 
 # moved uploads to static file
 app.config['UPLOAD_DIRECTORY'] = 'static/uploads/'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024 #100MB
 
 # updated all allowed file types per magic output
 app.config['ALLOWED_EXTENSIONS'] = ['image/x-pcx', 'image/bmp', 'image/jpg','image/jpeg', 'image/gif', 'image/vnd.microsoft.icon',  'image/png', 'image/tiff', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'image/x-portable-pixmap', 'image/vnd.adobe.photoshop', 'image/webp', 'audio/x-wav', 'audio/mpeg', 'audio/x-hx-aac-adts',  'audio/x-m4a', 'audio/vnd.dolby.dd-raw', 'audio/amr', 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' , 'application/json', 'text/plain']
@@ -538,7 +538,7 @@ def translatedoc():
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
             
             # load apology for invalid file size
-            return apology('File is larger than the 16mb limit.')
+            return apology('File too big')
 
         # x will be flagged if the item was an octec file type
         if x:

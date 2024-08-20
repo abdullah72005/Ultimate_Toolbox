@@ -3,11 +3,6 @@ import os
 from docx import Document
 from flask import send_file
 from helpers.functions import deleteFiles
-from PyPDF2 import PdfReader
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 
 uploadFolder = 'static/uploads/'
 
@@ -41,31 +36,36 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
         for paragraph in doc.paragraphs:
             docText += str(paragraph.text) + "\n"
 
-        if len(docText) > 15000:
-            # Clean up the upload folder after processing
-            deleteFiles(uploadFolder)
-
-            # Return 1 to indicate file too big
+        # Separate string into segmates to be able to translate it
+        chunks = [docText[i:i + 15000] for i in range(0, len(docText), 15000)]
+        if len(chunks) > 10:
             return 1
+
         
         # Determine the source language if it is set to 'detect'
         srcLang = input_lang
         
         # make sure the paragraph includes text to prevent errors
         if docText:
+            
             if srcLang == 'detect':
                 g = translator.detect(docText)
                 srcLang = g.lang
 
-                # Translate the paragraph from detect language to the output language
-                output = translator.translate(docText, src=srcLang, dest=langs[output_lang]).text
+                for chunk in chunks:
+                    # Translate the paragraph from detect language to the output language
+                    output = translator.translate(chunk, src=srcLang, dest=langs[output_lang]).text
+
+                    # Add the translated paragraph to the new document
+                    new_document.add_paragraph(output)
 
             else:
-                # Translate the paragraph from the specified input language to the output language
-                output = translator.translate(docText, src=langs[input_lang], dest=langs[output_lang]).text
+                for chunk in chunks:
+                    # Translate the paragraph from the specified input language to the output language
+                    output = translator.translate(chunk, src=langs[input_lang], dest=langs[output_lang]).text
 
-            # Add the translated paragraph to the new document
-            new_document.add_paragraph(output)
+                    # Add the translated paragraph to the new document
+                    new_document.add_paragraph(output)
 
         # Save the translated document with a new filename
         new_filename = f"{fileName}-{output_lang}.docx"
