@@ -382,8 +382,6 @@ def url():
             # load apology for invalid file size
             session['error_message'] = "File is larger than the 16mb limit."
         
-        # except Exception as e:
-        #     session['error_message'] = "There is something that went wrong "
         
         #return the webpage with the error message and delete files
         deleteFiles(app.config['UPLOAD_DIRECTORY'])    
