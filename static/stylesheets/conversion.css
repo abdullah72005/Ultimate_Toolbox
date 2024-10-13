@@ -34,7 +34,7 @@
 .conAction {
   display: flex;
   flex-direction: row;
-  gap: 100px;
+  gap: 185px;
   align-items: center;
   justify-content: center;
 }
@@ -159,6 +159,10 @@
     line-height: 70px;
   }
 
+  .conAction{
+    gap: 95px;
+  }
+
 }
 
 @media only screen and (max-width: 639px) {
@@ -171,7 +175,7 @@
   }
 
   .conView{
-    padding: 5px 5px;
+    padding: 85px 5px;
   }
   .conAction{
     gap: 40px;

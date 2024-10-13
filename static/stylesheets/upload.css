@@ -174,3 +174,10 @@
     }
   
   }  
+  @media only screen and (max-height: 650px)
+  {
+    #drop-area{
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+  }
