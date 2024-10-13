@@ -2,6 +2,7 @@ from flask import send_file
 from pytubefix import YouTube, Playlist
 from werkzeug.utils import secure_filename
 from helpers.functions import deleteFiles
+from urllib.parse import urlparse
 
 # def isPlaylist(youtube_url):
 #     try:
@@ -62,6 +63,13 @@ def get_video_info(youtube_url):
     thumbnail_url = youtube_url.thumbnail_url
     return title, author, views, rating, duration, publishDate, thumbnail_url
     
+# check if link is in valid format
+def isValidURL(url):
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except:
+        return False
 
 
 
