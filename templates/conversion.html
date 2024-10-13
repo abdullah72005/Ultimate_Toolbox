@@ -4,9 +4,9 @@
     Conversion
 {% endblock %}
 
+{% block style %}<link href="/static/stylesheets/conversion.css" rel="stylesheet">{% endblock %}
 
 {% block nav %}
-
 <a id="navitem" class="nav-link" href="/">Home</a>
 <a id="navitem" class="nav-link active" aria-current="page" href="/upload">File Converter</a>
 <a id="navitem" class="nav-link" href="/yt-to-mp3">Youtube Downloader</a>
@@ -14,24 +14,40 @@
 <a id="navitem" class="nav-link" href="/translation">Translator</a>
 <a id="navitem" class="nav-link" href="/qrcode">QRcode Generator</a>
 <a id="navitem" class="nav-link" href="/password-generator">Password Generator</a>
-
 {% endblock %}
 
 {% block main %}
-    <form action="/conversion" method="post">
-        <div class="mb-3">
-            <label for="outputChoice" class="form-label">Select desired output:</label>
-            <div class="input-group">
-                <h2>{{ fileName }}<h2>
-                <select class="form-select" id="outputChoice" name="choice" value = "convert">
-                    <option disabled selected>Convert to</option>
-                    {% for choice in outputChoices %}
-                        <option value="{{ choice }}">{{ choice }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary" name = "action" value = "convert">Convert</button>
-    </form>
+<div class="flexContainer">
+    <div class="dragpage">
+        <form action="/conversion" method="post">
+            <label id="drop-area">
+                <div class="img-view">
 
+                    <div class="conView">
+
+                        <div class="msgbox">
+                            <div id="msg">
+                                {{ fileName }} 
+                            </div>
+                        </div>
+
+                        <div class="conAction">
+                            <div class="conSelect" >
+                                <select id="outputChoice" name="choice" value="convert">
+                                    <option value="detect" disabled selected>Convert to</option>
+                                    {% for choice in outputChoices %}
+                                    <option value="{{ choice }}">{{ choice }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" name="action" value="convert" class="btn btn-primary conButton">Convert</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </label>
+        </form>
+    </div>
+</div>
 {% endblock %}

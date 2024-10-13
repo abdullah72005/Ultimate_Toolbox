@@ -1,0 +1,255 @@
+.dragpage {
+  width: 100%;
+  min-height: 86vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conView {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: #111;
+  border: 1px solid #4a0336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bebebe;
+  font-size: 30pxz;
+  flex-direction: column;
+  font-family: 'Nunito', sans-serif;
+  gap: 20px;
+}
+
+.msgbox {
+  text-align: left;
+  width: 90%;
+  line-height: 90px;
+  background-color: #171717;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+#msg {
+  padding-left: 15px;
+}
+
+.conAction {
+  display: flex;
+  flex-direction: row;
+  gap: 185px;
+  align-items: center;
+  justify-content: center;
+}
+
+.conButton {
+  background-color: #4a0336;
+  --bs-btn-border-width: 0;
+  --bs-btn-font-family: 'Nunito', sans-serif;
+  --bs-btn-hover-bg: #360328;
+  --bs-btn-active-bg: #24011a;
+  font-size: 20px;
+  padding: 8px 16px;
+  position: relative;
+  margin-right: 48px;
+  margin-left: auto;
+}
+
+.msgbox {
+  text-align: left;
+  width: 90%;
+  line-height: 90px;
+  background-color: #171717;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-size: 25px;
+}
+
+#drop-area {
+  width: 800px;
+  height: 520px;
+  padding: 50px;
+  background: #171717;
+  text-align: center;
+  border-radius: 20px;
+  border: 2px dashed #333;
+  opacity: 0.7;
+}
+
+.img-view {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: #111;
+}
+
+.conSelect {
+  position: relative;
+  display: flex;
+  width: 10em;
+  height: 3.2em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+
+.conSelect::after {
+  content: '\25BC';
+  color: #E2E2E2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #151515;
+  transition: .3s all ease;
+  pointer-events: none;
+}
+
+.conSelect:hover::after {
+  color: #4a0336;
+}
+
+.conSelect select {
+  appearance: none;
+  outline: 10px purple;
+  border: 0;
+  box-shadow: none;
+  flex: 1;
+  padding: 0 1em;
+  color: #a1a1a1;
+  background-color: #171717;
+  background-image: none;
+  cursor: pointer;
+}
+
+.conSelect select::-ms-expand {
+  display: none;
+}
+
+.conSelect select::-webkit-scrollbar {
+  width: 12px;
+}
+
+.conSelect select::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #95a5a6;
+  border: 1px solid #cacaca;
+}
+
+.conSelect select::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #222;
+}
+
+@media only screen and (max-width: 979px) {
+  #drop-area{
+    width: 700px;
+    margin-left: 20px; 
+  }
+
+  .msgbox {
+    font-size: 22px;
+  }
+
+}
+@media only screen and (max-width: 767px) {
+  #drop-area{
+    width: 600px;
+    margin-left: 20px;
+  }
+
+  .msgbox {
+    font-size: 20px;
+    line-height: 70px;
+  }
+
+  .conAction{
+    gap: 95px;
+  }
+
+}
+
+@media only screen and (max-width: 639px) {
+
+  #drop-area{
+    width: 450px;
+    height: 50%;
+    margin-left: 20px;
+    padding: 40px;
+  }
+
+  .conView{
+    padding: 85px 5px;
+  }
+  .conAction{
+    gap: 40px;
+    padding-left: 25px;
+  }
+
+  .msgbox {
+    font-size: 15px;
+    line-height: 50px;
+  }
+
+  .conSelect{
+    font-size: 11px;
+  }
+
+  .conButton{
+    font-size: 11px;
+  }
+
+  #msg {
+    padding-left: 5px;
+}
+
+}  
+
+
+@media only screen and (max-width: 500px) {
+
+  #drop-area{
+    width: 350px;
+    height: 30%;
+    margin-left: 20px;
+    
+  }
+
+  .msgbox {
+    font-size: 12px;
+  }
+
+  .conSelect{
+    font-size: 9px;
+  }
+
+  .conButton{
+    font-size: 9px;
+
+  }
+}  
+
+
+@media only screen and (max-width: 400px) {
+
+  #drop-area{
+    width: 290px;
+    height: 20%;
+    margin-left: 20px;
+    padding: 30px 30px;
+    
+  }
+
+  .msgbox {
+    font-size: 10px;
+  }
+
+  .conSelect{
+    font-size: 7px;
+  }
+
+  .conButton{
+    font-size: 7px;
+
+  }
+}  

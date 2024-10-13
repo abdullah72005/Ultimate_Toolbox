@@ -22,17 +22,19 @@ Conversion
 
 
 {% block main %}
-    <div class="dragpage">
-        <form action="/upload" method="post" enctype="multipart/form-data">
-                <label for="file" id="drop-area">
-                    <input type="file" name="file" class="form-control" id="file" accept=".bmp, .gif, .ico, .jpeg, .jpg, .pcx, .png, .ppm, .psd, .tiff, .webp, .jpg, .docx, .pdf, .wav, .mp3, .ogg, .aac, .wma, .opus, .m4a, .ac3, .amr, .csv, .json, .xlsx, .txt" required hidden>
-                    <div id="img-view" class="uploadcnv">
-                        <div class="dragico cnvico"></div>
-                        <div class="dragtxt">Drag and drop or click here to upload file</div>
-                        
-                    </div>
-                </label>
-        </form>
+    <div class="flexContainer">
+        <div class="dragpage">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                    <label for="file" id="drop-area">
+                        <input type="file" name="file" class="form-control" id="file" accept=".bmp, .gif, .ico, .jpeg, .jpg, .pcx, .png, .ppm, .psd, .tiff, .webp, .jpg, .docx, .pdf, .wav, .mp3, .ogg, .aac, .wma, .opus, .m4a, .ac3, .amr, .csv, .json, .xlsx, .txt" required hidden>
+                        <div id="img-view" class="uploadcnv">
+                            <div class="dragico cnvico"></div>
+                            <div class="dragtxt">Drag and drop or click here to upload file</div>
+                        </div>
+                    </label>
+                <!-- <button type="submit" class="btn btn-primary" name = "action" value = "upload">Upload</button> -->
+            </form>
+        </div>
     </div>
 {% endblock %}
 
