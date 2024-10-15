@@ -36,11 +36,29 @@
                                 <select id="outputChoice" name="choice" value="convert">
                                     <option value="detect" disabled selected>Convert to</option>
                                     {% for choice in outputChoices %}
-                                    <option value="{{ choice }}">{{ choice }}</option>
+                                        <option value="{{ choice }}">{{ choice }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <button type="submit" name="action" value="convert" class="btn btn-primary conButton">Convert</button>
+                        </div>
+
+                        {% if conErrorMessage %}
+                            <div class=" conError">
+                                    <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+                                        <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
+                                        <strong class="font__weight-semibold">{{ conErrorMessage }}</strong> 
+                                    </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="conLoading" style="display: none;" id="conLoading">
+                            <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+                                <strong class="font__weight-semibold">
+                                    Loading
+                                </strong>
+                                <span id="dots"></span>
+                            </div>
                         </div>
 
                     </div>

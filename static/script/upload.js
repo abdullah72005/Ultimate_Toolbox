@@ -41,3 +41,15 @@ dropArea.addEventListener("mouseout", function(){
     ico.style.transform = "scale(1)";
 });
 
+// Select the ytError div
+const errorDiv = document.querySelector('.uploadError');
+
+// Add a click event listener
+errorDiv.addEventListener('click', function() {
+    // Toggle the display property
+    if (errorDiv.style.display === 'none') {
+        errorDiv.style.display = 'block';
+    } else {
+        errorDiv.style.display = 'none';
+    }
+});

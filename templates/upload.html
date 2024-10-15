@@ -30,13 +30,26 @@ Conversion
                         <div id="img-view" class="uploadcnv">
                             <div class="dragico cnvico"></div>
                             <div class="dragtxt">Drag and drop or click here to upload file</div>
+                            <div class="uploadError">
+                                {% if uploadErrorMessage %}
+                                    <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+                                        <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
+                                        <strong class="font__weight-semibold">{{ uploadErrorMessage }}</strong> 
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </label>
                 <!-- <button type="submit" class="btn btn-primary" name = "action" value = "upload">Upload</button> -->
+                 
             </form>
+
         </div>
     </div>
+
+
 {% endblock %}
+
 
 
 {% block script %}<script src="../static/script/upload.js"></script>{% endblock %}

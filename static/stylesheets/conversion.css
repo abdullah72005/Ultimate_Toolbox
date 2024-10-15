@@ -16,7 +16,6 @@
   align-items: center;
   justify-content: center;
   color: #bebebe;
-  font-size: 30pxz;
   flex-direction: column;
   font-family: 'Nunito', sans-serif;
   gap: 20px;
@@ -74,7 +73,7 @@
   text-align: center;
   border-radius: 20px;
   border: 2px dashed #333;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .img-view {
@@ -141,6 +140,97 @@
   background-color: #222;
 }
 
+/* //////////Error Message Code //////////////// */ 
+
+.alert-simple.alert-warning {
+  border: 1px solid rgba(136, 0, 0, 0.81);
+  background-color: rgba(102, 0, 0, 0.16);
+  box-shadow: 0px 0px 2px #550000;
+  color: #ff3203;  
+  text-shadow: 2px 1px #00040a;
+  transition: 0.5s;
+  cursor: default;
+  padding: 12px;
+}
+
+.alert-warning:hover {
+  background-color: rgba(102, 0, 0, 0.33);
+  transition: 0.5s;
+}
+
+.alert:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: calc(100% - 44px);
+  border-left: 1px solid;
+  border-right: 2px solid;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 20px;
+  border-color: #880000;
+}
+
+
+.conError {
+  display: flex;
+  padding-top: 15px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  margin-top: 270px;
+  position: absolute;
+  font-size: 14px;
+}
+
+.alert-dismissible {
+  padding-right: 2rem; 
+}
+
+.conLoading {
+  display: flex;
+  position: relative;
+  padding-top: 15px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+}
+
+.alert-simple.alert-info
+{
+  border: 1px solid rgba(6, 44, 241, 0.46);
+  background-color: rgba(7, 73, 149, 0.12156862745098039);
+  box-shadow: 0px 0px 2px #0396ff;
+  color: #0396ff;
+  text-shadow: 2px 1px #00040a;
+  transition:0.5s;
+  width: 250px;
+  cursor: default;
+}
+
+.alert-info:hover
+{
+  background-color: rgba(7, 73, 149, 0.35);
+  transition:0.5s;
+}
+
+.blue-cross
+{
+  font-size: 18px;
+    color: #0bd2ff;
+    text-shadow: none;
+}
+
+#dots {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
 @media only screen and (max-width: 979px) {
   #drop-area{
     width: 700px;
@@ -165,6 +255,10 @@
 
   .conAction{
     gap: 95px;
+  }
+
+  .conError{
+    font-size: 13px;
   }
 
 }
@@ -201,7 +295,16 @@
 
   #msg {
     padding-left: 5px;
-}
+  }
+
+  .conError{
+    font-size: 9px;
+    margin-top: 190px;
+  }
+
+  .alert-simple.alert-warning{
+    padding: 10px 7px;
+  }
 
 }  
 
@@ -225,8 +328,8 @@
 
   .conButton{
     font-size: 9px;
-
   }
+  
 }  
 
 
@@ -250,6 +353,10 @@
 
   .conButton{
     font-size: 7px;
+  }
 
+  .conError{
+    font-size: 8px;
+    margin-top: 180px;
   }
 }  

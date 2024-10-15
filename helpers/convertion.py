@@ -97,7 +97,7 @@ def convIMAGE(fileName, file, app, choice):
 
     # make variable with output file, delete files from local directory, return output file
     outputFile = send_file(pdf_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
     return outputFile
 
 def word2pdf(file, fileName, choice):
@@ -131,7 +131,7 @@ def word2pdf(file, fileName, choice):
     pdf_canvas.save()
     # Send the Word file as an attachment and delete temporary files
     outputFile = send_file(pdf_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
 
     return outputFile
 
@@ -164,7 +164,7 @@ def pdf2word(file, fileName, choice):
 
     # Send the Word file as an attachment and delete temporary files
     outputFile = send_file(word_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
 
     # Return the Word file   
     return outputFile
@@ -192,7 +192,7 @@ def txt2word(file, fileName, choice):
 
     # Send the Word file as an attachment and delete temporary files
     outputFile = send_file(docx_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
     return outputFile
 
 
@@ -236,7 +236,7 @@ def txt2pdf(file, fileName, choice):
 
     # Send the PDF file as an attachment and delete temporary files
     outputFile = send_file(pdf_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
     return outputFile
 
 
@@ -260,7 +260,7 @@ def word2txt(file, fileName, choice):
     
     # Send the TXT file as an attachment and delete temporary files
     outputFile = send_file(txt_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
     return outputFile
 
 
@@ -287,7 +287,7 @@ def pdf2txt(file, fileName, choice):
     
     # Send the TXT file as an attachment and delete temporary files
     outputFile = send_file(txt_path, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
     return outputFile
 
 
@@ -303,7 +303,7 @@ def convert_audio(input_file, extension, filename, choice):
     # Export the sound to the output format, delete files, and return the output file
     sound.export(output_filepath, format=choice)
     x = send_file(output_filepath, as_attachment=True)
-    deleteFiles(uploadFolder)
+     
     return x
 
 
@@ -368,7 +368,7 @@ def convert_csv(input_file, extension, filename, choice):
             x = send_file(output_path, as_attachment=True)
 
 
-    deleteFiles(uploadFolder)
+     
     return x
 
 

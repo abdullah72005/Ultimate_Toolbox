@@ -72,7 +72,7 @@ def upload():
 
                 # Check if a file is provided
                 if not file:
-                    return apology("please input file")
+                    return render_template('upload.html', uploadErrorMessage='please input a file') 
                 
                 input_filename = secure_filename(file.filename)
                 if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
@@ -93,8 +93,8 @@ def upload():
                     # Delete files in folder
                     deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
-                    # load apology for invalid extenion and clear 
-                    return apology("invalid file type")
+                    # load error for invalid extenion and clear 
+                    return render_template('upload.html', uploadErrorMessage='invalid file type')
                 
             # Handle the case where the file size exceeds the limit
             except RequestEntityTooLarge:
@@ -102,13 +102,14 @@ def upload():
                 # Delete files in folder
                 deleteFiles(app.config['UPLOAD_DIRECTORY'])
                 
-                # load apology for invalid file size
-                return apology('File is larger than the 16mb limit.')
+                # load error for invalid file size
+                return render_template('upload.html', uploadErrorMessage='File is larger than the 16mb limit.')
 
             # get file name
             fileName = os.path.splitext(secure_filename(file.filename))[0]
             fileExtention = os.path.splitext(secure_filename(file.filename))[1]
             finalname = str(fileName) + str(fileExtention)    
+            session['finalname'] = finalname  
 
             if extension == "application/octet-stream":
 
@@ -130,16 +131,16 @@ def upload():
                          # Delete files in folder
                         deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
-                        # load apology for invalid extenion and clear 
-                        return apology("invalid file type")
+                        # load error for invalid extenion and clear 
+                        return render_template('upload.html', uploadErrorMessage='invalid file type')
 
 
             # make variable with desired output choices
             outputChoices = getOutputChoices(extension, app.config['IMAGE_EXTENTIONS'], app.config['TEXT_EXTENTIONS'], app.config['AUDIO_EXTENTIONS'],app.config['CSV_EXTENTIONS'], app.config['IMAGE'], app.config['TEXT'], app.config['AUDIO'], app.config['CSV'])
-
+            session['outputChoices'] = outputChoices 
                    
             # Return a success message and the select desired output 
-            return render_template("conversion.html", outputChoices=outputChoices, fileName=finalname)
+            return render_template("conversion.html", outputChoices=session['outputChoices'], fileName=session['finalname'])
 
             
 
@@ -154,6 +155,10 @@ def con():
         
             # Get the user's choice from the form
             choice = request.form.get("choice")
+
+            # if User didn't pick a choice load an error 
+            if choice == None:
+                return render_template('conversion.html',  conErrorMessage='Specify the output format to convert', outputChoices=session['outputChoices'], fileName=session['finalname'])
 
             # Iterate through each file in the directory
             for file in files:
@@ -183,9 +188,8 @@ def con():
                          # Delete files in folder
                         deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
-                        # load apology for invalid extenion and clear 
-                        return apology("invalid file type")
-
+                        # load error for invalid extenion and clear 
+                        return render_template('conversion.html',  conErrorMessage='invalid file type', outputChoices=session['outputChoices'], fileName=session['finalname'])
 
                 # if user inputs an image
                 if extension in app.config['IMAGE_EXTENTIONS']:
@@ -229,10 +233,10 @@ def con():
             # return converted file
             return outputFile
 
-        # handle exeptions and make sure to clear upload directory before every move
+        # handle exeptions and delete the upload Directory        
         except:
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
-            return apology("An error has happened")
+            return render_template('conversion.html',  conErrorMessage='An error has happened')
     else:
         # clean uploads directory and render template
         deleteFiles(app.config['UPLOAD_DIRECTORY'])
@@ -346,43 +350,43 @@ def url():
 
         #If there is an error get the Error message
         except AgeRestrictedError as e:
-            session['error_message'] = "This video is age-restricted."
+            session['ytErrorMessage'] = "This video is age-restricted."
 
         except VideoRegionBlocked as e:
-            session['error_message'] = "This video is region blocked."
+            session['ytErrorMessage'] = "This video is region blocked."
 
         except VideoUnavailable as e:
-            session['error_message'] = "This video is unavailable."
+            session['ytErrorMessage'] = "This video is unavailable."
 
         except VideoPrivate as e:
-            session['error_message'] = "This video is private."
+            session['ytErrorMessage'] = "This video is private."
 
         except LiveStreamError as e:
-            session['error_message'] = "This is a live stream and cannot be downloaded."
+            session['ytErrorMessage'] = "This is a live stream and cannot be downloaded."
 
         except MembersOnly as e:
-            session['error_message'] = "This video is for members only."
+            session['ytErrorMessage'] = "This video is for members only."
 
         except RegexMatchError as e:
-            session['error_message'] = "Please input a correct YouTube URL."
+            session['ytErrorMessage'] = "Please input a correct YouTube URL."
 
-        # except Exception as e:
-        #     if (isValidURL(youtube_url)):
-        #         session['error_message'] = "An unexpected error has occurred."
-        #     else:
-        #         session['error_message'] = "Invalid YouTube URL"
+        except Exception as e:
+            if (isValidURL(youtube_url)):
+                session['ytErrorMessage'] = "An unexpected error has occurred."
+            else:
+                session['ytErrorMessage'] = "Invalid YouTube URL"
 
         except RequestEntityTooLarge:
             # Delete files in folder
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
             
             # load apology for invalid file size
-            session['error_message'] = "File is larger than the 16mb limit."
+            session['ytErrorMessage'] = "File is larger than the 16mb limit."
         
         
         #return the webpage with the error message and delete files
         deleteFiles(app.config['UPLOAD_DIRECTORY'])    
-        return render_template('ytcon.html', error_message=session['error_message'])
+        return render_template('ytcon.html', ytErrorMessage=session['ytErrorMessage'])
 
     else: 
         deleteFiles(app.config['UPLOAD_DIRECTORY'])

@@ -1,12 +1,6 @@
 // Select the ytError div
 const errorDiv = document.querySelector('.ytError');
 
-// Show loading section when the form is submitted
-function showLoading(){
-    document.getElementById('ytLoading').style.display = 'block';
-    errorDiv.style.display = 'none';
-};
-
 // Add a click event listener
 errorDiv.addEventListener('click', function() {
     // Toggle the display property
@@ -16,6 +10,12 @@ errorDiv.addEventListener('click', function() {
         errorDiv.style.display = 'none';
     }
 });
+
+// Show loading and hide error divs when the form is submitted
+function showLoading(){
+    document.getElementById('ytLoading').style.display = 'block';
+    errorDiv.style.display = 'none';
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if there's a stored value for the 'type' radio button
@@ -34,6 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Animating dots 
+    const dotsElement = document.getElementById('dots');
+    let dots = '';
+    let dotCount = 0;
+
+    const addDots = setInterval(() => {
+        dotCount = (dotCount + 1) % 4; // Reset dot count after 3 dots
+        dots = '.'.repeat(dotCount);   // Repeat the dots based on count
+        dotsElement.textContent = dots;
+    }, 500); // Adjust the interval speed (500ms = half a second)
 });
 
 // Prevent the user from changing the radio button selection after clicking convert button 

@@ -60,9 +60,62 @@
   .dragtxt {
     color: #939393;
     font-size: 20px;
-    margin-top: 25px;
+    margin-top: 15px;
     font-family: 'Nunito', sans-serif; 
   }
+
+  /* //////////Error Message Code //////////////// */ 
+
+.alert-simple.alert-warning {
+  border: 1px solid rgba(136, 0, 0, 0.81);
+  background-color: rgba(102, 0, 0, 0.16);
+  box-shadow: 0px 0px 2px #550000;
+  color: #ff3203;  
+  text-shadow: 2px 1px #00040a;
+  transition: 0.5s;
+  cursor: default;
+  padding: 10px 15px;
+  margin-top: 5px;
+}
+
+.alert-warning:hover {
+  background-color: rgba(102, 0, 0, 0.33);
+  transition: 0.5s;
+}
+
+.alert:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: calc(100% - 44px);
+  border-left: 1px solid;
+  border-right: 2px solid;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 20px;
+  border-color: #880000;
+}
+
+
+.uploadError {
+  display: flex;
+  position: relative;
+  padding-top: 15px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  padding-top: 0px;
+  font-size: 13px;
+}
+
+.alert-dismissible {
+  padding-right: 2rem; 
+}
   
 
   @media only screen and (max-width: 979px) {
@@ -80,6 +133,7 @@
     .dragtxt {
       margin-top: 10px;
     }
+
     
   }
   
@@ -101,7 +155,10 @@
       font-size: 18px;
       margin-top: 30px;
     }
-  
+    
+    .uploadError{
+      font-size: 11px;
+    } 
   }
 
   @media only screen and (max-width: 639px) {
@@ -122,10 +179,18 @@
   
     .dragtxt {
       font-size: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      margin-top: 15px;
       padding: 10px;
     }
-  
+
+    .uploadError{
+      font-size: 10px;
+    } 
+
+    .alert-simple.alert-warning {
+      margin-top: 0px;
+    }
   }  
 
 
