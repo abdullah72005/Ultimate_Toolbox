@@ -31,7 +31,7 @@
                 <input label="Video" type="radio" id="video" name="type" value="Video">
             </div>
             <div>
-                <button type="submit" name="button" value="Enter" class="btn btn-primary ytButton">Convert</button>
+                <button type="submit" name="button" value="Enter" class="btn btn-primary ytButton" id="convertButton">Convert</button>
             </div>
         </div>
     </form>
@@ -76,19 +76,15 @@
         {% endif %}
     </div>
 
-    <div  id="loading-section-ytcon" style="display:none;">
-        <strong class="font__weight-semibold">Loading...</strong>
-        <div class="middle">
-            <div class="bar bar1"></div>
-            <div class="bar bar2"></div>
-            <div class="bar bar3"></div>
-            <div class="bar bar4"></div>
-            <div class="bar bar5"></div>
-            <div class="bar bar6"></div>
-            <div class="bar bar7"></div>
-            <div class="bar bar8"></div>
+    <div class="ytLoading">
+        <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert" id="ytLoading" style="display: none;">
+            <strong class="font__weight-semibold">
+                Loading
+            </strong>
+            <span id="dots"></span>
         </div>
     </div>
+
 
 {% endblock %}
 

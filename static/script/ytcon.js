@@ -1,10 +1,12 @@
 // Select the ytError div
 const errorDiv = document.querySelector('.ytError');
+
 // Show loading section when the form is submitted
 function showLoading(){
-    document.getElementById('loading-section-ytcon').style.display = 'block';
+    document.getElementById('ytLoading').style.display = 'block';
     errorDiv.style.display = 'none';
 };
+
 // Add a click event listener
 errorDiv.addEventListener('click', function() {
     // Toggle the display property
@@ -14,6 +16,7 @@ errorDiv.addEventListener('click', function() {
         errorDiv.style.display = 'none';
     }
 });
+
 document.addEventListener('DOMContentLoaded', function() {
     // Check if there's a stored value for the 'type' radio button
     const storedType = sessionStorage.getItem('selectedType');
@@ -29,6 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Store the selected value in session storage
                 sessionStorage.setItem('selectedType', this.value);
             }
+        });
+    });
+});
+
+// Prevent the user from changing the radio button selection after clicking convert button 
+document.getElementById("convertButton").addEventListener("click", function() {
+    const radios = document.querySelectorAll('input[name="type"]');
+    radios.forEach(function(radio) {
+        radio.addEventListener('click', function(event) {
+            event.preventDefault();
         });
     });
 });

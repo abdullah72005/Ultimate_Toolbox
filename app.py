@@ -15,7 +15,7 @@ from helpers.functions import apology, deleteFiles
 from helpers.convertion import convIMAGE, getOutputChoices, convert_audio, convert_csv, pdf2word, txt2word, txt2pdf, word2txt, pdf2txt, word2pdf, imagetypes, audioTypes, txttypes, csvtypes
 from helpers.password import generate_password
 from helpers.qr import convqr
-from helpers.yt import print_audio_streams, download_audio, get_video_info
+from helpers.yt import print_audio_streams, download_audio, get_video_info, isValidURL
 from helpers.translation import translatetxt, trans_doc
 from helpers.image import filterImg, filters_dic, cropImg
 
@@ -366,8 +366,11 @@ def url():
         except RegexMatchError as e:
             session['error_message'] = "Please input a correct YouTube URL."
 
-        except Exception as e:
-            session['error_message'] = "An unexpected error occurred: "
+        # except Exception as e:
+        #     if (isValidURL(youtube_url)):
+        #         session['error_message'] = "An unexpected error has occurred."
+        #     else:
+        #         session['error_message'] = "Invalid YouTube URL"
 
         except RequestEntityTooLarge:
             # Delete files in folder

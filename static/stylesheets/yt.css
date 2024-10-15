@@ -243,7 +243,7 @@
   color: #ff3203;  
   text-shadow: 2px 1px #00040a;
   transition: 0.5s;
-  cursor: pointer;
+  cursor: default;
 }
 
 .alert-warning:hover {
@@ -272,7 +272,6 @@
   display: flex;
   position: relative;
   padding-top: 15px;
-  width: 50.5%;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -284,60 +283,46 @@
   padding-right: 2rem; 
 }
 
-/* ////////////////////////////////////////////// */
-
-/* ///////////////Loading////////////////////////// */
-.bar {
-  width: 10px;
-  height: 70px;
-  background: #fff;
-  display: inline-block;
-  transform-origin: bottom center;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  /*   box-shadow:5px 10px 20px inset rgba(255,23,25.2); */
-  animation: loader 1.2s linear infinite;
-}
-.bar1 {
-  animation-delay: 0.1s;
-}
-.bar2 {
-  animation-delay: 0.2s;
-}
-.bar3 {
-  animation-delay: 0.3s;
-}
-.bar4 {
-  animation-delay: 0.4s;
-}
-.bar5 {
-  animation-delay: 0.5s;
-}
-.bar6 {
-  animation-delay: 0.6s;
-}
-.bar7 {
-  animation-delay: 0.7s;
-}
-.bar8 {
-  animation-delay: 0.8s;
+.ytLoading {
+  display: flex;
+  position: relative;
+  padding-top: 15px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
 }
 
-@keyframes loader {
-  0% {
-    transform: scaleY(0.1);
-  }
-  50% {
-    transform: scaleY(1);
-    background: #660000;
-  }
-  100% {
-    transform: scaleY(0.1);
-    background: transparent;
-  }
-}
-/* ////////////////////////////////////////////////// */
+.alert-simple.alert-info
+{
+  border: 1px solid rgba(6, 44, 241, 0.46);
+  background-color: rgba(7, 73, 149, 0.12156862745098039);
+  box-shadow: 0px 0px 2px #0396ff;
+  color: #0396ff;
+  text-shadow: 2px 1px #00040a;
+  transition:0.5s;
+  width: 250px;
+  cursor: default;
+ }
 
+.alert-info:hover
+{
+  background-color: rgba(7, 73, 149, 0.35);
+  transition:0.5s;
+}
+
+.blue-cross
+{
+  font-size: 18px;
+    color: #0bd2ff;
+    text-shadow: none;
+}
+
+#dots {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
 
 @media only screen and (max-width: 1200px) {
   .ytVideo{
@@ -378,7 +363,14 @@
 
   .ytError{
     font-size: 15px;
-    width: 54%;
+  }
+
+  .ytLoading{
+    font-size: 15px;
+  }
+
+  .alert-simple.alert-info{
+    width: 200px;
   }
 }
 
@@ -405,16 +397,22 @@
 
   .ytError{
     font-size: 13px;
-    width: 52%;
   }
+
+  .ytLoading{
+    font-size: 13px;
+  }
+
   .ytSelect{
     width: 15em;
     height: 3.5em;
     font-size: 15px;
   }
+
   .ytVideo{
     padding: 30px 70px;
   }
+
 }
 
 @media only screen and (max-width: 730px) {
@@ -422,21 +420,26 @@
     padding: 20px 55px;
     gap: 30px
   }
+
   .ytSelect{
     font-size: 13px;
   }
+
 }
 
 @media only screen and (max-width: 650px) {
   .ytURL{
     font-size: 14px;
   }
+
   .ytButton{
     font-size: 13px;
   }
+
   .ytRadio input{
     font-size: 12px;
   }
+
   .form__field {
     font-size: 0.9rem;
   }
@@ -455,10 +458,14 @@
 
   .ytError{
     font-size: 11px;
-    width: 48%;
   }
-  .alert-dismissible {
-    padding-right: 2rem; 
+
+  .ytLoading {
+    font-size: 11px;
+  }
+
+  .alert-simple.alert-info{
+    width: 170px;
   }
 
   .ytVideo{
@@ -471,18 +478,31 @@
   .ytURL{
     gap: 15px;
   }
+
   .ytDownload p{
     font-size: 14px;
   }
+
   .ytButton {
     padding: 8px 12px;
   }
+
   .ytRadio input{
     padding: 6px 14px;
   }
+
   .ytError{
     width: 100%;
   }
+
+  .ytLoading{
+    width: 100%;
+  }
+
+  .alert-simple.alert-info{
+    width: 160px;
+  }
+
   .alert-dismissible {
     padding-right: 1.5rem; 
   }
@@ -522,6 +542,14 @@
 
   .ytError{
     font-size: 11px;
+  }
+  
+  .ytLoading{
+    font-size: 11px;
+  }
+
+  .alert-simple.alert-info{
+    width: 150px;
   }
 
   .ytVideo{
@@ -563,27 +591,42 @@
   .ytDownload{
     align-items: center;
   }
+
   .ytURL{
     font-size: 11px;
   }
+
   .ytButton{
     font-size: 10px;
   }
+
   .ytRadio input{
     font-size: 8px;
   }
+
   .ytURL {
     flex-direction: column;
     width: 90%;
   }
+
   .ytSelect{
     width: 15em;
     height: 3.5em;
     font-size: 10px;
   }
+
   .ytError{
     font-size: 10px;
   }
+
+  .ytLoading{
+    font-size: 10px;
+  }
+
+  .alert-simple.alert-info{
+    width: 140px;
+  }
+  
   .form__group {
     position: relative;
     padding: 15px 0 0;
@@ -596,10 +639,3 @@
     padding-right: 0.5rem; 
   }
 }
-/* .ytDownload p{
-  font-size: 15px;
-}
-.ytSelect select{
-  font-size: 13px; 
-} */
-
