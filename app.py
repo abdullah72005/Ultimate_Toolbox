@@ -380,7 +380,7 @@ def url():
             # Delete files in folder
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
             
-            # load apology for invalid file size
+            # load error for invalid file size
             session['ytErrorMessage'] = "File is larger than the 16mb limit."
         
         
@@ -579,7 +579,7 @@ def image():
 
             # Check if a file is provided
             if not file:
-                return apology("please input file")
+                return render_template('image.html', uploadErrorMessage='please input a file') 
             
             input_filename = secure_filename(file.filename)
 
@@ -602,8 +602,8 @@ def image():
                 # Delete files in folder
                 deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
-                # Return an apology for an invalid extension
-                return apology("invalid file type")
+                # Return an error for an invalid extension
+                return render_template('image.html', uploadErrorMessage='invalid file type') 
             
         # Handle the case where the file size exceeds the limit
         except RequestEntityTooLarge:
@@ -611,8 +611,8 @@ def image():
             # Delete files in folder
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
-            # Return an apology for an invalid file size
-            return apology('File is larger than the 16mb limit.')
+            # Return an error for an invalid file size
+            return render_template('image.html', uploadErrorMessage='File is larger than the 16mb limit.') 
         
         # Get the filename and save it in the session
         fileName = file.filename
@@ -624,8 +624,6 @@ def image():
 
         # Return the imageFilter.html template with the filename, image path, and available filters
         return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
-
-
 
 
     
@@ -695,7 +693,8 @@ def imageFilter():
             
             return render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
         else:
-            return apology("Something went wrong")
+            render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
+            # , imgErrorMessage='Something went wrong'
 
     else:
         # If request method is 'GET', render default image.html template

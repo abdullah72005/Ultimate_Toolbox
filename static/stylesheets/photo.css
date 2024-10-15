@@ -248,8 +248,57 @@ body{
   padding-bottom: 3%;
   height: auto; 
   width: auto;
+  padding-left: 50px;
 }
 
+.alert-simple.alert-warning {
+  border: 1px solid rgba(136, 0, 0, 0.81);
+  background-color: rgba(102, 0, 0, 0.16);
+  box-shadow: 0px 0px 2px #550000;
+  color: #ff3203;  
+  text-shadow: 2px 1px #00040a;
+  transition: 0.5s;
+  cursor: default;
+  padding: 12px;
+}
+
+.alert-warning:hover {
+  background-color: rgba(102, 0, 0, 0.33);
+  transition: 0.5s;
+}
+
+.alert:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: calc(100% - 44px);
+  border-left: 1px solid;
+  border-right: 2px solid;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 20px;
+  border-color: #880000;
+}
+
+
+.imgError {
+  display: flex;
+  padding-top: 15px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  margin-top: 270px;
+  position: absolute;
+  font-size: 14px;
+}
+
+.alert-dismissible {
+  padding-right: 2rem; 
+}
 @media only screen and (max-width: 1000px) {
   .leftBoxes button {
     padding: 8px 0px;
@@ -270,6 +319,9 @@ body{
   .leftBoxes button {
     width: 100%;
   }
+  .flexContainer{
+    padding-left: 40px;
+  }
 }
 
 @media only screen and (max-width: 900px) {
@@ -281,6 +333,7 @@ body{
     align-items: normal;
     max-height: 750px;
     gap: 0px;
+    padding-left: 0px;
   }
   
   .topTabs {
