@@ -286,13 +286,10 @@ body{
 
 .imgError {
   display: flex;
-  padding-top: 15px;
   align-items: center;
   justify-content: center;
   align-content: center;
   justify-items: center;
-  margin-top: 270px;
-  position: absolute;
   font-size: 14px;
 }
 

@@ -630,71 +630,70 @@ def image():
 @app.route('/image/filter', methods=["GET", "POST"])
 def imageFilter():
     if request.method == "POST":
+        try:
+            # Dictionary containing filter options
+            filters = filters_dic       
 
-        # Dictionary containing filter options
-        filters = filters_dic       
+            # Retrieve file path and file name from session
+            filePath = session['filePath']
+            fileName = session['fileName']
 
-        # Retrieve file path and file name from session
-        filePath = session['filePath']
-        fileName = session['fileName']
+            # Get the choice
+            choice = request.form.get("choice")  # Get the selected filter choice
 
-        # Get the choice
-        choice = request.form.get("choice")  # Get the selected filter choice
+            original = request.form.get("original")
 
-        original = request.form.get("original")
+            if original:
+                # If original button clicked display original image
+                imgPath = f"../{filePath}"
+                return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
 
-        if original:
-            # If original button clicked display original image
-            imgPath = f"../{filePath}"
-            return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters)
-
-        if choice in filters:
-            isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
-            
+            if choice in filters:
+                isCropped = request.form.get('isCropped')  # Find if the picture is cropped or not
                 
-            # Apply selected filter to the image
-            if isCropped:
-                print("I am here")
-                # If image is already cropped, use the cropped image path and name
-                filePath = session['croppedImgPath']
-                fileName = session['croppedImgName']
+                    
+                # Apply selected filter to the image
+                if isCropped:
+                    print("I am here")
+                    # If image is already cropped, use the cropped image path and name
+                    filePath = session['croppedImgPath']
+                    fileName = session['croppedImgName']
 
-            # Apply filter to the image
-            outputPath = filterImg(filePath, choice, fileName)
-            fileName = os.path.join("New" + fileName)
-            imgPath = f"../{outputPath}"
-            return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
+                # Apply filter to the image
+                outputPath = filterImg(filePath, choice, fileName)
+                fileName = os.path.join("New" + fileName)
+                imgPath = f"../{outputPath}"
+                return render_template("imageFilter.html", fileName=fileName, imgPath=imgPath, filters=filters, isCropped=isCropped) 
 
-        elif choice == 'downloadFilter': 
-            # Get the latest fileName
-            fileName = request.form.get("fileName")
+            elif choice == 'downloadFilter': 
+                # Get the latest fileName
+                fileName = request.form.get("fileName")
 
-            # If 'download' button is clicked, prepare image for download
-            Newfile = os.path.join("static/uploads", "New" + fileName)
-            if os.path.exists(Newfile):
-                return send_file(Newfile, as_attachment=True)
-            else:
-                Newfile = os.path.join("static/uploads", fileName)
-                return send_file(Newfile, as_attachment=True)
-        
-        elif choice == 'applyCrop':
-            # If operation is 'edit', handle image cropping
-            croppedImg = request.form.get('cropped_image')
-            cropped_image_path, croppedImgName = cropImg(croppedImg ,fileName)
+                # If 'download' button is clicked, prepare image for download
+                Newfile = os.path.join("static/uploads", "New" + fileName)
+                if os.path.exists(Newfile):
+                    return send_file(Newfile, as_attachment=True)
+                else:
+                    Newfile = os.path.join("static/uploads", fileName)
+                    return send_file(Newfile, as_attachment=True)
             
-            # Store cropped image details in session
-            session['croppedImgPath'] = cropped_image_path
-            session['croppedImgName'] = croppedImgName
+            elif choice == 'applyCrop':
+                # If operation is 'edit', handle image cropping
+                croppedImg = request.form.get('cropped_image')
+                cropped_image_path, croppedImgName = cropImg(croppedImg ,fileName)
+                
+                # Store cropped image details in session
+                session['croppedImgPath'] = cropped_image_path
+                session['croppedImgName'] = croppedImgName
 
-            # Save that the image is cropped in the HTML
-            isCropped = 1
+                # Save that the image is cropped in the HTML
+                isCropped = 1
 
-            croppedImgPath = f"../{cropped_image_path}"
-            
-            return render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
-        else:
-            render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
-            # , imgErrorMessage='Something went wrong'
+                croppedImgPath = f"../{cropped_image_path}"
+                
+                return render_template("imagefilter.html", fileName=croppedImgName, imgPath=croppedImgPath, filters=filters, isCropped=isCropped)
+        except Exception as e:
+            return apology("Something went wrong")
 
     else:
         # If request method is 'GET', render default image.html template

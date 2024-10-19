@@ -82,17 +82,7 @@
                 <button type="submit" name="choice" class="btn btn-primary" value="downloadFilter" id="downloadFilter" style="display: block;">Download</button>
                 <button type="button" name="choice" class="btn btn-primary" value="downloadCrop" id="downloadCrop" style="display: none;">Download</button>
             </div>
-
         </div>
-        {% if imgErrorMessage %}
-            <div class="imgError">
-                <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
-                    role="alert" data-brk-library="component__alert">
-                    <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
-                    <strong class="font__weight-semibold">Something went wrong</strong>
-                </div>
-            </div>
-        {% endif %}
     </form>
 
 {% block script %}<script src="../static/script/imagefilter.js"> </script>{% endblock %}
