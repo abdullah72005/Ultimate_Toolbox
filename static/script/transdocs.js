@@ -64,23 +64,25 @@ dropArea.addEventListener("mouseout", function(){
 
 // Save values to localStorage on form submit
 form.addEventListener('submit', (event) => {
-localStorage.setItem('selectInDoc', selectIn.value);
-localStorage.setItem('selectOutDoc', selectOut.value);
-console.log('Form submitted and values saved to localStorage');
+    localStorage.setItem('selectInDoc', selectIn.value);
+    localStorage.setItem('selectOutDoc', selectOut.value);
+    console.log('Form submitted and values saved to localStorage');
 });
 
 // Load saved values from localStorage
 if (localStorage.getItem('selectInDoc')) {
-selectIn.value = localStorage.getItem('selectInDoc');
-console.log(localStorage.getItem('selectInDoc'));
+    selectIn.value = localStorage.getItem('selectInDoc');
+    console.log(localStorage.getItem('selectInDoc'));
 }
 
 if (localStorage.getItem('selectOutDoc')) {
-selectOut.value = localStorage.getItem('selectOutDoc');
-console.log(localStorage.getItem('selectOutDoc'));
+    selectOut.value = localStorage.getItem('selectOutDoc');
+    console.log(localStorage.getItem('selectOutDoc'));
 }
 
 window.addEventListener('load', () => {
-localStorage.removeItem('selectOutDoc');
-localStorage.removeItem('selectInDoc');
+    localStorage.removeItem('selectOutDoc');
+    localStorage.removeItem('selectInDoc');
 });
+
+

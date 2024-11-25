@@ -74,6 +74,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
         # Create a Flask send_file response for downloading the translated document
         word_path = os.path.join(uploadFolder, new_filename)
         outputFile = send_file(word_path, as_attachment=True)
+
     
     elif extension == 'text/plain' or extension == 'txt':
 
@@ -113,6 +114,7 @@ def trans_doc(input_file, extension, fileName, input_lang, output_lang, langs):
 
         # declare outputFile
         outputFile = send_file(output_filepath, as_attachment=True)
+
 
     # Clean up the upload folder after processing
     deleteFiles(uploadFolder)

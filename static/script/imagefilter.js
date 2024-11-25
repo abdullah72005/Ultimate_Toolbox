@@ -32,7 +32,6 @@ function applyCrop() {
         console.error('Failed to crop image'); // Log an error message to the console
         return;
     }
-    console.log("I am here");
     // Convert cropped canvas to data URL
     var croppedImageData = croppedCanvas.toDataURL();
 

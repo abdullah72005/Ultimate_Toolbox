@@ -19,7 +19,7 @@
 {% block main %}
 <div class="flexContainer">
     <div class="dragpage">
-        <form action="/conversion" method="post">
+        <form action="/conversion" method="post" onsubmit="showLoading()">
             <label id="drop-area">
                 <div class="img-view">
 
@@ -43,23 +43,14 @@
                             <button type="submit" name="action" value="convert" class="btn btn-primary conButton">Convert</button>
                         </div>
 
-                        {% if conErrorMessage %}
-                            <div class=" conError">
+                            <div class="conError" id="conError">
+                                {% if conErrorMessage %}
                                     <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
                                         <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
                                         <strong class="font__weight-semibold">{{ conErrorMessage }}</strong> 
                                     </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
-
-                        <div class="conLoading" style="display: none;" id="conLoading">
-                            <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
-                                <strong class="font__weight-semibold">
-                                    Loading
-                                </strong>
-                                <span id="dots"></span>
-                            </div>
-                        </div>
 
                     </div>
 
@@ -69,3 +60,5 @@
     </div>
 </div>
 {% endblock %}
+
+{% block script %}<script src="../static/script/conversion.js"></script>{% endblock %}

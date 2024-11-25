@@ -193,12 +193,14 @@
 
 .conLoading {
   display: flex;
-  position: relative;
   padding-top: 15px;
   align-items: center;
   justify-content: center;
   align-content: center;
   justify-items: center;
+  margin-top: 270px;
+  position: absolute;
+  font-size: 14px;
 }
 
 .alert-simple.alert-info
@@ -261,6 +263,10 @@
     font-size: 13px;
   }
 
+  .conLoading{
+    font-size: 13px;
+  }
+
 }
 
 @media only screen and (max-width: 639px) {
@@ -302,6 +308,10 @@
     margin-top: 190px;
   }
 
+  .conLoading{
+    font-size: 9px;
+    margin-top: 190px;
+  }
   .alert-simple.alert-warning{
     padding: 10px 7px;
   }
@@ -356,6 +366,11 @@
   }
 
   .conError{
+    font-size: 8px;
+    margin-top: 180px;
+  }
+
+  .conLoading{
     font-size: 8px;
     margin-top: 180px;
   }

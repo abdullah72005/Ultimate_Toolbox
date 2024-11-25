@@ -147,6 +147,53 @@
 }
 
 
+ /* Error Message */
+.alert-simple.alert-warning {
+  border: 1px solid rgba(136, 0, 0, 0.81);
+  background-color: rgba(102, 0, 0, 0.16);
+  box-shadow: 0px 0px 2px #550000;
+  color: #ff3203;  
+  text-shadow: 2px 1px #00040a;
+  transition: 0.5s;
+  cursor: default;
+  padding: 12px;
+}
+
+.alert-warning:hover {
+  background-color: rgba(102, 0, 0, 0.33);
+  transition: 0.5s;
+}
+
+.alert:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: calc(100% - 44px);
+  border-left: 1px solid;
+  border-right: 2px solid;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 20px;
+  border-color: #880000;
+}
+
+
+.qrError {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  font-size: 14px;
+}
+
+.alert-dismissible {
+  padding-right: 2rem; 
+}
+
 
 @media only screen and (max-width: 1330px) {
     .btndoc2 {

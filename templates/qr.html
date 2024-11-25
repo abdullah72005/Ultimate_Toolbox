@@ -33,25 +33,30 @@
                 <button type="submit" class="btn btn-primary btndoc" name="action">Generate</button>
             </form>
         </div>
-
-
+        {% if qrError %}
+            <div class="qrError">
+                <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+                    role="alert" data-brk-library="component__alert">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: #ff3203;"></i>
+                    <strong class="font__weight-semibold">{{ qrError }}</strong>
+                </div>
+            </div>            
+        {% endif %}
 
     <div class="imgdiv">
 
         <div class="innerImgDiv">
             <div class="imgviewqr">
+                {% if qrcode %}
+                    <img src="{{ qrcode }}" alt="QR code" class="qrimg">
+            
+                {% endif %}
+            </div>
             {% if qrcode %}
-            <img src="{{ qrcode }}" alt="QR code" class="qrimg">
-           
+                <button class="btn btn-primary btndoc2" id="copy" onclick="downloadPNG()">Download</button>
             {% endif %}
+            </div>
         </div>
-        {% if qrcode %}
-       
-        <button class="btn btn-primary btndoc2" id="copy" onclick="downloadPNG()">Download</button>
-        {% endif %}
-    </div>
-    
-    </div>
         
     </div>
 

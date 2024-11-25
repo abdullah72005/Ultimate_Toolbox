@@ -261,19 +261,19 @@ def generate():
 
         # check user input
         if not password_length:
-            return apology("please provide password length")
+            return render_template("password.html", passwordError="please provide password length")
         
         if int(password_length) < 4:
-            return apology("minimum password length is 4 characters")
+            return render_template("password.html", passwordError="minimum password length is 4 characters")
         
         if int(password_length) > 128:
-            return apology("maximum password length is 128 characters")
+            return render_template("password.html", passwordError="maximum password length is 128 characters")
         
         if not upper and not lower and not nums and not syms:
-            return apology("please choose one or more password characters")
+            return render_template("password.html", passwordError="please choose one or more password characters")
 
         if not upper and not lower and not nums and not syms and not password_length:
-            return apology("please provide input")
+            return render_template("password.html", passwordError="Please Provide Input")
         
         # generate the password
         password = generate_password(int(password_length), upper, lower, nums, syms)
@@ -297,11 +297,11 @@ def Qr():
         
         # check input
         if not url:
-            return apology("please enter url")
+            return render_template("qr.html", qrError="Please Enter Input")
         
         # check input size
         if len(url) > 1000:
-            return apology("input too big")
+            return render_template("qr.html", qrError="Input Too Big")
         
         
         # generate a filename and make path for qrcode
@@ -446,9 +446,11 @@ def translate():
 
         # check input
         if not input_txt:
-            return apology("please enter text to translate")
+            return render_template('translate.html', langs=langs, translateError='please enter text to translate')
+
         if not output_lang:
-            return apology('please choose a language to translate to')
+            return render_template('translate.html', langs=langs, translateError='please choose a language to translate to')
+
         
         # if no input lang specified detect input lang
         if not input_lang:
@@ -487,14 +489,15 @@ def translatedoc():
 
             # check input
             if not input_file:
-                return apology("please enter text to translate")
+                return render_template('transdocs.html', langs=langs, transdocsError='please enter text to translate')
+
 
             input_filename = secure_filename(input_file.filename)
             if input_filename == 's9k8o0p6d5r2f3i1l4e7t2e8x9t0f1o4r2u5m7t6e5n3o2d4i7s9c8o0m1p5u2t3e6r9i0n4t7e2r1e5l8a4e8t5c2o1n3s7e9c0t4e6t1u7r2p5i0s4i1c9s3u8m6v3o2l4u0t1p3o7r9a5c4t8e2x1t7r9a4o2r1n5a6d0i3p8i2s7c5o1r3d6o2v4a9t0i8o7n1s3.txt':
                 return apology("stop hacking our website")
 
             if not output_lang:
-                return apology('please choose a language to translate to')
+                return render_template('transdocs.html', langs=langs, transdocsError='please choose a language to translate to')
 
             # if no input lang specified detect input lang
             if not input_lang:
@@ -528,13 +531,14 @@ def translatedoc():
                         deleteFiles(app.config['UPLOAD_DIRECTORY'])
 
                         # load apology for invalid extenion and clear 
-                        return apology("please input another file")
+                        return render_template('transdocs.html', langs=langs, transdocsError='please input another file')
+
                 else:
                     # Delete files in folder
                     deleteFiles(app.config['UPLOAD_DIRECTORY'])
     
                     # load apology for invalid extenion and clear 
-                    return apology("invalid file type")
+                    return render_template('transdocs.html', langs=langs, transdocsError='invalid file type')
             
         # Handle the case where the file size exceeds the limit
         except RequestEntityTooLarge:
@@ -543,7 +547,7 @@ def translatedoc():
             deleteFiles(app.config['UPLOAD_DIRECTORY'])
             
             # load apology for invalid file size
-            return apology('File too big')
+            return render_template('transdocs.html', langs=langs, transdocsError='File too big')
 
         # x will be flagged if the item was an octec file type
         if x:
@@ -551,7 +555,7 @@ def translatedoc():
             outputFile = trans_doc(input_file, extension, fileName, input_lang, output_lang, langs)
 
         if outputFile == 1:
-            return apology("more than 15,000 characters.")
+            return render_template('transdocs.html', langs=langs, transdocsError='File Too Big')
         
         return outputFile
 
