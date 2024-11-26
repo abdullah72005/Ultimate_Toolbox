@@ -14,4 +14,5 @@ PyMuPDF
 pyqrcode
 pypng
 pytubefix
+pytube
 googletrans

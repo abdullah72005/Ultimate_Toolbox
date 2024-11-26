@@ -211,11 +211,16 @@
 
 .translateError {
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
   align-content: center;
   justify-items: center;
   font-size: 14px;
+  bottom: 4%;
+  right: auto;
+  left: 17%;
+  top: auto;
 }
 
 .alert-dismissible {
@@ -249,6 +254,10 @@
     .btndoc {
       margin-right: 30px;
       
+    }
+
+    .translateError {
+      left: 13%;
     }
     
   }
@@ -289,6 +298,10 @@
     .btndoc {
       font-size: 17px;
       margin-right: 27px;
+    }
+
+    .translateError {
+      font-size: 12px;
     }
   
   }
@@ -401,6 +414,11 @@
     .btndoc {
       font-size: 12px;
       margin-right: 17px;
+    }
+
+    .translateError {
+      bottom: 12%;
+      font-size: 9px;
     }
     
   }

@@ -15,7 +15,7 @@ slider.oninput = function() {
 output.innerHTML = this.value;
 }
 document.addEventListener("DOMContentLoaded", function() {
-    let email =  "{{ password }}";
+    let email =  document.querySelector('.outputpass').textContent;
     // Select the button by its id
     document.getElementById('copy').addEventListener('click', function(){
         navigator.clipboard.writeText(email)

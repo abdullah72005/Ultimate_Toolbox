@@ -179,6 +179,17 @@
   }
 
   /* Error Message */
+
+  
+.translateError {
+  display: flex;
+  position: absolute;
+  right: auto;
+  left: 10%;
+  font-size: 14px;
+}
+
+
 .alert-simple.alert-warning {
   border: 1px solid rgba(136, 0, 0, 0.81);
   background-color: rgba(102, 0, 0, 0.16);
@@ -212,15 +223,6 @@
 }
 
 
-.translateError {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  justify-items: center;
-  font-size: 14px;
-}
-
 .alert-dismissible {
   padding-right: 2rem; 
 }
@@ -228,6 +230,10 @@
   @media only screen and (max-width: 1420px) {
     .linkdiv{
       margin-right: 100px;
+    }
+
+    .translateError {
+      left: 8%;
     }
   }
 
@@ -276,6 +282,10 @@
 
     .transpage{
       min-height: 450px;
+    }
+
+    .translateError {
+      font-size: 12px;
     }
   }
 
@@ -387,6 +397,10 @@
       font-size: 15px;
       margin-right: 150px;
     }
+
+    .translateError {
+      left: 15%;
+    }
   }
 
   @media only screen and (max-width: 750px) {
@@ -433,6 +447,10 @@
       padding: 4.5px 10px;
       
     }
+
+    .translateError {
+      font-size: 10px;
+    }
   }
 
   @media only screen and (max-width: 510px) {
@@ -470,6 +488,12 @@
     }
     .outputbox{
       width: 90%;
+    }
+
+    .translateError {
+      bottom: 5px;
+      font-size: 8px;
+      left: 18%;
     }
 
    

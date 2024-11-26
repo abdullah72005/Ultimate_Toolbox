@@ -183,10 +183,11 @@
 
 .qrError {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  justify-items: center;
+  right: auto;
+  bottom: auto;
+  top: 18%;
+  left: 15%;
+  position: absolute;
   font-size: 14px;
 }
 
@@ -235,6 +236,10 @@
     .imgdiv {
         height: 350px;
     }  
+
+    .qrError {
+      font-size: 12px;
+    }
   }
 
   @media only screen and (max-width: 800px) {
@@ -278,6 +283,10 @@
     .form__field:focus ~ .form__label {
       font-size: 0.8rem;
     }
+
+    .qrError {
+      font-size: 10px;
+    }
   
   }
 
@@ -290,6 +299,10 @@
     .imgdiv {
         width: 60%;
     }  
+
+    .qrError {
+      font-size: 8px;
+    }
 
 
   }

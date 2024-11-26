@@ -103,7 +103,7 @@ def upload():
                 deleteFiles(app.config['UPLOAD_DIRECTORY'])
                 
                 # load error for invalid file size
-                return render_template('upload.html', uploadErrorMessage='File is larger than the 16mb limit.')
+                return render_template('upload.html', uploadErrorMessage='File is larger than the 100mb limit.')
 
             # get file name
             fileName = os.path.splitext(secure_filename(file.filename))[0]
@@ -466,7 +466,6 @@ def translate():
         # get all languages supported by googletrans and load html
         langs = googletrans.LANGCODES
         return render_template("translate.html", langs=langs)
-
 
 
 
