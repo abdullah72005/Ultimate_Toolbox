@@ -1,5 +1,6 @@
 <a id="readme-top"></a>
 <!-- PROJECT LOGO -->
+#### Video Demo:  [https://youtu.be/W4Obx6zpRMc](https://youtu.be/W4Obx6zpRMc)
 <div align="center">
   <a href="https://github.com/abdullah72005/Ultimate_Toolbox">
     <img src="static/imgs/iconpng.png" alt="Logo" width="100" height="100">
@@ -71,47 +72,63 @@
 
 ### Conversion
 
-The **Conversion** tool in Ultimate Toolbox allows you to effortlessly convert between various file types, making it easy to adapt files to your needs. With support for a wide range of formats, you can convert images, documents, datasheets, and audio files. Additionally, you have the option to convert images directly into PDF files.
+The **Conversion** tool in Ultimate Toolbox provides a simple and efficient way to convert between a wide variety of file formats. Whether you need to work with images, audio files, datasheets, or documents, this tool ensures compatibility with multiple formats, helping you easily adapt your files for different uses. It also includes the option to convert images directly to PDF, streamlining the process of creating single-file documents from multiple images.
 
-- **Supported Image Formats:** `bmp`, `gif`, `ico`, `jpeg`, `pcx`, `png`, `ppm`, `psd`, `tiff`, `webp`
-- **Supported Audio Formats:** `wav`, `mp3`, `aac`, `m4a`, `ac3`, `amr`
-- **Supported Datasheet Formats:** `csv`, `xlsx`, `json`
-- **Supported Document Formats:** `docx`, `pdf`, `txt`
 
+- **Supported Image Formats:** bmp, gif, ico, jpeg, pcx, png, ppm, psd, tiff, webp
+- **Supported Audio Formats:** wav, mp3, aac, m4a, ac3, amr
+- **Supported Datasheet Formats:** csv, xlsx, json
+- **Supported Document Formats:** docx, pdf, txt
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Youtube Downloader
 
-The **YouTube Downloader** tool in Ultimate Toolbox enables you to download YouTube videos and audio files with ease. You can select from multiple quality options for both videos and audio, allowing you to tailor the downloads to your specific needs.
+The **YouTube Downloader** tool in Ultimate Toolbox provides a straightforward solution for downloading YouTube videos and audio files. With this tool, you can easily extract high-quality content in your preferred format. It offers a variety of quality options for both video and audio, including HD and lower resolutions, so you can customize the downloads to fit your storage capacity or streaming needs.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Photo Editor
 
-The **Photo Editor** tool in Ultimate Toolbox allows you to enhance and modify your photos with ease. It offers a range of filters and editing tools to customize your images to your liking.
 
-- **Available Filters:** `Blur`, `Contour`, `Detail`, `Enhance`, `Emboss`, `Edge`, `Sharpen`, `Smooth`
-- **Available Editing Tools:** `Rotation`, `Flipping`, `Cropping`
+The **Photo Editor** tool in Ultimate Toolbox offers an easy-to-use interface for enhancing and personalizing your photos. With a variety of filters and editing options, you can quickly adjust your images to your liking.
+
+#### Key Features:
+
+- **Available Filters:** 
+  - **Blur:** Softens the image for a dreamy or out-of-focus look.
+  - **Contour:** Emphasizes edges and structure, adding depth.
+  - **Detail:** Highlights textures and fine elements for clarity.
+  - **Enhance:** Improves brightness, contrast, and sharpness.
+  - **Emboss:** Creates a 3D, sculpted effect.
+  - **Edge:** Highlights edges for a stylized, high-contrast effect.
+  - **Sharpen:** Enhances image clarity by sharpening edges.
+  - **Smooth:** Reduces noise for a polished, even look.
+
+- **Available Editing Tools:**
+  - **Rotation:** Adjust the image's orientation by any angle.
+  - **Flipping:** Flip the image horizontally or vertically.
+  - **Cropping:** Trim unwanted parts of the image to focus on key elements.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Translation
 
-The **Translation** tool in Ultimate Toolbox allows you to translate words, phrases, and documents between over 100 different languages. It supports translating documents in `docx` and `txt` formats.
+The **Translation** tool in Ultimate Toolbox provides powerful and seamless translation capabilities, allowing users to translate words, phrases, and entire documents between over 100 languages. It supports multiple file formats, including `docx` and `txt`, enabling users to easily convert the content of documents without losing formatting or accuracy.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Qr Generator
 
-The **QR Generator** tool in Ultimate Toolbox allows you to generate a QR code for any input, making it easy to create scannable codes for URLs, text, or other data.
+The **QR Generator** tool in Ultimate Toolbox allows you to create QR codes for a variety of inputs, such as URLs, text, or other data. This tool ensures accurate and reliable QR code generation, simplifying data sharing through scanning.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Password Generator
 
-The **Password Generator** tool in Ultimate Toolbox creates strong and secure passwords based on your preferences. You can specify the size and include various components such as lowercase letters, uppercase letters, numbers, and symbols to generate a robust password.
+The **Password Generator** tool in Ultimate Toolbox provides a customizable way to create strong and secure passwords. It allows you to specify the password length and choose the components to include, such as lowercase letters, uppercase letters, numbers, and symbols. This ensures the generated passwords meet your security requirements and are tailored to your needs.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -129,7 +146,7 @@ Before you begin, make sure you have Python3 installed. Then,
 
 * Install Python libraries
   ```sh
-  pip3 install flask flask-session Werkzeug Pillow python-docx PyPDF2 python-magic pydub pandas pyarrow openpyxl reportlab PyMuPDF pyqrcode pypng pytubefix googletrans
+  pip3 install flask flask-session Werkzeug Pillow python-docx PyPDF2 python-magic pydub pandas pyarrow openpyxl reportlab PyMuPDF pyqrcode pypng pytubefix googletrans pytube
   ```
 
 * Install the alpha version of googletrans
