@@ -1,6 +1,7 @@
 <a id="readme-top"></a>
 <!-- PROJECT LOGO -->
 #### Video Demo:  [https://youtu.be/W4Obx6zpRMc](https://youtu.be/W4Obx6zpRMc)
+<br>
 <div align="center">
   <a href="https://github.com/abdullah72005/Ultimate_Toolbox">
     <img src="static/imgs/iconpng.png" alt="Logo" width="100" height="100">
@@ -75,10 +76,10 @@
 The **Conversion** tool in Ultimate Toolbox provides a simple and efficient way to convert between a wide variety of file formats. Whether you need to work with images, audio files, datasheets, or documents, this tool ensures compatibility with multiple formats, helping you easily adapt your files for different uses. It also includes the option to convert images directly to PDF, streamlining the process of creating single-file documents from multiple images.
 
 
-- **Supported Image Formats:** bmp, gif, ico, jpeg, pcx, png, ppm, psd, tiff, webp
-- **Supported Audio Formats:** wav, mp3, aac, m4a, ac3, amr
-- **Supported Datasheet Formats:** csv, xlsx, json
-- **Supported Document Formats:** docx, pdf, txt
+- **Supported Image Formats:** `bmp`, `gif`, `ico`, `jpeg`, `pcx`, `png`, `ppm`, `psd`, `tiff`, `webp`
+- **Supported Audio Formats:** `wav`, `mp3`, `aac`, `m4a`, `ac3`, `amr`
+- **Supported Datasheet Formats:** `csv`, `xlsx`, `json`
+- **Supported Document Formats:** `docx`, `pdf`, `txt`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
